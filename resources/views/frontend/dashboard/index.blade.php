@@ -45,6 +45,11 @@
             color: white;
         }
     }
+    .modal-label {
+        color: black;
+        text-align: left; /* Ensure left alignment */
+        display: block;   /* Make sure it aligns left as a block element */
+    }
 </style>
 @section('content')
     <div style="margin-top: 20px;">
@@ -133,14 +138,14 @@
                                                 <input type="hidden" name="transaction_date" id="transaction_date"
                                                     value="{{ now()->format('Y-m-d') }}">
                                                 <div class="form-group">
-                                                    <label for="billing_amount" style="color: black;">Billing Amount</label>
+                                                    <label for="billing_amount" style="color: black;" class="modal-label">Billing Amount</label>
                                                     <input type="number" class="form-control" id="billing_amount"
                                                         name="billing_amount" required min="0" step="any"
                                                         oninput="checkWalletBalance()">
                                                 </div>
 
                                                 <div class="form-group mt-2">
-                                                    <label for="pay_by" style="color: black;">Pay By</label>
+                                                    <label for="pay_by" style="color: black;" class="modal-label">Pay By</label>
                                                     <select class="form-control" id="pay_by" name="pay_by" required>
                                                         <option value="wallet">Wallet</option>
                                                         <option value="cash">Cash</option>
@@ -156,7 +161,7 @@
                                                 </div>
 
                                                 <div class="insufficient-balance mt-2" style="display: none;">
-                                                    <strong style="color: black;">Wallet balance is insufficient. Please
+                                                    <strong  class="modal-label" style="color: black;">Wallet balance is insufficient. Please
                                                         choose an alternative payment method for the remaining
                                                         amount:</strong>
                                                     <select name="alternative_pay_by" id="alternative_pay_by"
@@ -167,12 +172,12 @@
                                                 </div>
 
                                                 <div class="remaining-balance mt-2" style="display: none;">
-                                                    <label for="remaining_amount" style="color: black;">Remaining Amount
+                                                    <label for="remaining_amount" class="modal-label"  style="color: black;">Remaining Amount
                                                         to be Paid:</label>
                                                     <input type="text" id="remaining_amount" class="form-control"
                                                         readonly>
                                                 </div>
-                                                <button type="submit" class="btn btn-success">Submit Payment</button>
+                                                <button type="submit" class="btn btn-success mt-2">Submit Payment</button>
                                             </form>
                                         </div>
                                     </div>
