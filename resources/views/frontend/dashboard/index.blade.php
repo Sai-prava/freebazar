@@ -1,0 +1,403 @@
+@extends('frontend.dashboard.layouts.master')
+
+<!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Bootstrap JavaScript Bundle (includes Popper) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+@section('content')
+    <div style="margin-top: 20px;">
+        <h4><b>HI ,{{ auth()->user()->name }} <span>Welcome to Dashboard</span></b></h4>
+        <hr>
+    </div>
+
+
+    <div class="row" style="margin-top: 20px;">
+        <div class="col-12" style="margin-top: 15px;">
+            <div class="card illustration flex-fill">
+                <div class="card-body p-0 d-flex flex-fill">
+                    <div class="row g-0 w-100">
+                        <div class="col-12 col-md-6 d-flex align-items-center">
+                            <span>
+                                <img style="height: 50px; width: 50px; margin-left: 20px; margin-top: 20px;"
+                                    src="{{ asset('images/' . auth()->user()->image) }}" alt=""
+                                    class="thumb-lg rounded-circle">
+                            </span>
+                            <h4 class="illustration-text" style="color: #062962; margin-left: 15px;">
+                                <b>{{ auth()->user()->name }} ({{ auth()->user()->user_id }})</b>
+                                <img src="{{ asset('images/admin/customer-support.png') }}" alt="Customer Support"
+                                    class="img-fluid illustration-img" style="margin-left: 10px;">
+                            </h4>
+                        </div>
+                        <div class="col-12 col-md-6 align-self-end text-center text-md-end">
+                            <button id="my-qr-reader" class="btn btn-warning mb-2">Scan Payment QR Code</button>
+
+                            <!-- QR Code Scanner Modal -->
+                            <div class="modal fade" id="qrScannerModal" tabindex="-1" aria-labelledby="qrScannerModalLabel"
+                                aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="qrScannerModalLabel">Scan QR Code</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div id="qr-reader"
+                                                style="width: 100%; height: 300px; background-color: rgb(238, 179, 92);">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- QR Code Details Modal -->
+                            <div class="modal fade" id="qrDetailsModal" tabindex="-1" aria-labelledby="qrDetailsModalLabel"
+                                aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="qrDetailsModalLabel">QR Code Details</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p id="qr-details-text"></p>
+                                            <button id="openBillingModal" class="btn btn-primary">OK</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Billing Modal -->
+                            <div class="modal fade" id="billingModal" tabindex="-1" aria-labelledby="billingModalLabel"
+                                aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="billingModalLabel" style="color: black">Billing
+                                                Information</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form id="billingForm" method="post" action="{{ route('user.payment') }}">
+                                                @csrf
+                                                <input type="hidden" name="pos_id" id="qrData">
+                                                <input type="hidden" name="invoice" id="qrData">
+                                                <input type="hidden" name="user_id" value="{{ $user_profile->id }}">
+                                                <input type="hidden" name="mobilenumber"
+                                                    value="{{ $user_profile->mobilenumber }}">
+                                                <input type="hidden" name="insert_date" id="insert_date">
+                                                <input type="hidden" name="transaction_date" id="transaction_date"
+                                                    value="{{ now()->format('Y-m-d') }}">
+                                                <div class="mb-3">
+                                                    <label for="billingAmount" class="form-label"
+                                                        style="color: black;">Billing Amount</label>
+                                                    <input type="number" class="form-control" id="billing_amount"
+                                                        name="billing_amount" required>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="paymentMethod" class="form-label"
+                                                        style="color: black;">Pay By</label>
+                                                    <select class="form-control" id="paymentMethod" name="pay_by"
+                                                        required>
+                                                        <option value="cash">Cash</option>
+                                                        <option value="upi">UPI</option>
+                                                        <option value="wallet">Wallet</option>
+                                                    </select>
+                                                </div>
+                                                <div class="wallet-balance mt-2">
+                                                    <strong style="color: black;">Your Wallet
+                                                        Balance: <span id="wallet_balance"
+                                                            name="wallet_balance">{{ $walletBalance }}</span> </strong>
+                                                    <input type="hidden" name="wallet_balance"
+                                                        value="{{ $walletBalance }}">
+                                                </div>
+                                                <button type="submit" class="btn btn-success">Submit Payment</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="result"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row">
+                <!-- Personal Information Card -->
+                <div class="col-md-3 col-12 mb-4">
+                    <div class="card flex-fill">
+                        <div class="card-body py-4">
+                            <div class="d-flex align-items-start">
+                                <div class="flex-grow-1">
+                                    <h5 class="mb-2"><b>Personal Information</b></h5>
+                                    <div class="mt-4">
+                                        <p class="mb-1">Full Name: {{ auth()->user()->name }}</p>
+                                        <p class="mb-1">Email: {{ auth()->user()->email }}</p>
+                                        <p class="mb-1">Your Sponsor: {{ auth()->user()->sponsor_id ?? 'N/A' }}</p>
+                                        <p class="mb-1">Mobile Number: {{ auth()->user()->mobilenumber ?? 'N/A' }}</p>
+                                    </div>
+                                </div>
+                                <div class="d-inline-block ms-3">
+                                    <div class="stat">
+                                        <svg style="width: 35px; height: 35px;" xmlns="http://www.w3.org/2000/svg"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            class="feather feather-user align-middle text-primary">
+                                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                            <circle cx="12" cy="7" r="4"></circle>
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Wallet Balance Card -->
+                <div class="col-md-3 col-6 mb-4">
+                    <div class="card flex-fill">
+                        <div class="card-body py-4">
+                            <div class="d-flex align-items-start">
+                                <div class="flex-grow-1">
+                                    <h3 class="mb-2">{{ $count['posts'] ?? 0 }}</h3>
+                                    <p class="mb-2">Wallet Balance</p>
+                                </div>
+                                <div class="d-inline-block ms-3">
+                                    <div class="stat">
+                                        <svg style="width: 35px; height: 35px;" xmlns="http://www.w3.org/2000/svg"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            class="feather feather-credit-card align-middle text-primary">
+                                            <rect x="1" y="4" width="22" height="16" rx="2"
+                                                ry="2"></rect>
+                                            <line x1="1" y1="10" x2="23" y2="10"></line>
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Monthly Purchase Card -->
+                <div class="col-md-3 col-6 mb-4">
+                    <div class="card flex-fill">
+                        <div class="card-body py-4">
+                            <div class="d-flex align-items-start">
+                                <div class="flex-grow-1">
+                                    <h3 class="mb-2">{{ $count['comments'] ?? 0 }}</h3>
+                                    <p class="mb-2">Monthly Purchase</p>
+                                </div>
+                                <div class="d-inline-block ms-3">
+                                    <div class="stat">
+                                        <svg style="width: 35px; height: 35px;" xmlns="http://www.w3.org/2000/svg"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            class="feather feather-shopping-cart align-middle text-primary">
+                                            <circle cx="9" cy="21" r="1"></circle>
+                                            <circle cx="20" cy="21" r="1"></circle>
+                                            <path
+                                                d="M2 2h3l3.6 7.59 1.29-2.59H16l1.5 3H21a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V9.42L5.4 4.41 4 2H2">
+                                            </path>
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Payback Achieved Card -->
+                <div class="col-md-3 col-6 mb-4">
+                    <div class="card flex-fill">
+                        <div class="card-body py-4">
+                            <div class="d-flex align-items-start">
+                                <div class="flex-grow-1">
+                                    <h3 class="mb-2">{{ $count['posts'] ?? 0 }}</h3>
+                                    <p class="mb-2">Payback Achieved</p>
+                                </div>
+                                <div class="d-inline-block ms-3">
+                                    <div class="stat">
+                                        <svg style="width: 35px; height: 35px;" xmlns="http://www.w3.org/2000/svg"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            class="feather feather-dollar-sign align-middle text-primary">
+                                            <path
+                                                d="M12 1v4m0 14v4m-5-5h10m-8 0h1m-1-7h3m1 0h1m0-4h1m1 0h1m0 4h1m1 0h1m0 4h1m-7 0v3m5-3v3m-4-9h4">
+                                            </path>
+                                            <path d="M13.6 15.6l1.8-1.8 3.2 3.2-1.8 1.8-3.2-3.2"></path>
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sponsored Users Card -->
+                <div class="col-md-3 col-12 mb-4">
+                    <div class="card flex-fill">
+                        <div class="card-body py-4">
+                            <div class="flex-grow-1">
+                                <h5 class="mb-2"
+                                    style="background-color: #4fc9da; color: #062962; font-size: 16px; text-align: center; padding: 10px 15px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); font-weight: 600;">
+                                    Your Sponsored Users
+                                </h5>
+                                @foreach ($sponcers as $data)
+                                    <div class="d-flex align-items-center">
+                                        <span>
+                                            <img style="height: 50px; width: 50px;"
+                                                src="https://freebazar.in/assets/treeview/images/blank-yel.jpg"
+                                                alt="" class="thumb-lg rounded-circle">
+                                        </span>
+                                        <div style="margin-left: 10px;">
+                                            <p class="mb-1">
+                                                @if ($data->user)
+                                                    {{ $data->user->name }}
+                                                @endif
+                                                ({{ $data->sponsor_id }})
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- POS Transactions Table -->
+                <div class="col-md-6 col-12 mb-4">
+                    <div class="card flex-fill">
+                        <div class="card-body py-4">
+                            <h6><b>POS TRANSACTION</b></h6>
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Sl.No</th>
+                                            <th>POS Name</th>
+                                            <th>Date</th>
+                                            <th>Amount</th>
+                                            <th>Pay By</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+    <script src="https://unpkg.com/html5-qrcode"></script>
+    <script>
+        // function domReady(fn) {
+        //     if (
+        //         document.readyState === "complete" ||
+        //         document.readyState === "interactive"
+        //     ) {
+        //         setTimeout(fn, 1000);
+        //     } else {
+        //         document.addEventListener("DOMContentLoaded", fn);
+        //     }
+        // }
+
+        // domReady(function() {
+        //     // If found you qr code
+        //     function onScanSuccess(decodeText, decodeResult) {
+        //         alert("You Qr is : " + decodeText, decodeResult);
+        //     }
+
+        //     let htmlscanner = new Html5QrcodeScanner("my-qr-reader", {
+        //         fps: 10,
+        //         qrbos: 250,
+        //     });
+        //     htmlscanner.render(onScanSuccess);
+        // });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Open the QR Code Scanner Modal when the scan button is clicked
+            document.getElementById("my-qr-reader").addEventListener("click", function() {
+                let qrModal = new bootstrap.Modal(document.getElementById("qrScannerModal"), {
+                    backdrop: 'static',
+                    keyboard: false
+                });
+                qrModal.show();
+                startMainScanner();
+            });
+
+            // QR Code Scanner function
+            function startMainScanner() {
+                let htmlscanner = new Html5QrcodeScanner("qr-reader", {
+                    fps: 10,
+                    qrbox: 250
+                });
+
+                htmlscanner.render((decodedText, decodedResult) => {
+                    // On successful scan
+                    let qrModal = bootstrap.Modal.getInstance(document.getElementById("qrScannerModal"));
+                    qrModal.hide();
+
+                    // Display QR details in the next modal
+                    document.getElementById("qr-details-text").innerText = "QR Code Scanned: " +
+                        decodedText;
+                    document.getElementById("qrData").value = decodedText;
+
+                    let qrDetailsModal = new bootstrap.Modal(document.getElementById("qrDetailsModal"), {
+                        backdrop: 'static',
+                        keyboard: false
+                    });
+                    qrDetailsModal.show();
+                });
+            }
+
+            // Handle OK button click in the QR Details modal to open Billing Modal
+            document.getElementById("openBillingModal").addEventListener("click", function() {
+                let qrDetailsModal = bootstrap.Modal.getInstance(document.getElementById("qrDetailsModal"));
+                qrDetailsModal.hide();
+
+                let billingModal = new bootstrap.Modal(document.getElementById("billingModal"), {
+                    backdrop: 'static',
+                    keyboard: false
+                });
+                billingModal.show();
+            });
+        });
+
+
+        document.getElementById('billing_amount').addEventListener('input', function() {
+            const billingAmount = parseFloat(this.value) || 0;
+            const walletBalance = parseFloat(document.getElementById('wallet_balance').innerText) || 0;
+            const paymentMethod = document.getElementById('paymentMethod');
+
+            // Clear existing options
+            paymentMethod.innerHTML = '';
+
+            // Add options based on wallet balance
+            if (billingAmount > walletBalance) {
+                paymentMethod.innerHTML += '<option value="cash">Cash</option>';
+                paymentMethod.innerHTML += '<option value="upi">UPI</option>';
+            } else {
+                paymentMethod.innerHTML += '<option value="cash">Cash</option>';
+                paymentMethod.innerHTML += '<option value="upi">UPI</option>';
+                paymentMethod.innerHTML += '<option value="wallet">Wallet</option>';
+            }
+        });
+    </script>
+@endsection
