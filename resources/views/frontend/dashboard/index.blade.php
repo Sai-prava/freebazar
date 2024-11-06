@@ -91,28 +91,45 @@
                                                 <input type="hidden" name="insert_date" id="insert_date">
                                                 <input type="hidden" name="transaction_date" id="transaction_date"
                                                     value="{{ now()->format('Y-m-d') }}">
-                                                <div class="mb-3">
-                                                    <label for="billingAmount" class="form-label"
-                                                        style="color: black;">Billing Amount</label>
+                                                <div class="form-group">
+                                                    <label for="billing_amount" style="color: black;">Billing Amount</label>
                                                     <input type="number" class="form-control" id="billing_amount"
-                                                        name="billing_amount" required>
+                                                        name="billing_amount" required min="0" step="any"
+                                                        oninput="checkWalletBalance()">
                                                 </div>
-                                                <div class="mb-3">
-                                                    <label for="paymentMethod" class="form-label"
-                                                        style="color: black;">Pay By</label>
-                                                    <select class="form-control" id="paymentMethod" name="pay_by"
-                                                        required>
+
+                                                <div class="form-group mt-2">
+                                                    <label for="pay_by" style="color: black;">Pay By</label>
+                                                    <select class="form-control" id="pay_by" name="pay_by" required>
+                                                        <option value="wallet">Wallet</option>
                                                         <option value="cash">Cash</option>
                                                         <option value="upi">UPI</option>
-                                                        <option value="wallet">Wallet</option>
                                                     </select>
                                                 </div>
+
                                                 <div class="wallet-balance mt-2">
-                                                    <strong style="color: black;">Your Wallet
-                                                        Balance: <span id="wallet_balance"
-                                                            name="wallet_balance">{{ $walletBalance }}</span> </strong>
+                                                    <strong style="color: black;">Your Wallet Balance: </strong>
+                                                    <span id="wallet_balance">{{ $walletBalance }}</span>
                                                     <input type="hidden" name="wallet_balance"
                                                         value="{{ $walletBalance }}">
+                                                </div>
+
+                                                <div class="insufficient-balance mt-2" style="display: none;">
+                                                    <strong style="color: black;">Wallet balance is insufficient. Please
+                                                        choose an alternative payment method for the remaining
+                                                        amount:</strong>
+                                                    <select name="alternative_pay_by" id="alternative_pay_by"
+                                                        class="form-control">
+                                                        <option value="cash">Cash</option>
+                                                        <option value="upi">UPI</option>
+                                                    </select>
+                                                </div>
+
+                                                <div class="remaining-balance mt-2" style="display: none;">
+                                                    <label for="remaining_amount" style="color: black;">Remaining Amount
+                                                        to be Paid:</label>
+                                                    <input type="text" id="remaining_amount" class="form-control"
+                                                        readonly>
                                                 </div>
                                                 <button type="submit" class="btn btn-success">Submit Payment</button>
                                             </form>
@@ -305,6 +322,9 @@
 
     </div>
     <script src="https://unpkg.com/html5-qrcode"></script>
+    {{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> --}}
+
     <script>
         // function domReady(fn) {
         //     if (
@@ -330,77 +350,7 @@
         //     htmlscanner.render(onScanSuccess);
         // });
     </script>
-    {{-- <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            // Open the QR Code Scanner Modal when the scan button is clicked
-            document.getElementById("my-qr-reader").addEventListener("click", function() {
-                let qrModal = new bootstrap.Modal(document.getElementById("qrScannerModal"), {
-                    backdrop: 'static',
-                    keyboard: false
-                });
-                qrModal.show();
-                startMainScanner();
-            });
 
-            // QR Code Scanner function
-            function startMainScanner() {
-                let htmlscanner = new Html5QrcodeScanner("qr-reader", {
-                    fps: 10,
-                    qrbox: 250
-                });
-
-                htmlscanner.render((decodedText, decodedResult) => {
-                    // On successful scan
-                    let qrModal = bootstrap.Modal.getInstance(document.getElementById("qrScannerModal"));
-                    qrModal.hide();
-
-                    // Display QR details in the next modal
-                    document.getElementById("qr-details-text").innerText = "QR Code Scanned: " +
-                        decodedText;
-                    document.getElementById("qrData").value = decodedText;
-
-                    let qrDetailsModal = new bootstrap.Modal(document.getElementById("qrDetailsModal"), {
-                        backdrop: 'static',
-                        keyboard: false
-                    });
-                    htmlscanner.clear()
-                    qrDetailsModal.show();
-                });
-            }
-
-            // Handle OK button click in the QR Details modal to open Billing Modal
-            document.getElementById("openBillingModal").addEventListener("click", function() {
-                let qrDetailsModal = bootstrap.Modal.getInstance(document.getElementById("qrDetailsModal"));
-                qrDetailsModal.hide();
-
-                let billingModal = new bootstrap.Modal(document.getElementById("billingModal"), {
-                    backdrop: 'static',
-                    keyboard: false
-                });
-                billingModal.show();
-            });
-        });
-
-
-        document.getElementById('billing_amount').addEventListener('input', function() {
-            const billingAmount = parseFloat(this.value) || 0;
-            const walletBalance = parseFloat(document.getElementById('wallet_balance').innerText) || 0;
-            const paymentMethod = document.getElementById('paymentMethod');
-
-            // Clear existing options
-            paymentMethod.innerHTML = '';
-
-            // Add options based on wallet balance
-            if (billingAmount > walletBalance) {
-                paymentMethod.innerHTML += '<option value="cash">Cash</option>';
-                paymentMethod.innerHTML += '<option value="upi">UPI</option>';
-            } else {
-                paymentMethod.innerHTML += '<option value="cash">Cash</option>';
-                paymentMethod.innerHTML += '<option value="upi">UPI</option>';
-                paymentMethod.innerHTML += '<option value="wallet">Wallet</option>';
-            }
-        });
-    </script> --}}
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             // Reference to scanner instance for global access
@@ -463,26 +413,43 @@
                 });
                 billingModal.show();
             });
-
-            // Update payment methods based on billing amount
-            document.getElementById('billing_amount').addEventListener('input', function() {
-                const billingAmount = parseFloat(this.value) || 0;
-                const walletBalance = parseFloat(document.getElementById('wallet_balance').innerText) || 0;
-                const paymentMethod = document.getElementById('paymentMethod');
-
-                // Clear existing options
-                paymentMethod.innerHTML = '';
-
-                // Add options based on wallet balance
-                if (billingAmount > walletBalance) {
-                    paymentMethod.innerHTML += '<option value="cash">Cash</option>';
-                    paymentMethod.innerHTML += '<option value="upi">UPI</option>';
-                } else {
-                    paymentMethod.innerHTML += '<option value="cash">Cash</option>';
-                    paymentMethod.innerHTML += '<option value="upi">UPI</option>';
-                    paymentMethod.innerHTML += '<option value="wallet">Wallet</option>';
-                }
-            });
         });
+    </script>
+    <script>
+        function checkWalletBalance() {
+            const billingAmount = parseFloat(document.getElementById('billing_amount').value) || 0;
+            const walletBalance = parseFloat(document.getElementById('wallet_balance').textContent) || 0;
+
+            const payBySelect = document.getElementById('pay_by');
+            const insufficientBalanceDiv = document.querySelector('.insufficient-balance');
+            const remainingBalanceDiv = document.querySelector('.remaining-balance');
+            const alternativePayBySelect = document.getElementById('alternative_pay_by');
+            const remainingAmountInput = document.getElementById('remaining_amount');
+
+            if (billingAmount > walletBalance) {
+                const remainingAmount = billingAmount - walletBalance;
+
+                // Show the additional options and remaining balance field
+                insufficientBalanceDiv.style.display = 'block';
+                remainingBalanceDiv.style.display = 'block';
+
+                // Show the alternative payment dropdown
+                alternativePayBySelect.style.display = 'block'; // Ensure it becomes visible
+
+                // Set remaining amount to be paid
+                remainingAmountInput.value = remainingAmount.toFixed(2);
+
+                // Set pay_by to "wallet" by default and show alternative payment options
+                payBySelect.value = 'wallet';
+                alternativePayBySelect.required = true;
+            } else {
+                // Hide alternative payment options and remaining balance field if wallet balance is enough
+                insufficientBalanceDiv.style.display = 'none';
+                remainingBalanceDiv.style.display = 'none';
+                alternativePayBySelect.style.display = 'none'; // Hide alternative pay by dropdown
+
+                alternativePayBySelect.required = false;
+            }
+        }
     </script>
 @endsection
