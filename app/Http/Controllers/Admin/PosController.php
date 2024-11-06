@@ -108,13 +108,13 @@ class PosController extends Controller
 
     public function download_qr($id, $name)
     {
-        // $data = $name . ' | ' . $id; 
+        $data = $name . ' | ' . $id; 
 
         $builder = new Builder(
             writer: new PngWriter(),
             writerOptions: [],
             validateResult: false,
-            data: $id,
+            data: $data,
             encoding: new Encoding('UTF-8'),
             errorCorrectionLevel: ErrorCorrectionLevel::High,
             size: 300,
