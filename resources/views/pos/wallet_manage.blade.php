@@ -32,7 +32,8 @@
             padding: 20px;
         }
 
-        h3, h4 {
+        h3,
+        h4 {
             font-size: 1.2rem;
         }
 
@@ -46,7 +47,8 @@
             font-size: 0.9rem;
         }
 
-        .scrollable-table th, .scrollable-table td {
+        .scrollable-table th,
+        .scrollable-table td {
             padding: 8px;
         }
     }
@@ -77,12 +79,13 @@
 
                     <div class="form-group">
                         <label for="amount">BILLING AMOUNT</label>
-                        <input name="amount" id="amount" type="number" class="form-control" required min="0" step="any" oninput="checkWalletBalance()">
+                        <input name="amount" id="amount" type="number" class="form-control" required min="0"
+                            step="any" oninput="checkWalletBalance()">
                     </div>
 
                     <div class="form-group mt-2">
                         <label for="pay_by">PAYMENT BY</label>
-                        <select name="pay_by" id="pay_by" class="form-control" required>
+                        <select name="pay_by" id="pay_by" class="form-control" required onchange="checkWalletBalance()">
                             <option value="wallet">WALLET</option>
                             <option value="cash">CASH</option>
                             <option value="upi">UPI</option>
@@ -95,14 +98,13 @@
                         <input type="hidden" name="wallet_balance" value="{{ $walletBalance }}">
                     </div>
 
-                    <div class="insufficient-balance mt-2" style="display:none;">
+                    <div class="insufficient-balance mt-2" style="display: none;">
                         <strong>Wallet balance is insufficient. Please choose an alternative payment method:</strong>
                         <select name="alternative_pay_by" id="alternative_pay_by" class="form-control" required>
                             <option value="cash">CASH</option>
                             <option value="upi">UPI</option>
                         </select>
                     </div>
-
                     <button type="submit" class="btn btn-primary mt-3">SUBMIT</button>
                 </form>
             </div>
@@ -113,7 +115,8 @@
                 <h4 class="text-primary"><b>TRANSACTIONS</b></h4>
                 <form method="GET" action="{{ route('pos.wallet.manage', $user->id) }}">
                     <div class="input-group mb-3">
-                        <input type="date" class="form-control" name="transaction_date" id="transaction_date" value="{{ request('transaction_date') }}">
+                        <input type="date" class="form-control" name="transaction_date" id="transaction_date"
+                            value="{{ request('transaction_date') }}">
                         <button class="btn btn-success" type="submit">Search Transactions</button>
                     </div>
                 </form>
@@ -161,14 +164,27 @@
 
     <script>
         function checkWalletBalance() {
-            const amount = parseFloat(document.getElementById('amount').value);
-            const walletBalance = parseFloat(document.getElementById('wallet_balance').innerText);
+            const billingAmount = parseFloat(document.getElementById('amount').value) || 0;
+            const walletBalance = parseFloat(document.getElementById('wallet_balance').textContent) || 0;
 
-            if (amount > walletBalance) {
-                document.querySelector('.insufficient-balance').style.display = 'block';
+            const payBySelect = document.getElementById('pay_by');
+            const insufficientBalanceDiv = document.querySelector('.insufficient-balance');
+            const alternativePayBySelect = document.getElementById('alternative_pay_by');
+
+            // Condition to check if wallet is selected and balance is insufficient
+            if (payBySelect.value === "wallet" && billingAmount > walletBalance) {
+                // Show the alternative payment dropdown
+                insufficientBalanceDiv.style.display = 'block';
+                alternativePayBySelect.required = true;
             } else {
-                document.querySelector('.insufficient-balance').style.display = 'none';
+                // Hide the alternative payment dropdown
+                insufficientBalanceDiv.style.display = 'none';
+                alternativePayBySelect.required = false;
             }
         }
+
+        // Initial event listener setup
+        document.getElementById('pay_by').addEventListener('change', checkWalletBalance);
+        document.getElementById('amount').addEventListener('input', checkWalletBalance);
     </script>
 @endsection

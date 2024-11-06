@@ -34,7 +34,7 @@ class WalletController extends Controller
         }
 
         $walletBalance = $walletBalanceQuery->first();
-        $walletList = $transactionQuery->orderBy('transaction_date', 'desc')->get();
+        $walletList = $transactionQuery->orderBy('id', 'desc')->get();
         // dd($walletList);
 
         $balanceNotFound = $request->has('balance_date') && !$walletBalance;

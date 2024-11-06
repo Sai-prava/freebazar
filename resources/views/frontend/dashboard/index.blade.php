@@ -131,7 +131,7 @@
                                                     <input type="text" id="remaining_amount" class="form-control"
                                                         readonly>
                                                 </div>
-                                                <button type="submit" class="btn btn-success">Submit Payment</button>
+                                                <button type="submit"  class="btn btn-success">Submit Payment</button>
                                             </form>
                                         </div>
                                     </div>
@@ -419,37 +419,39 @@
         function checkWalletBalance() {
             const billingAmount = parseFloat(document.getElementById('billing_amount').value) || 0;
             const walletBalance = parseFloat(document.getElementById('wallet_balance').textContent) || 0;
-
+    
             const payBySelect = document.getElementById('pay_by');
             const insufficientBalanceDiv = document.querySelector('.insufficient-balance');
             const remainingBalanceDiv = document.querySelector('.remaining-balance');
             const alternativePayBySelect = document.getElementById('alternative_pay_by');
             const remainingAmountInput = document.getElementById('remaining_amount');
-
-            if (billingAmount > walletBalance) {
+    
+            // Check if Wallet is selected and if wallet balance is insufficient
+            if (payBySelect.value === "wallet" && billingAmount > walletBalance) {
                 const remainingAmount = billingAmount - walletBalance;
-
+    
                 // Show the additional options and remaining balance field
                 insufficientBalanceDiv.style.display = 'block';
                 remainingBalanceDiv.style.display = 'block';
-
+                
                 // Show the alternative payment dropdown
-                alternativePayBySelect.style.display = 'block'; // Ensure it becomes visible
-
+                alternativePayBySelect.style.display = 'block';
+                alternativePayBySelect.required = true;
+    
                 // Set remaining amount to be paid
                 remainingAmountInput.value = remainingAmount.toFixed(2);
-
-                // Set pay_by to "wallet" by default and show alternative payment options
-                payBySelect.value = 'wallet';
-                alternativePayBySelect.required = true;
             } else {
-                // Hide alternative payment options and remaining balance field if wallet balance is enough
+                // Hide alternative payment options if user chooses cash/upi or wallet balance is sufficient
                 insufficientBalanceDiv.style.display = 'none';
                 remainingBalanceDiv.style.display = 'none';
-                alternativePayBySelect.style.display = 'none'; // Hide alternative pay by dropdown
-
+                alternativePayBySelect.style.display = 'none';
                 alternativePayBySelect.required = false;
             }
         }
+    
+        // Add an event listener to check the balance whenever the payment method is changed
+        document.getElementById('pay_by').addEventListener('change', checkWalletBalance);
+        document.getElementById('billing_amount').addEventListener('input', checkWalletBalance);
     </script>
+    
 @endsection
