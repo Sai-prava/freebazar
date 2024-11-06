@@ -330,7 +330,7 @@
         //     htmlscanner.render(onScanSuccess);
         // });
     </script>
-    <script>
+    {{-- <script>
         document.addEventListener("DOMContentLoaded", function() {
             // Open the QR Code Scanner Modal when the scan button is clicked
             document.getElementById("my-qr-reader").addEventListener("click", function() {
@@ -363,6 +363,7 @@
                         backdrop: 'static',
                         keyboard: false
                     });
+                    htmlscanner.clear()
                     qrDetailsModal.show();
                 });
             }
@@ -398,6 +399,90 @@
                 paymentMethod.innerHTML += '<option value="upi">UPI</option>';
                 paymentMethod.innerHTML += '<option value="wallet">Wallet</option>';
             }
+        });
+    </script> --}}
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Reference to scanner instance for global access
+            let htmlscanner;
+
+            // Open the QR Code Scanner Modal when the scan button is clicked
+            document.getElementById("my-qr-reader").addEventListener("click", function() {
+                let qrModal = new bootstrap.Modal(document.getElementById("qrScannerModal"), {
+                    backdrop: 'static',
+                    keyboard: false
+                });
+                qrModal.show();
+                startMainScanner();
+            });
+
+            // QR Code Scanner function
+            function startMainScanner() {
+                // Initialize a new Html5QrcodeScanner instance
+                htmlscanner = new Html5QrcodeScanner("qr-reader", {
+                    fps: 10,
+                    qrbox: 250
+                });
+
+                // Render the scanner and handle successful scan
+                htmlscanner.render((decodedText, decodedResult) => {
+                    // Hide QR Scanner modal on successful scan
+                    let qrModal = bootstrap.Modal.getInstance(document.getElementById("qrScannerModal"));
+                    qrModal.hide();
+
+                    // Display QR details in the next modal
+                    document.getElementById("qr-details-text").innerText = "QR Code Scanned: " +
+                        decodedText;
+                    document.getElementById("qrData").value = decodedText;
+
+                    // Open the QR Details modal and stop the scanner
+                    let qrDetailsModal = new bootstrap.Modal(document.getElementById("qrDetailsModal"), {
+                        backdrop: 'static',
+                        keyboard: false
+                    });
+                    htmlscanner.clear(); // Properly stop the scanner
+                    qrDetailsModal.show();
+                });
+            }
+
+            // Stop the scanner if the QR scanner modal is manually closed
+            document.getElementById("qrScannerModal").addEventListener('hidden.bs.modal', function() {
+                if (htmlscanner) {
+                    htmlscanner.clear(); // Ensure scanner is stopped
+                }
+            });
+
+            // Handle OK button click in the QR Details modal to open Billing Modal
+            document.getElementById("openBillingModal").addEventListener("click", function() {
+                let qrDetailsModal = bootstrap.Modal.getInstance(document.getElementById("qrDetailsModal"));
+                qrDetailsModal.hide();
+
+                let billingModal = new bootstrap.Modal(document.getElementById("billingModal"), {
+                    backdrop: 'static',
+                    keyboard: false
+                });
+                billingModal.show();
+            });
+
+            // Update payment methods based on billing amount
+            document.getElementById('billing_amount').addEventListener('input', function() {
+                const billingAmount = parseFloat(this.value) || 0;
+                const walletBalance = parseFloat(document.getElementById('wallet_balance').innerText) || 0;
+                const paymentMethod = document.getElementById('paymentMethod');
+
+                // Clear existing options
+                paymentMethod.innerHTML = '';
+
+                // Add options based on wallet balance
+                if (billingAmount > walletBalance) {
+                    paymentMethod.innerHTML += '<option value="cash">Cash</option>';
+                    paymentMethod.innerHTML += '<option value="upi">UPI</option>';
+                } else {
+                    paymentMethod.innerHTML += '<option value="cash">Cash</option>';
+                    paymentMethod.innerHTML += '<option value="upi">UPI</option>';
+                    paymentMethod.innerHTML += '<option value="wallet">Wallet</option>';
+                }
+            });
         });
     </script>
 @endsection
