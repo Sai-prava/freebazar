@@ -45,9 +45,9 @@ class UserDashboardController extends Controller
     {
         $userId = Auth::user()->id;
         // dd($userId);
-        $posId = $request->input('pos_id'); 
-        $parts = explode('|', $posId); 
-        $number = intval(trim($parts[1]));  
+        $posId = $request->input('pos_id');
+        $parts = explode('|', $posId);
+        $number = intval(trim($parts[1]));
         // dd($number);
         $pos = PosModel::find($number);
         // dd($pos);
@@ -204,7 +204,7 @@ class UserDashboardController extends Controller
                 ->orWhere('zip', 'LIKE', "%{$searchTerm}%");
         }
 
-        $pos = $query->orderBy('id', 'desc')->simplePaginate(10); 
+        $pos = $query->orderBy('id', 'desc')->simplePaginate(10);
 
         return view('frontend.dashboard.pos_list', compact('pos'));
     }
@@ -240,7 +240,6 @@ class UserDashboardController extends Controller
             $request->image->move(public_path('images'), $imageName);
             $update_profile->image = $imageName;
         }
-
         if ($update_profile->save()) {
             flash()->addSuccess('Profile Update successfully.');
             return redirect()->route('user.index');

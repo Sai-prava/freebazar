@@ -5,6 +5,47 @@
 
 <!-- Bootstrap JavaScript Bundle (includes Popper) -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<style>
+    /* Default styles (light mode) */
+    .modal-body {
+        background-color: #fff;
+        color: black;
+    }
+
+    .modal-body label,
+    .modal-body strong {
+        color: black;
+    }
+
+    /* Dark mode */
+    @media (prefers-color-scheme: dark) {
+        .modal-body {
+            background-color: #333;
+            color: white;
+        }
+
+        .modal-body label,
+        .modal-body strong {
+            color: white;
+        }
+
+        /* Input and select backgrounds */
+        .modal-body .form-control {
+            background-color: #444;
+            color: white;
+            border-color: #666;
+        }
+
+        .modal-body .form-control::placeholder {
+            color: #bbb;
+        }
+
+        .btn-success {
+            background-color: #28a745;
+            color: white;
+        }
+    }
+</style>
 @section('content')
     <div style="margin-top: 20px;">
         <h4><b>HI ,{{ auth()->user()->name }} <span>Welcome to Dashboard</span></b></h4>
@@ -131,7 +172,7 @@
                                                     <input type="text" id="remaining_amount" class="form-control"
                                                         readonly>
                                                 </div>
-                                                <button type="submit"  class="btn btn-success">Submit Payment</button>
+                                                <button type="submit" class="btn btn-success">Submit Payment</button>
                                             </form>
                                         </div>
                                     </div>
@@ -419,25 +460,25 @@
         function checkWalletBalance() {
             const billingAmount = parseFloat(document.getElementById('billing_amount').value) || 0;
             const walletBalance = parseFloat(document.getElementById('wallet_balance').textContent) || 0;
-    
+
             const payBySelect = document.getElementById('pay_by');
             const insufficientBalanceDiv = document.querySelector('.insufficient-balance');
             const remainingBalanceDiv = document.querySelector('.remaining-balance');
             const alternativePayBySelect = document.getElementById('alternative_pay_by');
             const remainingAmountInput = document.getElementById('remaining_amount');
-    
+
             // Check if Wallet is selected and if wallet balance is insufficient
             if (payBySelect.value === "wallet" && billingAmount > walletBalance) {
                 const remainingAmount = billingAmount - walletBalance;
-    
+
                 // Show the additional options and remaining balance field
                 insufficientBalanceDiv.style.display = 'block';
                 remainingBalanceDiv.style.display = 'block';
-                
+
                 // Show the alternative payment dropdown
                 alternativePayBySelect.style.display = 'block';
                 alternativePayBySelect.required = true;
-    
+
                 // Set remaining amount to be paid
                 remainingAmountInput.value = remainingAmount.toFixed(2);
             } else {
@@ -448,10 +489,9 @@
                 alternativePayBySelect.required = false;
             }
         }
-    
+
         // Add an event listener to check the balance whenever the payment method is changed
         document.getElementById('pay_by').addEventListener('change', checkWalletBalance);
         document.getElementById('billing_amount').addEventListener('input', checkWalletBalance);
     </script>
-    
 @endsection
