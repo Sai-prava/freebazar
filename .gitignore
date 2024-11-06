@@ -21,4 +21,5 @@ yarn-error.log
 yarn.lock
 package-lock.json
 /vendor
-/public
+/public/.htaccess
+/.htaccess
