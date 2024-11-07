@@ -22,4 +22,5 @@ yarn.lock
 package-lock.json
 /vendor
 /public/.htaccess
-/.htaccess
+.htaccess
+/public/build
