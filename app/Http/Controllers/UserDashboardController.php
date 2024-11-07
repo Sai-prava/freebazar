@@ -16,40 +16,44 @@ use Illuminate\Support\Facades\Hash;
 
 class UserDashboardController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $sponcers = sponcer::all();
+        // Get all sponsors
+        $sponcers = Sponcer::all();
+
+        // Get the currently authenticated user
         $user_profile = auth()->user();
-        // dd($user_profile);
         $userId = $user_profile->id;
-        // $posId = $pos->id;
 
-        $userwallet = UserWallet::where('user_id', $userId)->first();
-        $totalusedAmount = UserWallet::where('user_id', $userId)->sum('used_amount');
-        //  dd($totalusedAmount);
-        if ($userwallet) {
-            $walletamount = $userwallet->wallet_amount;
-            $walletBalance = $walletamount - $totalusedAmount;
-            // dd($walletBalance);   
+        // Initialize the wallet transactions query for the logged-in user
+        $transactionQuery = Wallet::where('user_id', $userId);
+
+        if ($request->has('transaction_date')) {
+            $transactionQuery->whereDate('transaction_date', $request->transaction_date);
+        }
+
+        $walletList = $transactionQuery->orderBy('id', 'desc')->get();
+
+        $userWallet = UserWallet::where('user_id', $userId)->first();
+        $totalUsedAmount = UserWallet::where('user_id', $userId)->sum('used_amount');
+
+        if ($userWallet) {
+            $walletBalance = $userWallet->wallet_amount - $totalUsedAmount;
         } else {
-            $walletBalance = 0;
+            $walletBalance = 0; 
         }
 
-        if ($walletBalance < 0) {
-            $walletBalance = 0;
-        }
+        $walletBalance = max($walletBalance, 0);
 
-        return view('frontend.dashboard.index', compact('sponcers', 'user_profile', 'walletBalance'));
+        return view('frontend.dashboard.index', compact('sponcers', 'user_profile', 'walletBalance', 'walletList'));
     }
+
     public function payment(Request $request)
     {
         $userId = Auth::user()->id;
         // dd($userId);
-        $posId = $request->input('pos_id');
-        $parts = explode('|', $posId);
-        $number = intval(trim($parts[1]));
-        // dd($number);
-        $pos = PosModel::find($number);
+        $posId = intval($request->input('pos_id'));
+        $pos = PosModel::find($posId);
         // dd($pos);
         $randomNumber = mt_rand(1, 99999);
         $invoiceNumber = $randomNumber + 1;

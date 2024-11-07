@@ -45,10 +45,13 @@
             color: white;
         }
     }
+
     .modal-label {
         color: black;
-        text-align: left; /* Ensure left alignment */
-        display: block;   /* Make sure it aligns left as a block element */
+        text-align: left;
+        /* Ensure left alignment */
+        display: block;
+        /* Make sure it aligns left as a block element */
     }
 </style>
 @section('content')
@@ -108,7 +111,8 @@
                                                 aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
-                                            <p id="qr-details-text"></p>
+                                            <h5 id="qr-details-text"></h5>
+                                            {{-- <input type="text" id="qrData" name="pos_id"> --}}
                                             <button id="openBillingModal" class="btn btn-primary">OK</button>
                                         </div>
                                     </div>
@@ -127,10 +131,10 @@
                                                 aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
-                                            <form id="billingForm" method="post" action="{{ route('user.payment') }}">
+                                            <form id="qrForm" method="post" action="{{ route('user.payment') }}">
                                                 @csrf
-                                                <input type="hidden" name="pos_id" id="qrData">
-                                                <input type="hidden" name="invoice" id="qrData">
+                                                <input type="hidden" name="pos_id" id="qrDataId">
+                                                <input type="hidden" name="invoice">
                                                 <input type="hidden" name="user_id" value="{{ $user_profile->id }}">
                                                 <input type="hidden" name="mobilenumber"
                                                     value="{{ $user_profile->mobilenumber }}">
@@ -138,14 +142,16 @@
                                                 <input type="hidden" name="transaction_date" id="transaction_date"
                                                     value="{{ now()->format('Y-m-d') }}">
                                                 <div class="form-group">
-                                                    <label for="billing_amount" style="color: black;" class="modal-label">Billing Amount</label>
+                                                    <label for="billing_amount" style="color: black;"
+                                                        class="modal-label">Billing Amount</label>
                                                     <input type="number" class="form-control" id="billing_amount"
                                                         name="billing_amount" required min="0" step="any"
                                                         oninput="checkWalletBalance()">
                                                 </div>
 
                                                 <div class="form-group mt-2">
-                                                    <label for="pay_by" style="color: black;" class="modal-label">Pay By</label>
+                                                    <label for="pay_by" style="color: black;" class="modal-label">Pay
+                                                        By</label>
                                                     <select class="form-control" id="pay_by" name="pay_by" required>
                                                         <option value="wallet">Wallet</option>
                                                         <option value="cash">Cash</option>
@@ -161,7 +167,8 @@
                                                 </div>
 
                                                 <div class="insufficient-balance mt-2" style="display: none;">
-                                                    <strong  class="modal-label" style="color: black;">Wallet balance is insufficient. Please
+                                                    <strong class="modal-label" style="color: black;">Wallet balance is
+                                                        insufficient. Please
                                                         choose an alternative payment method for the remaining
                                                         amount:</strong>
                                                     <select name="alternative_pay_by" id="alternative_pay_by"
@@ -172,12 +179,14 @@
                                                 </div>
 
                                                 <div class="remaining-balance mt-2" style="display: none;">
-                                                    <label for="remaining_amount" class="modal-label"  style="color: black;">Remaining Amount
+                                                    <label for="remaining_amount" class="modal-label"
+                                                        style="color: black;">Remaining Amount
                                                         to be Paid:</label>
                                                     <input type="text" id="remaining_amount" class="form-control"
                                                         readonly>
                                                 </div>
-                                                <button type="submit" class="btn btn-success mt-2">Submit Payment</button>
+                                                <button type="submit" class="btn btn-success mt-2">Submit
+                                                    Payment</button>
                                             </form>
                                         </div>
                                     </div>
@@ -334,7 +343,18 @@
                 <div class="col-md-6 col-12 mb-4">
                     <div class="card flex-fill">
                         <div class="card-body py-4">
-                            <h6><b>POS TRANSACTION</b></h6>
+                            <h6><b>POS Transaction (Latest 5 Transactions)</b></h6>
+
+                            <!-- Date Filter Form -->
+                            <form action="{{ route('user.index') }}" method="GET" class="form-inline mb-3">
+                                <div class="input-group mb-3">
+                                    <input type="date" class="form-control" name="transaction_date"
+                                        id="transaction_date" value="{{ request('transaction_date') }}">
+                                    <button class="btn btn-primary" type="submit">Search Transactions</button>
+                                </div>
+                            </form>
+
+                            <!-- Responsive Table -->
                             <div class="table-responsive">
                                 <table class="table table-striped">
                                     <thead>
@@ -348,20 +368,32 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                        </tr>
+                                        @forelse ($walletList->take(5) as $key => $data)
+                                            <tr>
+                                                <td>{{ $key + 1 }}</td>
+                                                <td>{{ $data->getPos->name ?? 'N/A' }}</td>
+                                                <td>{{ $data->transaction_date }}</td>
+                                                <td>{{ $data->billing_amount }}</td>
+                                                <td>{{ $data->pay_by }}</td>
+                                                {{-- <td>{{ $data->status ?? 'Pending' }}</td> --}}
+                                            </tr>
+                                        @empty
+                                            <tr>
+                                                <td colspan="6" class="text-center">
+                                                    <div class="alert alert-danger" role="alert">
+                                                        No transaction record found for the selected date.
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        @endforelse
                                     </tbody>
                                 </table>
                             </div>
+
                         </div>
                     </div>
                 </div>
+
 
             </div>
         </div>
@@ -426,11 +458,18 @@
                     let qrModal = bootstrap.Modal.getInstance(document.getElementById("qrScannerModal"));
                     qrModal.hide();
 
+                    let parts = decodedText.split('|');
+                    let name = parts[0]; // The name part before '|'
+                    let id = parts[1]; // The id part after '|'
                     // Display QR details in the next modal
-                    document.getElementById("qr-details-text").innerText = "QR Code Scanned: " +
-                        decodedText;
-                    document.getElementById("qrData").value = decodedText;
+                    // Display only the name in bold
+                    document.getElementById("qr-details-text").innerHTML = "POS NAME: <b>" + name + "</b>";
 
+                    // Store the ID in a hidden input field
+                    document.getElementById("qrDataId").value = id;
+                    console.log("POS ID: " + id);
+
+                    
                     // Open the QR Details modal and stop the scanner
                     let qrDetailsModal = new bootstrap.Modal(document.getElementById("qrDetailsModal"), {
                         backdrop: 'static',
@@ -452,7 +491,7 @@
             document.getElementById("openBillingModal").addEventListener("click", function() {
                 let qrDetailsModal = bootstrap.Modal.getInstance(document.getElementById("qrDetailsModal"));
                 qrDetailsModal.hide();
-
+              
                 let billingModal = new bootstrap.Modal(document.getElementById("billingModal"), {
                     backdrop: 'static',
                     keyboard: false

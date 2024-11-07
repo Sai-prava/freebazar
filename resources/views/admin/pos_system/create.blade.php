@@ -65,7 +65,7 @@
                             </div>
                             <div class="mb-2">
                                 <label for="transaction_charge">Transaction Charge*</label>
-                                <input type="text" id="transaction_charge" name="transaction_charge"
+                                <input type="number" id="transaction_charge" name="transaction_charge"
                                     class="form-control @error('transaction_charge') is-invalid @enderror" required>
                                 @error('transaction_charge')
                                     <span class="invalid-feedback" role="alert">
@@ -75,7 +75,7 @@
                             </div>
                             <div class="mb-2">
                                 <label for="min_charge">Min Charge*</label>
-                                <input type="text" id="min_charge" name="min_charge"
+                                <input type="number" id="min_charge" name="min_charge"
                                     class="form-control @error('min_charge') is-invalid @enderror" required>
                                 @error('min_charge')
                                     <span class="invalid-feedback" role="alert">
@@ -85,7 +85,7 @@
                             </div>
                             <div class="mb-2">
                                 <label for="max_charge">Max Charge*</label>
-                                <input type="text" id="max_charge" name="max_charge"
+                                <input type="number" id="max_charge" name="max_charge"
                                     class="form-control @error('max_charge') is-invalid @enderror" required>
                                 @error('max_charge')
                                     <span class="invalid-feedback" role="alert">
