@@ -25,7 +25,6 @@ class UserDashboardController extends Controller
         $user_profile = auth()->user();
         $userId = $user_profile->id;
 
-        // Initialize the wallet transactions query for the logged-in user
         $transactionQuery = Wallet::where('user_id', $userId);
 
         if ($request->has('transaction_date')) {
@@ -34,13 +33,13 @@ class UserDashboardController extends Controller
 
         $walletList = $transactionQuery->orderBy('id', 'desc')->get();
 
-        $userWallet = UserWallet::where('user_id', $userId)->first();
+        $userWallet = UserWallet::where('user_id', $userId)->get();
         $totalUsedAmount = UserWallet::where('user_id', $userId)->sum('used_amount');
 
         if ($userWallet) {
-            $walletBalance = $userWallet->wallet_amount - $totalUsedAmount;
+            $walletBalance = $userWallet->sum('wallet_amount') - $totalUsedAmount;
         } else {
-            $walletBalance = 0; 
+            $walletBalance = 0;
         }
 
         $walletBalance = max($walletBalance, 0);
@@ -69,9 +68,9 @@ class UserDashboardController extends Controller
         $walletUsedAmount = 0;
 
         if ($pay_by == 'wallet') {
-            $userWallet = UserWallet::where('user_id', $userId)->first();
+            $userWallet = UserWallet::where('user_id', $userId)->get();
             // dd($userWallet);
-            $walletBalance = $userWallet ? $userWallet->wallet_amount - UserWallet::where('user_id', $userId)->sum('used_amount') : 0;
+            $walletBalance = $userWallet ? $userWallet->sum('wallet_amount') - UserWallet::where('user_id', $userId)->sum('used_amount') : 0;
             // dd($walletBalance);
             if ($walletBalance <= 0) {
                 return redirect()->back()->with('error', 'Wallet is empty. Payment cannot be processed.');
@@ -188,7 +187,22 @@ class UserDashboardController extends Controller
         flash()->addError('Whoops! User or Sponsor creation failed!');
         return redirect()->back();
     }
+    public function wallet()
+    {
+        $user_profile = auth()->user();
+        $userId = $user_profile->id;
+        $userWallet = UserWallet::where('user_id', $userId)->get();
+        $totalUsedAmount = UserWallet::where('user_id', $userId)->sum('used_amount');
 
+        if ($userWallet) {
+            $walletBalance = $userWallet->sum('wallet_amount') - $totalUsedAmount;
+        } else {
+            $walletBalance = 0;
+        }
+
+        $walletBalance = max($walletBalance, 0);
+        return view('frontend.dashboard.wallet',compact('userWallet','walletBalance'));
+    }
     public function termCondition()
     {
         return view('frontend.dashboard.term_condition');
@@ -208,7 +222,7 @@ class UserDashboardController extends Controller
                 ->orWhere('zip', 'LIKE', "%{$searchTerm}%");
         }
 
-        $pos = $query->orderBy('id', 'desc')->simplePaginate(10);
+        $pos = $query->orderBy('id', 'desc')->simplePaginate(15);
 
         return view('frontend.dashboard.pos_list', compact('pos'));
     }

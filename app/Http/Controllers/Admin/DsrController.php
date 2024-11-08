@@ -7,10 +7,12 @@ use App\Exports\MonthlySalesExport;
 use App\Exports\WalletExport;
 use App\Http\Controllers\Controller;
 use App\Imports\WalletImport;
+use App\Models\PosModel;
 use App\Models\Wallet;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Facades\Excel;
 
 class DsrController extends Controller
@@ -75,6 +77,16 @@ class DsrController extends Controller
     }
     public function msr(Request $request)
     {
+        Log::info($request->all());
+        // Fetch all POS with associated users for the dropdown
+        $pos = PosModel::with('user')->get()->map(function ($item) {
+            // dd($item->user->user_id);
+            $data = $item->toArray();
+            $data['pos_id'] = $item->user ? $item->user->user_id : null; // Use user_id from user relationship
+            unset($data['user']);
+            return $data;
+        });
+        // Initialize the query for Wallet transactions
         $query = Wallet::select(
             'user_id',
             'mobilenumber',
@@ -83,21 +95,26 @@ class DsrController extends Controller
         )
             ->whereNotNull('transaction_date')
             ->groupBy('user_id', 'mobilenumber', 'transaction_month');
+        // dd($query);    
 
         if ($request->has('search') && !empty($request->search)) {
-            $searchTerm = $request->search;
-            $query->where('mobilenumber', 'LIKE', "%{$searchTerm}%");
+            $userId = $request->search;
+            $query->where('pos_id', $userId);
         }
-
+        // Apply month filter if selected
         if ($request->has('month') && !empty($request->month)) {
             $selectedMonth = $request->month;
             $query->whereRaw('DATE_FORMAT(transaction_date, "%Y-%m") = ?', [$selectedMonth]);
         }
 
+        // Get the paginated results
         $monthlySales = $query->simplePaginate(15);
 
-        return view('admin.msr.index', compact('monthlySales'));
+        // Return the view with data
+        return view('admin.msr.index', compact('pos', 'monthlySales'));
     }
+
+
 
 
 

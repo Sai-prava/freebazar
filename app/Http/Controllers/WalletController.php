@@ -43,11 +43,11 @@ class WalletController extends Controller
         $userId = $user->id;
         $posId = $pos->id;
 
-        $userwallet = UserWallet::where('user_id', $userId)->first();
+        $userwallet = UserWallet::where('user_id', $userId)->get();
         $totalusedAmount = UserWallet::where('user_id', $userId)->sum('used_amount');
 
         if ($userwallet) {
-            $walletamount = $userwallet->wallet_amount;
+            $walletamount = $userwallet->sum('wallet_amount');
             $walletBalance = $walletamount - $totalusedAmount;
         } else {
             $walletBalance = 0;
@@ -134,8 +134,8 @@ class WalletController extends Controller
         $walletUsedAmount = 0;
 
         if ($pay_by == 'wallet') {
-            $userWallet = UserWallet::where('user_id', $user_id)->first();
-            $walletBalance = $userWallet ? $userWallet->wallet_amount - UserWallet::where('user_id', $user_id)->sum('used_amount') : 0;
+            $userWallet = UserWallet::where('user_id', $user_id)->get();
+            $walletBalance = $userWallet ? $userWallet->sum('wallet_amount') - UserWallet::where('user_id', $user_id)->sum('used_amount') : 0;
 
             if ($walletBalance <= 0) {
                 return redirect()->back()->with('error', 'Wallet is empty. Payment cannot be processed.');

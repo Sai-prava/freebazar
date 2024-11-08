@@ -235,7 +235,7 @@
                         <div class="card-body py-4">
                             <div class="d-flex align-items-start">
                                 <div class="flex-grow-1">
-                                    <h3 class="mb-2">{{ $count['posts'] ?? 0 }}</h3>
+                                    <h3 class="mb-2"><b style="color: red">{{ $walletBalance }} /-</b></h3>
                                     <p class="mb-2">Wallet Balance</p>
                                 </div>
                                 <div class="d-inline-block ms-3">

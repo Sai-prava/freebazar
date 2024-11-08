@@ -62,6 +62,13 @@
                         POS LIST
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->is('my/wallet') ? 'active' : '' }}" aria-current="page"
+                        href="{{ route('user.wallet') }}">
+                        <span data-feather="credit-card" class="align-text-bottom"></span>
+                        MY WALLET
+                    </a>
+                </li>
                
 
                 {{-- @can('user_access')

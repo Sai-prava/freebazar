@@ -13,11 +13,11 @@ class UserWallet extends Model
         'pos_id',
         'invoice',
         'used_amount',
-        'total_amount',
+        'wallet_amount',
+        'pay_by',
         'trans_type',
-        'mobilenumber',
         'transaction_date',
-        'pay_by'
+        'mobilenumber'
     ];
 
     public function user()
@@ -29,4 +29,3 @@ class UserWallet extends Model
         return $this->belongsTo(PosModel::class, 'pos_id');
     }
 }
-

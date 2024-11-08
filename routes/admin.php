@@ -17,7 +17,7 @@ use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\SectorController;
 use App\Http\Controllers\Admin\SubSectorController;
 use App\Http\Controllers\Admin\UserController;
-
+use App\Http\Controllers\Admin\WalletController;
 
 Auth::routes();
 
@@ -90,5 +90,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth']], 
 
     Route::get('msr', [DsrController::class, 'msr'])->name('msr');
     Route::get('export-msr', [DsrController::class, 'exportMsr'])->name('msr.export');
+
+    Route::get('wallet',[WalletController::class, 'wallet'])->name('wallet');
+    Route::get('/export-wallet', [WalletController::class, 'exportWallet'])->name('wallet.export');
+    Route::post('/upload-wallet', [WalletController::class, 'uploadWallet'])->name('wallet.upload');
   
 });

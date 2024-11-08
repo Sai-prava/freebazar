@@ -38,6 +38,6 @@ class Wallet extends Model
     }
     public function getPos()
     {
-        return $this->belongsTo(PosModel::class, 'pos_id');
+        return $this->belongsTo(PosModel::class, 'pos_id','id');
     }
 }

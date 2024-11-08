@@ -77,7 +77,7 @@
                     <li class="nav-item">
                         <a class="nav-link {{ request()->is('admin/pos*') ? 'active' : '' }}"
                             href="{{ route('admin.pos_system.index') }}" id="posMenuToggle">
-                            <span data-feather="credit-card" class="align-text-bottom"></span>
+                            <span data-feather="user" class="align-text-bottom"></span>
                             POS
                         </a>
                         <ul class="nav-subitem {{ request()->is('admin/pos*') ? 'open' : '' }}" id="posSubmenu">
@@ -111,6 +111,15 @@
                             href="{{ route('admin.msr') }}">
                             <span data-feather="user" class="align-text-bottom"></span>
                             MSR
+                        </a>
+                    </li>
+                @endcan
+                @can('role_access')
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->is('admin/wallet*') ? 'active' : '' }}"
+                            href="{{ route('admin.wallet') }}">
+                            <span data-feather="credit-card" class="align-text-bottom"></span>
+                            WALLET
                         </a>
                     </li>
                 @endcan
