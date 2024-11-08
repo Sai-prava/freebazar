@@ -361,10 +361,10 @@
                                         <tr>
                                             <th>Sl.No</th>
                                             <th>POS Name</th>
-                                            <th>Date</th>
+                                            <th>Transaction Date</th>
                                             <th>Amount</th>
-                                            <th>Pay By</th>
-                                            <th>Status</th>
+                                            <th>Transaction Mode</th>
+                                            {{-- <th>Status</th> --}}
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -461,15 +461,12 @@
                     let parts = decodedText.split('|');
                     let name = parts[0]; // The name part before '|'
                     let id = parts[1]; // The id part after '|'
-                    // Display QR details in the next modal
-                    // Display only the name in bold
                     document.getElementById("qr-details-text").innerHTML = "POS NAME: <b>" + name + "</b>";
 
                     // Store the ID in a hidden input field
                     document.getElementById("qrDataId").value = id;
                     console.log("POS ID: " + id);
-
-                    
+                   
                     // Open the QR Details modal and stop the scanner
                     let qrDetailsModal = new bootstrap.Modal(document.getElementById("qrDetailsModal"), {
                         backdrop: 'static',
