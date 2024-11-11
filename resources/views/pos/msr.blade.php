@@ -1,23 +1,12 @@
-@extends('layouts.master')
+@extends('pos.layouts.master')
 
 @section('content')
     <div class="container mt-4">
-        <h3 class="text-center text-dark font-weight-bold">MONTHLY SALES REPORT</h3>
+        <h3 class="text-center text-dark font-weight-bold"><b>MONTHLY SALES REPORT</b></h3>
 
         {{-- Filter Form --}}
-        <form method="GET" action="{{ route('admin.msr') }}" class="row align-items-center mb-3">
-            {{-- POS Selection --}}
-            <div class="col-12 col-md-4 mb-2">
-                <select class="form-control" name="search" id="search" required>
-                    <option value="">Select POS by User ID...</option>
-                    @foreach ($pos as $data)
-                        <option value="{{ $data['id'] ?? '' }}"
-                            {{ request('search') == ($data['id'] ?? '') ? 'selected' : '' }}>
-                            {{ $data['name'] }} ({{ $data['pos_id'] ?? 'N/A' }})
-                        </option>
-                    @endforeach
-                </select>
-            </div>
+        <form method="GET" action="{{ route('pos.msr') }}" class="row align-items-center mb-3">
+
 
             {{-- Month Filter --}}
             <div class="col-12 col-md-4 mb-2">
@@ -32,11 +21,8 @@
         </form>
 
         <!-- Export Form -->
-        <!-- Export Form -->
         <div class="col-md-12 mb-3 text-end">
-            <form method="GET" action="{{ route('admin.msr.export') }}" class="d-inline">
-                <!-- Pass search and month filters to the export route -->
-                <input type="hidden" name="search" value="{{ request('search') }}">
+            <form method="GET" action="{{ route('pos.msr.export') }}" class="d-inline">
                 <input type="hidden" name="month" value="{{ request('month') }}">
                 <button class="btn btn-danger" type="submit">EXPORT</button>
             </form>

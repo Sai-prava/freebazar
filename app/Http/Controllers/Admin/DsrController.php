@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Exports\AdminWalletExport;
 use App\Exports\MonthlySalesExport;
+use App\Exports\MsrExport;
 use App\Exports\WalletExport;
 use App\Http\Controllers\Controller;
 use App\Imports\WalletImport;
@@ -115,12 +116,29 @@ class DsrController extends Controller
     }
 
 
-
-
-
     public function exportMsr(Request $request)
     {
-        $searchTerm = $request->input('search');
-        return Excel::download(new MonthlySalesExport($searchTerm), 'MonthlySalesReport.csv');
+        $query = Wallet::select(
+            'user_id',
+            'mobilenumber',
+            DB::raw('DATE_FORMAT(transaction_date, "%Y-%m") as transaction_month'),
+            DB::raw('SUM(billing_amount) as total_billing_amount')
+        )
+            ->whereNotNull('transaction_date')
+            ->groupBy('user_id', 'mobilenumber', 'transaction_month');
+
+        if ($request->has('search') && !empty($request->search)) {
+            $userId = $request->search;
+            $query->where('pos_id', $userId);
+        }
+
+        if ($request->has('month') && !empty($request->month)) {
+            $selectedMonth = $request->month;
+            $query->whereRaw('DATE_FORMAT(transaction_date, "%Y-%m") = ?', [$selectedMonth]);
+        }
+
+        $filteredData = $query->get();
+
+        return Excel::download(new MsrExport($filteredData), 'MonthlySalesReport.csv');
     }
 }

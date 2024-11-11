@@ -41,6 +41,13 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link {{ request()->is('msr') ? 'active' : '' }}" aria-current="page"
+                        href="{{ route('pos.msr') }}">
+                        <span data-feather="file-text" class="align-text-bottom"></span>
+                       MSR
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link {{ request()->is('journal') ? 'active' : '' }}" aria-current="page"
                         href="{{ route('pos.journal') }}">
                         <span data-feather="book" class="align-text-bottom"></span>

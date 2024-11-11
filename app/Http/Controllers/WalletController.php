@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\MsrExport;
 use App\Exports\WalletExport;
 use App\Imports\WalletImport;
 use App\Models\PosModel;
@@ -77,7 +78,6 @@ class WalletController extends Controller
             // If no filters, just get the latest records
             $wallets = $query->orderBy('id', 'desc')->simplepaginate(15);
         }
-
         return view('pos.dsr', compact('wallets'));
     }
 
@@ -206,6 +206,61 @@ class WalletController extends Controller
         return redirect()->back()->with('success', 'Payment successfully.');
     }
 
+    public function msr(Request $request)
+    {
+
+        $posId = auth()->user()->id;
+        $pos = PosModel::where('user_id', $posId)->first();
+        if ($pos) {
+            $posId = $pos->id; // Get the actual posId
+        }
+
+        // Initialize the query for Wallet transactions
+        $query = Wallet::select(
+            'user_id',
+            'mobilenumber',
+            DB::raw('DATE_FORMAT(transaction_date, "%Y-%m") as transaction_month'),
+            DB::raw('SUM(billing_amount) as total_billing_amount')
+        )
+            ->whereNotNull('transaction_date')
+            ->where('pos_id', $posId)  // Add the condition for pos_id here
+            ->groupBy('user_id', 'mobilenumber', 'transaction_month');
+        if ($request->has('month') && !empty($request->month)) {
+            $selectedMonth = $request->month;
+            $query->whereRaw('DATE_FORMAT(transaction_date, "%Y-%m") = ?', [$selectedMonth]);
+        }
+
+        $monthlySales = $query->simplePaginate(15);
+
+        return view('pos.msr', compact('pos', 'monthlySales'));
+    }
+    public function exportMsr(Request $request)
+    {
+        $posId = auth()->user()->id;
+        $pos = PosModel::where('user_id', $posId)->first();
+        if ($pos) {
+            $posId = $pos->id; 
+        }
+
+        $query = Wallet::select(
+            'user_id',
+            'mobilenumber',
+            DB::raw('DATE_FORMAT(transaction_date, "%Y-%m") as transaction_month'),
+            DB::raw('SUM(billing_amount) as total_billing_amount')
+        )
+            ->whereNotNull('transaction_date')
+            ->where('pos_id', $posId)  
+            ->groupBy('user_id', 'mobilenumber', 'transaction_month');
+
+        if ($request->has('month') && !empty($request->month)) {
+            $selectedMonth = $request->month;
+            $query->whereRaw('DATE_FORMAT(transaction_date, "%Y-%m") = ?', [$selectedMonth]);
+        }
+
+        $filteredData = $query->get();
+
+        return Excel::download(new MsrExport($filteredData), 'MonthlySalesReport.csv');
+    }
 
     public function journal(Request $request)
     {
@@ -224,7 +279,31 @@ class WalletController extends Controller
         return view('pos.journal', compact('transactions', 'notransactions'));
     }
 
-    public function unverified(){
-        return view('pos.unverified_user');
+    public function unverified(Request $request)
+    {
+        $posId = auth()->user()->id;
+        // dd($posId); 
+        $pos = PosModel::where('user_id', $posId)->first();
+        // dd($pos);
+        if ($pos) {
+            $posId = $pos->id;
+            // dd($posId);
+        }
+        $DsrList = Wallet::with(['user', 'getPos'])
+            ->whereHas('getPos', function ($query) use ($posId) {
+                $query->where('pos_id', $posId);
+            })
+            ->simplePaginate(15);
+        // dd($DsrList);
+        return view('pos.unverified_user', compact('DsrList'));
+    }
+
+    public function updateStatus($id)
+    {
+        $wallet = Wallet::find($id);
+        $wallet->status = $wallet->status == 0 ? 1 : 0;
+        $wallet->save();
+
+        return redirect()->back()->with('success', 'Verified successfully!');
     }
 }

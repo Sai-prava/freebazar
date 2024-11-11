@@ -99,11 +99,15 @@ Route::group(['prefix' => 'pos', 'as' => 'pos.', 'middleware' => ['auth']], func
     Route::get('change/password', [PosController::class, 'changepassword'])->name('change.password');
     Route::post('new/password', [PosController::class, 'newpassword'])->name('new.password');
     Route::get('dsr', [WalletController::class, 'dsr'])->name('dsr');
+    Route::get('msr', [WalletController::class, 'msr'])->name('msr');
+    Route::get('export-msr', [WalletController::class, 'exportMsr'])->name('msr.export');
     Route::post('dsrlist', [WalletController::class, 'dsrList'])->name('dsr.list');
     Route::get('export-dsr', [WalletController::class, 'export'])->name('dsr.export');
     Route::post('import-dsr', [WalletController::class, 'import'])->name('dsr.import');
     Route::get('journal', [WalletController::class, 'journal'])->name('journal');
     Route::get('unverified/user', [WalletController::class, 'unverified'])->name('unverified.user');
+    Route::get('/wallet/update-status/{id}', [WalletController::class, 'updateStatus'])->name('wallet.updateStatus');
+
 });
 
 Route::get('/admin/pos_system/download/{id}/{name}', [AdminPosController::class, 'download_qr'])->name('admin.pos_system.download');
