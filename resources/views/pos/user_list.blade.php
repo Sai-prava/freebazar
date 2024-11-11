@@ -13,6 +13,7 @@
                 <div class="col-md-6 mb-4">
                     <label for="search_by">Search By*</label>
                     <select name="search_by" id="search_by" class="form-control">
+                        <option value="">Select the Option</option>
                         <option value="user_id">USER ID</option>
                         <option value="name">Name</option>
                         {{-- <option value="email">Email</option> --}}

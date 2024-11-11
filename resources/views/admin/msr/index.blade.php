@@ -12,24 +12,25 @@
                     <option value="">Select POS by User ID...</option>
                     @foreach ($pos as $data)
                         <option value="{{ $data['id'] ?? '' }}"
-                            {{ request('search') == ($data->id ?? '') }}>
+                            {{ request('search') == ($data['id'] ?? '') ? 'selected' : '' }}>
                             {{ $data['name'] }} ({{ $data['pos_id'] ?? 'N/A' }})
                         </option>
                     @endforeach
                 </select>
             </div>
-        
+
             {{-- Month Filter --}}
             <div class="col-12 col-md-4 mb-2">
-                <input type="month" name="month" id="month" class="form-control" value="{{ request('month') }}" required>
+                <input type="month" name="month" id="month" class="form-control" value="{{ request('month') }}"
+                    required>
             </div>
-        
+
             {{-- Filter Button --}}
             <div class="col-12 col-md-auto mb-2">
                 <button class="btn btn-info btn-block" type="submit">FILTER</button>
             </div>
         </form>
-        
+
 
         {{-- Sales Report Table --}}
         <div class="table-responsive">

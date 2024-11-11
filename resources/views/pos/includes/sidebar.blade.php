@@ -47,6 +47,13 @@
                       Journal
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->is('unverified/user') ? 'active' : '' }}" aria-current="page"
+                        href="{{ route('pos.unverified.user') }}">
+                        <span data-feather="user" class="align-text-bottom"></span>
+                     Unverified Customer
+                    </a>
+                </li>
             </ul>
         </div>
     </div>

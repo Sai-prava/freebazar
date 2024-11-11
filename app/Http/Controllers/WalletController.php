@@ -72,7 +72,7 @@ class WalletController extends Controller
             // Apply date filter and paginate the results
             $wallets = $query->whereBetween('transaction_date', [$request->start_date, $request->end_date])
                 ->orderBy('id', 'desc') // You might want to order by id or another field
-                ->paginate(15); // Use paginate here instead of get
+                ->simplepaginate(15); // Use paginate here instead of get
         } else {
             // If no filters, just get the latest records
             $wallets = $query->orderBy('id', 'desc')->simplepaginate(15);
@@ -173,6 +173,7 @@ class WalletController extends Controller
                     $walletEntry->amount_wallet = $walletUsedAmount;
                     $walletEntry->pay_by = $alt_pay_by;
                     $walletEntry->tran_type = 'credit';
+                    $walletEntry->status = 1;
                     $walletEntry->amount = $remainingAmount;
                 }
 
@@ -198,6 +199,7 @@ class WalletController extends Controller
             $dsrlist->transaction_amount = $transaction_amount;
             $dsrlist->pos_id = $pos->id ?? null;
             $dsrlist->insert_date = now();
+            $dsrlist->status = 1;
             $dsrlist->save();
         }
 
@@ -220,5 +222,9 @@ class WalletController extends Controller
         }
         $notransactions = $transactions->isEmpty();
         return view('pos.journal', compact('transactions', 'notransactions'));
+    }
+
+    public function unverified(){
+        return view('pos.unverified_user');
     }
 }

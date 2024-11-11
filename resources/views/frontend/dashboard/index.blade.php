@@ -235,7 +235,8 @@
                         <div class="card-body py-4">
                             <div class="d-flex align-items-start">
                                 <div class="flex-grow-1">
-                                    <h3 class="mb-2"><b style="color: red">{{ $walletBalance }} /-</b></h3>
+                                    <h3 class="mb-2"><b style="color: red"><i class="fa fa-inr"
+                                                aria-hidden="true"></i> {{ $walletBalance }}/-</b></h3>
                                     <p class="mb-2">Wallet Balance</p>
                                 </div>
                                 <div class="d-inline-block ms-3">
@@ -364,7 +365,7 @@
                                             <th>Transaction Date</th>
                                             <th>Amount</th>
                                             <th>Transaction Mode</th>
-                                            {{-- <th>Status</th> --}}
+                                            <th>Status</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -375,7 +376,14 @@
                                                 <td>{{ $data->transaction_date }}</td>
                                                 <td>{{ $data->billing_amount }}</td>
                                                 <td>{{ $data->pay_by }}</td>
-                                                {{-- <td>{{ $data->status ?? 'Pending' }}</td> --}}
+                                                <td>
+                                                    @if ($data->status == 0)
+                                                        <span class="btn btn-danger btn-sm">Unverified</span>
+                                                    @else
+                                                        <span class="btn btn-success btn-sm">Verified</span>
+                                                    @endif
+                                                </td>
+                                                
                                             </tr>
                                         @empty
                                             <tr>
@@ -466,7 +474,7 @@
                     // Store the ID in a hidden input field
                     document.getElementById("qrDataId").value = id;
                     console.log("POS ID: " + id);
-                   
+
                     // Open the QR Details modal and stop the scanner
                     let qrDetailsModal = new bootstrap.Modal(document.getElementById("qrDetailsModal"), {
                         backdrop: 'static',
@@ -488,7 +496,7 @@
             document.getElementById("openBillingModal").addEventListener("click", function() {
                 let qrDetailsModal = bootstrap.Modal.getInstance(document.getElementById("qrDetailsModal"));
                 qrDetailsModal.hide();
-              
+
                 let billingModal = new bootstrap.Modal(document.getElementById("billingModal"), {
                     backdrop: 'static',
                     keyboard: false

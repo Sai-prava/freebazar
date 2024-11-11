@@ -103,6 +103,7 @@ Route::group(['prefix' => 'pos', 'as' => 'pos.', 'middleware' => ['auth']], func
     Route::get('export-dsr', [WalletController::class, 'export'])->name('dsr.export');
     Route::post('import-dsr', [WalletController::class, 'import'])->name('dsr.import');
     Route::get('journal', [WalletController::class, 'journal'])->name('journal');
+    Route::get('unverified/user', [WalletController::class, 'unverified'])->name('unverified.user');
 });
 
 Route::get('/admin/pos_system/download/{id}/{name}', [AdminPosController::class, 'download_qr'])->name('admin.pos_system.download');
