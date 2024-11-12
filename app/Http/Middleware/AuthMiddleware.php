@@ -20,10 +20,10 @@ class AuthMiddleware
             if (Auth::user()->role == 3) {
                 return $next($request);
             } else {
-                return redirect()->route('auth.login');
+                return redirect()->route('login');
             }
         } else {
-            return redirect()->route('auth.login');
+            return redirect()->route('login');
         }
         return redirect()->route('auth.login')->with('error', 'Please log in.');
     }

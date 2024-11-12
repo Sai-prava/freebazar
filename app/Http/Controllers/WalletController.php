@@ -63,25 +63,34 @@ class WalletController extends Controller
 
     public function dsr(Request $request)
     {
+        $posId = auth()->user()->id;
+        $pos = PosModel::where('user_id', $posId)->first();
+    
+        if ($pos) {
+            $posId = $pos->id;
+        }
         $query = Wallet::query();
-
-        // Check for date filters
+        $query->where('pos_id', $posId);
+    
+        if ($request->has('search') && !empty($request->search)) {
+            $searchTerm = $request->search;
+            $query->where('mobilenumber', 'LIKE', "%{$searchTerm}%");
+        }
+    
         if (
             $request->has('start_date') && !empty($request->start_date) &&
             $request->has('end_date') && !empty($request->end_date)
         ) {
-            // Apply date filter and paginate the results
             $wallets = $query->whereBetween('transaction_date', [$request->start_date, $request->end_date])
-                ->orderBy('id', 'desc') // You might want to order by id or another field
-                ->simplepaginate(15); // Use paginate here instead of get
+                ->orderBy('id', 'desc')
+                ->simplepaginate(15);
         } else {
-            // If no filters, just get the latest records
             $wallets = $query->orderBy('id', 'desc')->simplepaginate(15);
         }
+    
         return view('pos.dsr', compact('wallets'));
     }
-
-
+    
 
     public function export(Request $request)
     {
@@ -212,10 +221,9 @@ class WalletController extends Controller
         $posId = auth()->user()->id;
         $pos = PosModel::where('user_id', $posId)->first();
         if ($pos) {
-            $posId = $pos->id; // Get the actual posId
+            $posId = $pos->id;
         }
 
-        // Initialize the query for Wallet transactions
         $query = Wallet::select(
             'user_id',
             'mobilenumber',
@@ -223,7 +231,7 @@ class WalletController extends Controller
             DB::raw('SUM(billing_amount) as total_billing_amount')
         )
             ->whereNotNull('transaction_date')
-            ->where('pos_id', $posId)  // Add the condition for pos_id here
+            ->where('pos_id', $posId)
             ->groupBy('user_id', 'mobilenumber', 'transaction_month');
         if ($request->has('month') && !empty($request->month)) {
             $selectedMonth = $request->month;
@@ -239,7 +247,7 @@ class WalletController extends Controller
         $posId = auth()->user()->id;
         $pos = PosModel::where('user_id', $posId)->first();
         if ($pos) {
-            $posId = $pos->id; 
+            $posId = $pos->id;
         }
 
         $query = Wallet::select(
@@ -249,7 +257,7 @@ class WalletController extends Controller
             DB::raw('SUM(billing_amount) as total_billing_amount')
         )
             ->whereNotNull('transaction_date')
-            ->where('pos_id', $posId)  
+            ->where('pos_id', $posId)
             ->groupBy('user_id', 'mobilenumber', 'transaction_month');
 
         if ($request->has('month') && !empty($request->month)) {
@@ -305,5 +313,22 @@ class WalletController extends Controller
         $wallet->save();
 
         return redirect()->back()->with('success', 'Verified successfully!');
+    }
+    public function update(Request $request, $id)
+    {
+        $customerWallet = Wallet::find($id);
+        // dd($customerWallet);
+
+        if (!$customerWallet) {
+            return redirect()->back()->with('error', 'Customer not found!');
+        }
+
+        $customerWallet->billing_amount = $request->input('billing_amount');
+        $customerWallet->amount = $request->input('amount');
+        $customerWallet->amount_wallet = $request->input('amount_wallet');
+
+        $customerWallet->save();
+
+        return redirect()->back()->with('success', 'Updated successfully!');
     }
 }

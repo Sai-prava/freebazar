@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container mt-4">
-        <h3 class="text-center text-dark font-weight-bold">MONTHLY SALES REPORT</h3>
+        <h3 class="text-center text-dark font-weight-bold"><b>MONTHLY SALES REPORT</b></h3>
 
         {{-- Filter Form --}}
         <form method="GET" action="{{ route('admin.msr') }}" class="row align-items-center mb-3">

@@ -54,20 +54,20 @@ Route::get('/infographics', [FrontendController::class, 'infographics'])->name('
 
 
 //frontend login
-Route::get('/login/user', [LoginController::class, 'login'])->name('auth.login');
-Route::post('/login/store', [LoginController::class, 'store'])->name('login.store');
-Route::get('/register/user', [LoginController::class, 'register'])->name('auth.register');
-Route::post('register/store', [LoginController::class, 'storeRegister'])->name('register.store');
+// Route::get('/login/user', [LoginController::class, 'login'])->name('auth.login');
+// Route::post('/login/store', [LoginController::class, 'store'])->name('login.store');
+// Route::get('/register/user', [LoginController::class, 'register'])->name('auth.register');
+// Route::post('register/store', [LoginController::class, 'storeRegister'])->name('register.store');
 
 
-// Route::group(['middleware' => 'user'], function () {
-//     //carts
-//     Route::get('/cart', [CartController::class, 'cart'])->name('cart.index');
-//     Route::get('/cart/add/{id}', [CartController::class, 'addToCart'])->name('cart.add');  
-//     Route::delete('/cart/delete/{id}', [CartController::class, 'delete'])->name('cart.delete');
-//     //logout
-//     Route::get('/logout/user', [LoginController::class, 'logout'])->name('auth.logout');
-// });
+Route::group(['middleware' => 'user'], function () {
+    //carts
+    Route::get('/cart', [CartController::class, 'cart'])->name('cart.index');
+    Route::get('/cart/add/{id}', [CartController::class, 'addToCart'])->name('cart.add');  
+    Route::delete('/cart/delete/{id}', [CartController::class, 'delete'])->name('cart.delete');
+    //logout
+    Route::get('/logout/user', [LoginController::class, 'logout'])->name('auth.logout');
+});
 
 
 // //user dashboard
@@ -106,7 +106,8 @@ Route::group(['prefix' => 'pos', 'as' => 'pos.', 'middleware' => ['auth']], func
     Route::post('import-dsr', [WalletController::class, 'import'])->name('dsr.import');
     Route::get('journal', [WalletController::class, 'journal'])->name('journal');
     Route::get('unverified/user', [WalletController::class, 'unverified'])->name('unverified.user');
-    Route::get('/wallet/update-status/{id}', [WalletController::class, 'updateStatus'])->name('wallet.updateStatus');
+    Route::put('customers/{id}', [WalletController::class, 'update'])->name('customers.update');
+    Route::get('wallet/update-status/{id}', [WalletController::class, 'updateStatus'])->name('wallet.updateStatus');
 
 });
 

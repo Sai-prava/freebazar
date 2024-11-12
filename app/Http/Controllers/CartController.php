@@ -16,13 +16,13 @@ class CartController extends Controller
         $userId = Auth::id();
         $cartItems = Cart::with('product')->where('user_id', $userId)->get();
         $totalPrice = $cartItems->sum(fn($item) => $item->product->price);
-        return view('frontend.cart', compact('cartItems','totalPrice'));
+        return view('frontend.cart', compact('cartItems', 'totalPrice'));
     }
 
     public function addToCart($id)
     {
         if (!Auth::check()) {
-            return redirect()->route('auth.login')->with('error', 'You need to be logged in to add items to the cart.');
+            return redirect()->route('login')->with('error', 'You need to be logged in to add items to the cart.');
         }
         $product = Product::find($id);
         if ($product) {
@@ -33,7 +33,7 @@ class CartController extends Controller
             if ($cartItem) {
                 // $cartItem->quantity += 1;
                 $cartItem->save();
-                return redirect()->back()->with('success','Product Already Added');
+                return redirect()->back()->with('success', 'Product Already Added');
             } else {
                 $cartItem = new Cart;
                 $cartItem->user_id = Auth::id();
