@@ -49,6 +49,7 @@ class DsrController extends Controller
         }
 
         $wallets = $query->simplePaginate(15);
+        $wallets->appends($request->only(['search', 'start_date', 'end_date']));
 
         return view('admin.dsr.index', compact('wallets'));
     }
@@ -110,6 +111,7 @@ class DsrController extends Controller
 
         // Get the paginated results
         $monthlySales = $query->simplePaginate(15);
+        $monthlySales->appends($request->only(['search', 'month']));
 
         // Return the view with data
         return view('admin.msr.index', compact('pos', 'monthlySales'));

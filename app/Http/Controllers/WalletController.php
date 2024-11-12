@@ -65,18 +65,17 @@ class WalletController extends Controller
     {
         $posId = auth()->user()->id;
         $pos = PosModel::where('user_id', $posId)->first();
-    
+
         if ($pos) {
             $posId = $pos->id;
         }
         $query = Wallet::query();
         $query->where('pos_id', $posId);
-    
+
         if ($request->has('search') && !empty($request->search)) {
             $searchTerm = $request->search;
             $query->where('mobilenumber', 'LIKE', "%{$searchTerm}%");
         }
-    
         if (
             $request->has('start_date') && !empty($request->start_date) &&
             $request->has('end_date') && !empty($request->end_date)
@@ -86,11 +85,12 @@ class WalletController extends Controller
                 ->simplepaginate(15);
         } else {
             $wallets = $query->orderBy('id', 'desc')->simplepaginate(15);
+            $wallets->appends($request->only(['search', 'start_date', 'end_date']));
         }
-    
+
         return view('pos.dsr', compact('wallets'));
     }
-    
+
 
     public function export(Request $request)
     {
@@ -104,7 +104,6 @@ class WalletController extends Controller
 
     public function import(Request $request)
     {
-
         try {
             $request->validate([
                 'file' => 'required|mimes:csv,txt',
@@ -239,6 +238,7 @@ class WalletController extends Controller
         }
 
         $monthlySales = $query->simplePaginate(15);
+        $monthlySales->appends($request->only(['month']));
 
         return view('pos.msr', compact('pos', 'monthlySales'));
     }
@@ -317,12 +317,10 @@ class WalletController extends Controller
     public function update(Request $request, $id)
     {
         $customerWallet = Wallet::find($id);
-        // dd($customerWallet);
 
         if (!$customerWallet) {
             return redirect()->back()->with('error', 'Customer not found!');
         }
-
         $customerWallet->billing_amount = $request->input('billing_amount');
         $customerWallet->amount = $request->input('amount');
         $customerWallet->amount_wallet = $request->input('amount_wallet');
