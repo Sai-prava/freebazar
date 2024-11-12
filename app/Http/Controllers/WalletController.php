@@ -76,17 +76,16 @@ class WalletController extends Controller
             $searchTerm = $request->search;
             $query->where('mobilenumber', 'LIKE', "%{$searchTerm}%");
         }
+
         if (
             $request->has('start_date') && !empty($request->start_date) &&
             $request->has('end_date') && !empty($request->end_date)
         ) {
-            $wallets = $query->whereBetween('transaction_date', [$request->start_date, $request->end_date])
-                ->orderBy('id', 'desc')
-                ->simplepaginate(15);
-        } else {
-            $wallets = $query->orderBy('id', 'desc')->simplepaginate(15);
-            $wallets->appends($request->only(['search', 'start_date', 'end_date']));
+            $query->whereBetween('transaction_date', [$request->start_date, $request->end_date]);
         }
+
+        $wallets = $query->simplePaginate(15);
+        $wallets->appends($request->only(['search', 'start_date', 'end_date']));
 
         return view('pos.dsr', compact('wallets'));
     }
