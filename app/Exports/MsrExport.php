@@ -22,7 +22,7 @@ class MsrExport implements FromCollection, WithHeadings
             return [
                 'month' => Carbon::parse($wallet->transaction_month)->format('F Y'), 
                 'mobilenumber' => $wallet->mobilenumber,
-                'name' => $wallet->user->name ?? 'N/A', 
+                'pos_id' => $wallet->pos_id, 
                 'billing_amount' => $wallet->total_billing_amount,
             ];
         });
@@ -33,7 +33,7 @@ class MsrExport implements FromCollection, WithHeadings
         return [
             'Month',
             'Mobile Number',
-            'Name',
+            'Pos Id',
             'Billing Amount',
         ];
     }

@@ -4,12 +4,10 @@
     <div class="container mt-4">
         <h3 class="text-center text-dark font-weight-bold"><b>MONTHLY SALES REPORT</b></h3>
 
-        {{-- Filter Form --}}
         <form method="GET" action="{{ route('admin.msr') }}" class="row align-items-center mb-3">
-            {{-- POS Selection --}}
             <div class="col-12 col-md-4 mb-2">
-                <select class="form-control" name="search" id="search" required>
-                    <option value="">Select POS by User ID...</option>
+                <select class="form-control" name="search" id="search">
+                    <option value="">Select POS by POS ID...</option>
                     @foreach ($pos as $data)
                         <option value="{{ $data['id'] ?? '' }}"
                             {{ request('search') == ($data['id'] ?? '') ? 'selected' : '' }}>
@@ -19,31 +17,23 @@
                 </select>
             </div>
 
-            {{-- Month Filter --}}
             <div class="col-12 col-md-4 mb-2">
-                <input type="month" name="month" id="month" class="form-control" value="{{ request('month') }}"
-                    required>
+                <input type="month" name="month" id="month" class="form-control" value="{{ request('month') }}">
             </div>
 
-            {{-- Filter Button --}}
             <div class="col-12 col-md-auto mb-2">
                 <button class="btn btn-info btn-block" type="submit">FILTER</button>
             </div>
         </form>
 
-        <!-- Export Form -->
-        <!-- Export Form -->
         <div class="col-md-12 mb-3 text-end">
             <form method="GET" action="{{ route('admin.msr.export') }}" class="d-inline">
-                <!-- Pass search and month filters to the export route -->
                 <input type="hidden" name="search" value="{{ request('search') }}">
                 <input type="hidden" name="month" value="{{ request('month') }}">
                 <button class="btn btn-danger" type="submit">EXPORT</button>
             </form>
         </div>
 
-
-        {{-- Sales Report Table --}}
         <div class="table-responsive">
             <table class="table table-striped text-center">
                 <thead>
@@ -51,7 +41,7 @@
                         <th>Sl.No</th>
                         <th>MONTH</th>
                         <th>MOBILE NUMBER</th>
-                        <th>NAME</th>
+                        <th>POS ID</th>
                         <th>TOTAL BILLING AMOUNT</th>
                     </tr>
                 </thead>
@@ -67,7 +57,7 @@
                                 <td>{{ \Carbon\Carbon::createFromFormat('Y-m', $data->transaction_month)->format('F Y') }}
                                 </td>
                                 <td>{{ $data->mobilenumber }}</td>
-                                <td>{{ optional($data->user)->name }}</td>
+                                <td>{{ $data->pos_id }}</td>
                                 <td>{{ $data->total_billing_amount }}/-</td>
                             </tr>
                         @endforeach
@@ -76,7 +66,6 @@
             </table>
         </div>
 
-        {{-- Pagination --}}
         <div class="d-flex justify-content-center mt-3">
             {{ $monthlySales->links() }}
         </div>

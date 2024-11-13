@@ -261,7 +261,8 @@
                         <div class="card-body py-4">
                             <div class="d-flex align-items-start">
                                 <div class="flex-grow-1">
-                                    <h3 class="mb-2">{{ $count['comments'] ?? 0 }}</h3>
+                                    <h3 class="mb-2"><b style="color: red"><i class="fa fa-inr"
+                                                aria-hidden="true"></i> {{ $monthlyPurchase }}/-</b></h3>
                                     <p class="mb-2">Monthly Purchase</p>
                                 </div>
                                 <div class="d-inline-block ms-3">
@@ -349,11 +350,22 @@
                             <!-- Date Filter Form -->
                             <form action="{{ route('user.index') }}" method="GET" class="form-inline mb-3">
                                 <div class="input-group mb-3">
-                                    <input type="date" class="form-control" name="transaction_date"
-                                        id="transaction_date" value="{{ request('transaction_date') }}">
-                                    <button class="btn btn-primary" type="submit">Search Transactions</button>
+                                    <div class="me-2">
+                                        <label for="from_date" class="form-label">From</label>
+                                        <input type="date" class="form-control" name="from_date" id="from_date"
+                                            value="{{ request('from_date') }}" placeholder="From Date">
+                                    </div>
+
+                                    <div class="me-2">
+                                        <label for="to_date" class="form-label">To</label>
+                                        <input type="date" class="form-control" name="to_date" id="to_date"
+                                            value="{{ request('to_date') }}" placeholder="To Date">
+                                    </div>
+
+                                    <button class="btn btn-info btn-sm" type="submit">Search Transactions</button>
                                 </div>
                             </form>
+
 
                             <!-- Responsive Table -->
                             <div class="table-responsive">
@@ -383,7 +395,7 @@
                                                         <span class="btn btn-success btn-sm">Verified</span>
                                                     @endif
                                                 </td>
-                                                
+
                                             </tr>
                                         @empty
                                             <tr>

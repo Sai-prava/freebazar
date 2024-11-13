@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cart;
+use Carbon\Carbon;
 use App\Models\PosModel;
 use App\Models\Product;
 use App\Models\sponcer;
@@ -12,25 +13,45 @@ use App\Models\UserWallet;
 use App\Models\Wallet;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class UserDashboardController extends Controller
 {
     public function index(Request $request)
     {
-        // Get all sponsors
         $sponcers = Sponcer::all();
 
-        // Get the currently authenticated user
         $user_profile = auth()->user();
         $userId = $user_profile->id;
 
         $transactionQuery = Wallet::where('user_id', $userId);
+        // dd($transactionQuery);
+        //     $monthlyPurchases = Wallet::where('user_id', $userId)
+        //     ->select(
+        //         DB::raw('SUM(billing_amount) as total_billing'),
+        //         DB::raw('MONTH(transaction_date) as month')
+        //     )
+        //     ->groupBy(DB::raw('MONTH(transaction_date)'))
+        //     ->get();
 
-        if ($request->has('transaction_date')) {
-            $transactionQuery->whereDate('transaction_date', $request->transaction_date);
+        //    dd($monthlyPurchases);
+
+        $month = Carbon::now()->month;
+        $year = Carbon::now()->year;
+
+        $monthlyPurchase = Wallet::where('user_id', $userId)
+            ->whereMonth('transaction_date', $month)
+            ->whereYear('transaction_date', $year)
+            ->sum('billing_amount');
+
+        if ($request->has('from_date') && $request->has('to_date')) {
+            $transactionQuery->whereBetween('transaction_date', [$request->from_date, $request->to_date]);
+        } elseif ($request->has('from_date')) {
+            $transactionQuery->where('transaction_date', '>=', $request->from_date);
+        } elseif ($request->has('to_date')) {
+            $transactionQuery->where('transaction_date', '<=', $request->to_date);
         }
-
         $walletList = $transactionQuery->orderBy('id', 'desc')->get();
 
         $userWallet = UserWallet::where('user_id', $userId)->get();
@@ -44,7 +65,7 @@ class UserDashboardController extends Controller
 
         $walletBalance = max($walletBalance, 0);
 
-        return view('frontend.dashboard.index', compact('sponcers', 'user_profile', 'walletBalance', 'walletList'));
+        return view('frontend.dashboard.index', compact('sponcers', 'user_profile', 'monthlyPurchase', 'walletBalance', 'walletList'));
     }
 
     public function payment(Request $request)
@@ -201,7 +222,7 @@ class UserDashboardController extends Controller
         }
 
         $walletBalance = max($walletBalance, 0);
-        return view('frontend.dashboard.wallet',compact('userWallet','walletBalance'));
+        return view('frontend.dashboard.wallet', compact('userWallet', 'walletBalance'));
     }
     public function termCondition()
     {

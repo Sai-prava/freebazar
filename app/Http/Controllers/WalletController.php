@@ -215,13 +215,11 @@ class WalletController extends Controller
 
     public function msr(Request $request)
     {
-
         $posId = auth()->user()->id;
         $pos = PosModel::where('user_id', $posId)->first();
         if ($pos) {
             $posId = $pos->id;
         }
-
         $query = Wallet::select(
             'user_id',
             'mobilenumber',
