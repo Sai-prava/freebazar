@@ -401,7 +401,7 @@
                                             <tr>
                                                 <td colspan="6" class="text-center">
                                                     <div class="alert alert-danger" role="alert">
-                                                        No transaction record found for the selected date.
+                                                        No transaction record found.
                                                     </div>
                                                 </td>
                                             </tr>
