@@ -49,10 +49,10 @@ class SectorController extends Controller
 
 
         if ($sector->save()) {
-            flash()->addSuccess('Sector Successfully Created.');
+            flash()->addSuccess('Category Successfully Created.');
             return redirect()->route('admin.sector.index');
         }
-        flash()->addError('Whoops! sector create failed!');
+        flash()->addError('Whoops! Category create failed!');
         return redirect()->back();
     }
 
@@ -99,11 +99,11 @@ class SectorController extends Controller
         $sector->title = $request->title;
 
         if ($sector->save()) {
-            flash()->addSuccess('Sector Successfully Updated.');
+            flash()->addSuccess('Category Successfully Updated.');
             return redirect()->route('admin.sector.index');
         }
 
-        flash()->addError('Whoops! Sector Update failed!');
+        flash()->addError('Whoops! Category Update failed!');
         return redirect()->back();
     }
 
@@ -127,7 +127,7 @@ class SectorController extends Controller
             // SubSector::where('sector_id', $sector->id)->delete();
             $sector->delete();
         }
-        flash()->addInfo('Sector Deleted Successfully.');
+        flash()->addInfo('Category Deleted Successfully.');
         return back();
     }
 }

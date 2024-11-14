@@ -29,10 +29,10 @@
                             <td>{{ $customer->user->name ?? 'N/A' }}</td>
                             <td>{{ $customer->user->user_id ?? 'N/A' }}</td>
                             <td>{{ $customer->user->mobilenumber ?? 'N/A' }}</td>
-                            <td>{{ $customer->billing_amount }}/-</td>
-                            <td>{{ $customer->amount }}/-</td>
+                            <td>₹{{ $customer->billing_amount ?? 0 }}/-</td>
+                            <td>₹{{ $customer->amount ?? 0}}/-</td>
                             <td>{{ $customer->pay_by }}</td>
-                            <td>{{ $customer->amount_wallet }}/-</td>
+                            <td>₹{{ $customer->amount_wallet ?? 0}}/-</td>
                             <td>{{ date('d-m-Y', strtotime($customer->transaction_date)) }}</td>
                             <td>
                                 <i class="fas fa-ellipsis-h btn btn-primary" data-bs-toggle="modal"

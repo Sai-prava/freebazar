@@ -3,13 +3,13 @@
 @section('content')
     <div class="card">
         <div class="card-header">
-            <div class="float-start">
-                Sector List
-            </div>
+            <h3 class="float-start">
+               <b> Category List</b>
+            </h3>
             @can('permission_create')
                 <div class="float-end">
                     <a class="btn btn-success btn-sm text-white" href="{{ route('admin.sector.create') }}">
-                        Add Sector
+                        Add Category
                     </a>
                 </div>
             @endcan
@@ -59,8 +59,6 @@
                                         </button>
                                     </form>
                                 </td>
-
-
                             </tr>
                         @endforeach
                     </tbody>
@@ -73,7 +71,7 @@
         </div> --}}
         <script>
             function confirmDelete(id) {
-                if (confirm('Are you sure you want to delete this sector?')) {
+                if (confirm('Are you sure you want to delete this Category?')) {
                     document.getElementById('delete-form-' + id).submit();
                 }
             }

@@ -54,7 +54,7 @@
                             <tr>
                                 <td>{{ $walletBalance->firstItem() + $key }}</td>
                                 <td>{{ $data->user_id }}</td>
-                                <td>{{ $data->wallet_amount }}</td>
+                                <td>₹{{ $data->wallet_amount }}</td>
                                 <td>{{ $data->mobilenumber }}</td>
                                
                             </tr>

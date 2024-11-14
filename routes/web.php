@@ -36,7 +36,7 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 //frontend
 
 Route::get('/', [FrontendController::class, 'index'])->name('frontend.index');
-Route::get('/sector', [FrontendController::class, 'Sector'])->name('frontend.sector');
+Route::get('/category', [FrontendController::class, 'Sector'])->name('frontend.sector');
 Route::get('/sector/{id}', [FrontendController::class, 'SectorEdit'])->name('frontend.sectoredit');
 Route::get('/subsector/{id}', [FrontendController::class, 'subsector'])->name('frontend.subsector');
 Route::get('/viewsubsector/{id}', [FrontendController::class, 'viewSubsector'])->name('subsector.view');
@@ -64,6 +64,8 @@ Route::group(['middleware' => 'user'], function () {
     //carts
     Route::get('/cart', [CartController::class, 'cart'])->name('cart.index');
     Route::get('/cart/add/{id}', [CartController::class, 'addToCart'])->name('cart.add');  
+    Route::post('/cart/increase/{id}', [CartController::class, 'increaseQuantity'])->name('cart.increase');
+    Route::post('/cart/decrease/{id}', [CartController::class, 'decreaseQuantity'])->name('cart.decrease');     
     Route::delete('/cart/delete/{id}', [CartController::class, 'delete'])->name('cart.delete');
     //logout
     Route::get('/logout/user', [LoginController::class, 'logout'])->name('auth.logout');

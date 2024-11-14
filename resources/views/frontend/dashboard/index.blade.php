@@ -213,6 +213,9 @@
                                         <p class="mb-1">Your Sponsor: {{ auth()->user()->sponsor_id ?? 'N/A' }}</p>
                                         <p class="mb-1">Mobile Number: {{ auth()->user()->mobilenumber ?? 'N/A' }}</p>
                                     </div>
+                                    <div>
+                                        <a href="{{ route('frontend.index') }}" class="btn btn-info btn-sm">Shop Now</a>
+                                    </div>
                                 </div>
                                 <div class="d-inline-block ms-3">
                                     <div class="stat">
@@ -386,7 +389,7 @@
                                                 <td>{{ $key + 1 }}</td>
                                                 <td>{{ $data->getPos->name ?? 'N/A' }}</td>
                                                 <td>{{ $data->transaction_date }}</td>
-                                                <td>{{ $data->billing_amount }}</td>
+                                                <td>₹{{ $data->billing_amount ?? 0 }}/-</td>
                                                 <td>{{ $data->pay_by }}</td>
                                                 <td>
                                                     @if ($data->status == 0)

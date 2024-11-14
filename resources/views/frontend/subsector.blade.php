@@ -38,7 +38,6 @@
                                             <th>Product Title</th>
                                             <th>Short Desc.</th>
                                             <th>Price</th>
-                                            <th>View Demo</th>
                                             <th>Purchase</th>
                                         </tr>
                                     </thead>
@@ -49,7 +48,7 @@
                                                 <td>{{ $product->title }}</td>
                                                 <td>{!! Str::limit($product->description, 20, '...') !!}</td>
                                                 <td>₹{{ number_format($product->price, 2) }}</td>
-                                                <td>
+                                                {{-- <td>
                                                     <button type="button" class="btn btn-primary" data-toggle="modal"
                                                         data-target="#exampleModalCenter{{ $product->id }}"><i
                                                             class="fas fa-eye"></i></button>
@@ -99,7 +98,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </td>
+                                                </td> --}}
                                                 <td>
                                                     <a href="{{ route('cart.add', $product->id) }}">
                                                         <button type="submit" class="btn btn-danger">

@@ -3,9 +3,9 @@
 @section('content')
     <div class="card">
         <div class="card-header">
-            <div class="float-start">
-                Product List
-            </div>
+            <h3 class="float-start">
+                <b>Product List</b>
+            </h3>
             @can('permission_create')
                 <div class="float-end">
                     <a class="btn btn-success btn-sm text-white" href="{{ route('admin.product.create') }}">
@@ -23,10 +23,10 @@
                                 Sl No.
                             </th>
                             <th>
-                                Sector
+                                Category
                             </th>
                             <th>
-                                Subsector
+                                SubCategory
                             </th>
                             <th>
                                 Title
@@ -37,16 +37,16 @@
                             <th>
                                 Description
                             </th>
-                            <th>
+                            {{-- <th>
                                 Dataset
-                            </th>
+                            </th> --}}
                             <th>
                                 Image
                             </th>
 
-                            <th>
+                            {{-- <th>
                                 Product File
-                            </th>
+                            </th> --}}
                             <th>
                                 Price (Rs.)
                             </th>
@@ -83,29 +83,25 @@
                                 <td>
                                     {!! Str::limit($product->description, 20, '...') !!}
                                 </td>
-                                <td>
+                                {{-- <td>
                                     {{ $product->dataset == 1 ? 'Yes' : 'No' }}
-                                </td>
+                                </td> --}}
                                 <td>
                                     <img src="{{ asset('images/' . $product->image) }}" alt=""
                                         style="max-width: 50px; max-height: 50px;">
                                 </td>
 
-                                <td>
+                                {{-- <td>
                                     <button type="button" class="btn btn-primary" data-toggle="modal"
                                         data-target="#exampleModalCenter{{ $product->id }}"><i
                                             class="fas fa-eye"></i></button>
-                                    <!-- Modal -->
+    
                                     <div class="modal fade" id="exampleModalCenter{{ $product->id }}" tabindex="-1"
                                         role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                                         <div class="modal-dialog modal-dialog-centered" role="document">
                                             <div class="modal-content">
                                                 <div class="modal-header">
                                                     <h5 class="modal-title" id="exampleModalLongTitle">Product Table</h5>
-                                                    {{-- <button type="button" class="close" data-dismiss="modal"
-                                                        aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button> --}}
                                                 </div>
                                                 <div class="modal-body">
                                                     <table id="table" class="table table-hover table-mc-light-blue">
@@ -141,7 +137,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                </td>
+                                </td> --}}
                                 <td>
                                     {{ $product->price }}
                                 </td>

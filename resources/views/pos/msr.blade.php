@@ -54,7 +54,7 @@
                                 </td>
                                 <td>{{ $data->mobilenumber }}</td>
                                 <td>{{ optional($data->user)->name }}</td>
-                                <td>{{ $data->total_billing_amount }}/-</td>
+                                <td>₹{{ $data->total_billing_amount ?? 0 }}/-</td>
                             </tr>
                         @endforeach
                     @endif

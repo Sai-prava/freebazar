@@ -39,14 +39,14 @@ class ProductController extends Controller
      */
     public function store(StoreProductRequest $request)
     {
-        $file = $request->file('product_file');
+        // $file = $request->file('product_file');
 
-        $import = new UsersImport();
-        Excel::import($import, $file);
+        // $import = new UsersImport();
+        // Excel::import($import, $file);
 
-        $columns = $import->getColumns();
+        // $columns = $import->getColumns();
 
-        $headers = json_encode($columns);
+        // $headers = json_encode($columns);
 
         $product = new Product();
 
@@ -63,14 +63,14 @@ class ProductController extends Controller
         $product->description = $request->description;
         $product->dataset = $request->input('dataset');
         $product->image = $imageName;
-        $product->header = $headers;
+        // $product->header = $headers;
 
-        if ($request->hasFile('product_file')) {
-            $product_file = $request->file('product_file');
-            $product_file_excel = time() . '.' . $product_file->getClientOriginalExtension();
-            $product_file->move(public_path('product_files'), $product_file_excel);
-        }
-        $product->product_file = $product_file_excel;
+        // if ($request->hasFile('product_file')) {
+        //     $product_file = $request->file('product_file');
+        //     $product_file_excel = time() . '.' . $product_file->getClientOriginalExtension();
+        //     $product_file->move(public_path('product_files'), $product_file_excel);
+        // }
+        // $product->product_file = $product_file_excel;
         $product->price = $request->price;
         $product->source = $request->source;
 

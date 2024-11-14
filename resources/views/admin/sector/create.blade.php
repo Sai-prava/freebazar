@@ -2,9 +2,9 @@
 @section('content')
 
     <div class="card border-0 shadow-sm">
-        <div class="card-header">
-            Create Sector
-        </div>
+        <h4 class="card-header">
+           <b> Create Category</b>
+        </h4>
         <form action="{{ route('admin.sector.store')}}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="card-body">

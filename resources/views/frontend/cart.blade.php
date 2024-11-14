@@ -40,7 +40,6 @@
     .cart-summary .btn-primary {
         width: 100%;
     }
-
 </style>
 @section('content')
     <div class="row mb-5">
@@ -55,6 +54,8 @@
                         <th>Sl. No.</th>
                         <th>Product Title</th>
                         <th>Product Price</th>
+                        <th>Quantity</th>
+                        <th>Total</th>
                         <th>Remove</th>
                     </tr>
                 </thead>
@@ -64,13 +65,31 @@
                             <td>{{ $index + 1 }}</td>
                             <td>{{ $item->product->title ?? 'N/A' }}</td>
                             <td>₹{{ number_format($item->product->price, 2) }}</td>
+                            <td class="d-flex align-items-center">
+                                <!-- Decrease Quantity Button -->
+                                <form action="{{ route('cart.decrease', $item->product_id) }}" method="POST" class="me-1">
+                                    @csrf
+                                    <button type="submit" class="btn btn-sm btn-info">-</button>
+                                </form>
+                                <!-- Quantity Display -->
+                                <span>{{ $item->quantity }}</span>
+                                <!-- Increase Quantity Button -->
+                                <form action="{{ route('cart.increase', $item->product_id) }}" method="POST"
+                                    class="ms-1">
+                                    @csrf
+                                    <button type="submit" class="btn btn-sm btn-info">+</button>
+                                </form>
+                            </td>
+                            <!-- Display Total Price -->
+                            <td>₹{{ number_format($item->product->price * $item->quantity, 2) }}</td>
+                            <!-- Remove Button -->
                             <td>
                                 <form id="delete-form{{ $item->id }}" action="{{ route('cart.delete', $item->id) }}"
                                     method="POST" style="display: none;">
                                     @csrf
                                     @method('DELETE')
                                 </form>
-                                <button class="btn btn-danger" onclick="confirmDelete({{ $item->id }})">
+                                <button class="btn btn-danger btn-sm" onclick="confirmDelete({{ $item->id }})">
                                     <i class="fas fa-times"></i>
                                 </button>
                             </td>
@@ -93,7 +112,7 @@
                 </div>
                 <div class="summary-item">
                     <span>Total Price:
-                        <span style="color: red">₹{{ number_format($totalPrice, 2) }}</span>
+                        <span style="color: red">₹{{ number_format($item->product->price * $item->quantity, 2) }}</span>
                     </span>
 
                 </div>

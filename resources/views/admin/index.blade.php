@@ -29,8 +29,8 @@
                     <div class="card-body py-4">
                         <div class="d-flex align-items-start">
                             <div class="flex-grow-1">
-                                <h3 class="mb-2">{{ $count['users'] ?? 0 }}</h3>
-                                <p class="mb-2">Total Users</p>
+                                <h3 class="mb-2">{{ $totaluser}}</h3>
+                                <p class="mb-2">Total Customers</p>
                                 <div class="mb-0">
                                     {{-- <span class="badge badge-soft-success me-2"> +5.35% </span>
                                     <span class="text-muted">Since last week</span> --}}
@@ -85,8 +85,8 @@
                 <div class="card-body py-4">
                     <div class="d-flex align-items-start">
                         <div class="flex-grow-1">
-                            <h3 class="mb-2">{{ $count['posts'] ?? 0 }}</h3>
-                            <p class="mb-2">Total Posts</p>
+                            <h3 class="mb-2">{{ $totalpos }}</h3>
+                            <p class="mb-2">Total POS</p>
                             <div class="mb-0">
                             </div>
                         </div>

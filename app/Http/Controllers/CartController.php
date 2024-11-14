@@ -31,7 +31,7 @@ class CartController extends Controller
                 ->first();
 
             if ($cartItem) {
-                // $cartItem->quantity += 1;
+                $cartItem->quantity += 1;
                 $cartItem->save();
                 return redirect()->back()->with('success', 'Product Already Added');
             } else {
@@ -39,32 +39,32 @@ class CartController extends Controller
                 $cartItem->user_id = Auth::id();
                 $cartItem->product_id = $id;
                 $cartItem->status = 0;
-                // $cartItem->quantity = 1;
+                $cartItem->quantity = 1;
                 $cartItem->save();
             }
 
             return redirect()->route('cart.index')->with('success', 'Product Added Successfully');
         }
     }
-    // public function increaseQuantity($id)
-    // {
-    //     $cartItem = Cart::where('user_id', Auth::id())->where('product_id', $id)->first();
-    //     if ($cartItem) {
-    //         $cartItem->quantity += 1;
-    //         $cartItem->save();
-    //     }
-    //     return redirect()->back();
-    // }
+    public function increaseQuantity($id)
+    {
+        $cartItem = Cart::where('user_id', Auth::id())->where('product_id', $id)->first();
+        if ($cartItem) {
+            $cartItem->quantity += 1;
+            $cartItem->save();
+        }
+        return redirect()->back();
+    }
 
-    // public function decreaseQuantity($id)
-    // {
-    //     $cartItem = Cart::where('user_id', Auth::id())->where('product_id', $id)->first();
-    //     if ($cartItem && $cartItem->quantity > 1) {
-    //         $cartItem->quantity -= 1;
-    //         $cartItem->save();
-    //     }
-    //     return redirect()->back();
-    // }
+    public function decreaseQuantity($id)
+    {
+        $cartItem = Cart::where('user_id', Auth::id())->where('product_id', $id)->first();
+        if ($cartItem && $cartItem->quantity > 1) {
+            $cartItem->quantity -= 1;
+            $cartItem->save();
+        }
+        return redirect()->back();
+    }
 
     public function delete($id)
     {

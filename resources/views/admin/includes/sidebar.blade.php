@@ -125,22 +125,21 @@
                 @endcan
 
 
-                {{-- @can('role_access')
+                @can('role_access')
                     <li class="nav-item">
                         <a class="nav-link {{ request()->is('admin/sectors*') ? 'active' : '' }}"
                             href="{{ route('admin.sector.index') }}">
                             <span data-feather="briefcase" class="align-text-bottom"></span>
-                            Sector
+                            Category
                         </a>
                     </li>
                 @endcan
-
                 @can('role_access')
                     <li class="nav-item">
                         <a class="nav-link {{ request()->is('admin/subsectors*') ? 'active' : '' }}"
                             href="{{ route('admin.subsector.index') }}">
                             <span data-feather="bar-chart-2" class="align-text-bottom"></span>
-                            SubSector
+                            SubCategory
                         </a>
                     </li>
                 @endcan
@@ -199,7 +198,7 @@
                             Products
                         </a>
                     </li>
-                @endcan --}}
+                @endcan 
 
                 @can('post_access')
                     <li class="nav-item">

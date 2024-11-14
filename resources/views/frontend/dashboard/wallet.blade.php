@@ -37,8 +37,8 @@
                                     <td>{{  $key + 1}}</td>
                                     <td>{{ $data->user_id }}</td>
                                     <td>{{ $data->invoice }}</td>
-                                    <td>{{ $data->wallet_amount }}</td>
-                                    <td>{{ $data->used_amount }}</td>
+                                    <td>₹{{ $data->wallet_amount ?? 0 }}/-</td>
+                                    <td>₹{{ $data->used_amount ?? 0}}/-</td>
                                     <td>{{ $data->mobilenumber }}</td>        
                                     <td>{{ $data->created_at }}</td>        
                                 </tr>

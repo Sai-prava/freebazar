@@ -50,10 +50,10 @@ class SubSectorController extends Controller
 
 
         if ($subSector->save()) {
-            flash()->addSuccess('Subsector Successfully Created.');
+            flash()->addSuccess('SubCategory Successfully Created.');
             return redirect()->route('admin.subsector.index');
         }
-        flash()->addError('Whoops! Subsector create failed!');
+        flash()->addError('Whoops! SubCategory create failed!');
         return redirect()->back();
     }
 
@@ -107,11 +107,11 @@ class SubSectorController extends Controller
 
 
         if ($subsector->save()) {
-            flash()->addSuccess('Subsector Successfully Updated.');
+            flash()->addSuccess('SubCategory Successfully Updated.');
             return redirect()->route('admin.subsector.index');
         }
 
-        flash()->addError('Whoops! Subsector Update failed!');
+        flash()->addError('Whoops! SubCategory Update failed!');
         return redirect()->back();
     }
 
@@ -133,7 +133,7 @@ class SubSectorController extends Controller
             }
             $subsector->delete();
         }
-        flash()->addInfo('Subsector Deleted Successfully.');
+        flash()->addInfo('SubCategory Deleted Successfully.');
         return back();
     }
 }

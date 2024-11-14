@@ -109,13 +109,12 @@
                                 <thead class="thead-dark">
                                     <tr>
                                         <th>SL</th>
-                                        <th>Date</th>
-                                        <th>Info</th>
+                                        <th>Date</th>   
                                         <th>Invoice</th>
-                                        <th>Amount</th>
-                                        <th>Credit</th>
+                                        <th>Billing Amount</th>
+                                        {{-- <th>Credit</th>
                                         <th>Debit</th>
-                                        <th>Closing Balance</th>
+                                        <th>Closing Balance</th> --}}
                                     </tr>
                                 </thead>
 
@@ -123,13 +122,12 @@
                                     @foreach ($transactions as $key => $data)
                                         <tr>
                                             <td>{{ $key + 1 }}</td>
-                                            <td>{{ \Carbon\Carbon::parse($data->insert_date)->format('Y-m-d') }}</td>
-                                            <td></td>
+                                            <td>{{ \Carbon\Carbon::parse($data->transaction_date)->format('d-m-Y') }}</td>                                           
                                             <td>{{ $data->invoice ?? 'N/A' }}</td>
-                                            <td>{{ isset($data->amount) ? number_format($data->amount, 2) : 'N/A' }}</td>
+                                            <td>₹{{ isset($data->billing_amount) ? number_format($data->billing_amount, 2) : 'N/A' }}/-</td>
+                                            {{-- <td></td>
                                             <td></td>
-                                            <td></td>
-                                            <td></td>
+                                            <td></td> --}}
                                         </tr>
                                     @endforeach
                                 </tbody>

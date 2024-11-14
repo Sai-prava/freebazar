@@ -1,16 +1,16 @@
  @extends('layouts.master')
  @section('content')
      <div class="card border-0 shadow-sm">
-         <div class="card-header">
-             Edit Product
-         </div>
+         <h4 class="card-header">
+            <b> Edit Product</b>
+         </h4>
          <form action="{{ route('admin.product.update', $product->id) }}" method="POST" enctype="multipart/form-data">
              @csrf
              <div class="card-body">
                  <div class="mb-2">
-                     <label for="sector">Sector*</label>
+                     <label for="sector">Category*</label>
                      <select name="sector_id" id="sector" class="form-control @error('sector_id') is-invalid @enderror">
-                         <option value="">Select</option>
+                         <option value="">Select a Category</option>
                          @foreach ($sector as $data)
                              <option value="{{ $data->id }}" {{ $data->id == $product->sector_id ? 'selected' : '' }}>
                                  {{ $data->title }}</option>
@@ -23,10 +23,10 @@
                      @enderror
                  </div>
                  <div class="mb-2">
-                     <label for="subsector">Subsector*</label>
+                     <label for="subsector">SubCategory*</label>
                      <select name="subsector_id" id="getSubsector"
                          class="form-control @error('subsector_id') is-invalid @enderror">
-                         <option value="">Select a Subsector</option>
+                         <option value="">Select a SubCategory</option>
                      </select>
                      @error('subsector_id')
                          <span class="invalid-feedback" role="alert">
@@ -67,7 +67,7 @@
                          </span>
                      @enderror
                  </div>
-                 <div class="mb-2">
+                 {{-- <div class="mb-2">
                      <label for="dataset">Is high value dataset ?*</label>
                      <div class="form-check">
                          <input class="form-check-input @error('dataset') is-invalid @enderror" type="radio"
@@ -90,7 +90,7 @@
                              <strong>{{ $message }}</strong>
                          </span>
                      @enderror
-                 </div>
+                 </div> --}}
 
                  <div class="mb-2">
                      <label for="image">Image*</label>
@@ -105,7 +105,7 @@
                      @enderror
                  </div>
 
-                 <div class="mb-2">
+                 {{-- <div class="mb-2">
                      <label for="title">Product File*(Excel)</label>
                      <input type="file" id="product_file" name="product_file"
                          class="form-control @error('product_file') is-invalid @enderror" accept=".xlsx,.xls">
@@ -115,7 +115,7 @@
                              <strong>{{ $message }}</strong>
                          </span>
                      @enderror
-                 </div>
+                 </div> --}}
                  <div class="mb-2">
                      <label for="title">Price*</label>
                      <input type="number" id="price" name="price"

@@ -12,12 +12,13 @@ class AdminController extends Controller
     {
         $count['users'] = User::count();
 
-    
+
         $count['posts'] = 0;
         $count['posts_read'] = 0;
         $newPosts = 0;
         $topPosts = 0;
-
-        return view('admin.index', compact('count'));
+        $totaluser = User::where('role', 3)->count();
+        $totalpos = User::where('role', 4)->count();
+        return view('admin.index', compact('count', 'totaluser', 'totalpos'));
     }
 }

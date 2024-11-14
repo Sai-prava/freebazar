@@ -1,10 +1,10 @@
- @extends('layouts.master')
+@extends('layouts.master')
 @section('content')
 
     <div class="card border-0 shadow-sm">
-        <div class="card-header">
-            Edit Subsector
-        </div>
+        <h4 class="card-header">
+          <b> Edit SubCategory</b>
+        </h4>
         <form action="{{ route('admin.subsector.update', $subsector->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="card-body">
