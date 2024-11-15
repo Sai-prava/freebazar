@@ -84,7 +84,7 @@ class WalletController extends Controller
             $query->whereBetween('transaction_date', [$request->start_date, $request->end_date]);
         }
 
-        $wallets = $query->simplePaginate(15);
+        $wallets = $query->orderBy('id', 'desc')->simplePaginate(15);
         $wallets->appends($request->only(['search', 'start_date', 'end_date']));
 
         return view('pos.dsr', compact('wallets'));
@@ -234,7 +234,7 @@ class WalletController extends Controller
             $query->whereRaw('DATE_FORMAT(transaction_date, "%Y-%m") = ?', [$selectedMonth]);
         }
 
-        $monthlySales = $query->simplePaginate(15);
+        $monthlySales = $query->orderBy('id', 'desc')->simplePaginate(15);
         $monthlySales->appends($request->only(['month']));
 
         return view('pos.msr', compact('pos', 'monthlySales'));

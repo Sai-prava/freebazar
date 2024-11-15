@@ -48,7 +48,7 @@ class DsrController extends Controller
             $query->where('mobilenumber', 'LIKE', "%{$searchTerm}%");
         }
 
-        $wallets = $query->simplePaginate(15);
+        $wallets = $query->orderBy('id', 'desc')->simplePaginate(15);
         $wallets->appends($request->only(['search', 'start_date', 'end_date']));
 
         return view('admin.dsr.index', compact('wallets'));
@@ -92,7 +92,7 @@ class DsrController extends Controller
             DB::raw('SUM(billing_amount) as total_billing_amount')
         )
             ->whereNotNull('transaction_date')
-            ->groupBy('user_id','pos_id', 'mobilenumber', 'transaction_month');
+            ->groupBy('user_id', 'pos_id', 'mobilenumber', 'transaction_month');
 
         if ($request->has('search') && !empty($request->search)) {
             $userId = $request->search;
@@ -103,7 +103,7 @@ class DsrController extends Controller
             $query->whereRaw('DATE_FORMAT(transaction_date, "%Y-%m") = ?', [$selectedMonth]);
         }
 
-        $monthlySales = $query->simplePaginate(15);
+        $monthlySales = $query->orderBy('id', 'desc')->simplePaginate(15);
         $monthlySales->appends($request->only(['search', 'month']));
 
         return view('admin.msr.index', compact('pos', 'monthlySales'));
@@ -120,7 +120,7 @@ class DsrController extends Controller
             DB::raw('SUM(billing_amount) as total_billing_amount')
         )
             ->whereNotNull('transaction_date')
-            ->groupBy('user_id','pos_id', 'mobilenumber', 'transaction_month');
+            ->groupBy('user_id', 'pos_id', 'mobilenumber', 'transaction_month');
 
         if ($request->has('search') && !empty($request->search)) {
             $userId = $request->search;
