@@ -40,9 +40,9 @@
                     <tr>
                         <th>Sl.No</th>
                         <th>MONTH</th>
-                        <th>MOBILE NUMBER</th>
-                        <th>POS ID</th>
+                        <th>MOBILE NUMBER</th>   
                         <th>TOTAL BILLING AMOUNT</th>
+                        <th> SPONSOR EXPENDITURE</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -53,12 +53,12 @@
                     @else
                         @foreach ($monthlySales as $key => $data)
                             <tr>
-                                <td>{{ $monthlySales->firstItem() + $key }}</td>
-                                <td>{{ \Carbon\Carbon::createFromFormat('Y-m', $data->transaction_month)->format('F Y') }}
-                                </td>
+                                <td>{{ $monthlySales->firstItem() + $key }}</td>                       
+                                <td>{{  \Carbon\Carbon::createFromFormat('Y-m', $data->transaction_month)->format('F Y') }}</td>
                                 <td>{{ $data->mobilenumber }}</td>
-                                <td>{{ $data->pos_id }}</td>
+                               
                                 <td>₹{{ $data->total_billing_amount ?? 0 }}/-</td>
+                                <td>{{ $data->sponsor_expenditure }}</td>
                             </tr>
                         @endforeach
                     @endif
