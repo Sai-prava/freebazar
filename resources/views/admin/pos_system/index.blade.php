@@ -26,7 +26,7 @@
                                 NAME
                             </th>
                             <th>
-                                USER ID
+                                POS ID
                             </th>
                             <th>
                                 City
@@ -54,9 +54,10 @@
                                 <td> {{ __($pos->firstItem() + $key) }}</td>
                                 <td>{{ $data->name }}</td>
                                 <td>
-                                    @if ($data->user && $data->user->role == 4)
+                                    {{ $data->user_id }}
+                                    {{-- @if ($data->user && $data->user->role == 4)
                                         {{ $data->user->user_id }}
-                                    @endif
+                                    @endif --}}
                                 </td>
                                 <td>{{ $data->city }}</td>
                                 <td>{{ $data->email }}</td>

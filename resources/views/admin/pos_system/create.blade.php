@@ -26,7 +26,7 @@
                             <div class="mb-2">
                                 <label for="image">Image*</label>
                                 <input type="file" id="image" name="image"
-                                    class="form-control @error('image') is-invalid @enderror" required>
+                                    class="form-control @error('image') is-invalid @enderror">
                                 @error('image')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>

@@ -44,9 +44,10 @@ class PosController extends Controller
         // $validate = $request->validate([
         //     'mobilenumber' => 'required|unique:users,mobilenumber',
         // ]);
+        $rand_user  = mt_rand(1000000, 9999999);
         $user = new User;
         $user->name = $request->name;
-        $user->user_id = mt_rand(1000000, 9999999);
+        $user->user_id = $rand_user;
         $user->email = $request->email;
         $user->password = Hash::make('123456');
         $user->mobilenumber = $request->mobilenumber;
@@ -63,7 +64,7 @@ class PosController extends Controller
             $pos = new PosModel;
 
             $pos->name = $request->name;
-            $pos->user_id = $user->id;
+            $pos->user_id = $rand_user;
             $pos->email = $request->email;
             $pos->mobilenumber = $request->mobilenumber;
             $pos->transaction_charge = $request->transaction_charge;
@@ -108,7 +109,7 @@ class PosController extends Controller
 
     public function download_qr($id, $name)
     {
-        $data = $name . ' | ' . $id; 
+        $data = $name . ' | ' . $id;
 
         $builder = new Builder(
             writer: new PngWriter(),

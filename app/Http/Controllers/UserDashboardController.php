@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use App\Models\PosModel;
 use App\Models\Product;
 use App\Models\sponcer;
+use App\Models\Sponsor;
 use App\Models\User;
 use App\Models\UserPayment;
 use App\Models\UserWallet;
@@ -20,10 +21,9 @@ class UserDashboardController extends Controller
 {
     public function index(Request $request)
     {
-        $sponcers = Sponcer::all();
-
         $user_profile = auth()->user();
         $userId = $user_profile->id;
+        $sponsors = Sponsor::where('sponsor_id',$userId)->get();
 
         $transactionQuery = Wallet::where('user_id', $userId);
         // dd($transactionQuery);
@@ -65,7 +65,7 @@ class UserDashboardController extends Controller
 
         $walletBalance = max($walletBalance, 0);
 
-        return view('frontend.dashboard.index', compact('sponcers', 'user_profile', 'monthlyPurchase', 'walletBalance', 'walletList'));
+        return view('frontend.dashboard.index', compact('sponsors', 'user_profile', 'monthlyPurchase', 'walletBalance', 'walletList'));
     }
 
     public function payment(Request $request)
@@ -168,6 +168,7 @@ class UserDashboardController extends Controller
 
     public function storeUser(Request $request)
     {
+        dd($request->all());
         $user_add = new User;
         $user_add->name = $request->name;
         $user_add->user_id = mt_rand(1000000, 9999999);
@@ -196,9 +197,9 @@ class UserDashboardController extends Controller
         }
 
         if ($user_add->save()) {
-            $sponcer = new sponcer();
+            $sponcer = new Sponsor();
             $sponcer->user_id = $user_add->id;
-            $sponcer->sponsor_id = $request->sponsor_id;
+            $sponcer->sponsor_id = $request->hidden_user_id;
 
             if ($sponcer->save()) {
                 flash()->addSuccess('User registered successfully.');
@@ -230,7 +231,9 @@ class UserDashboardController extends Controller
     }
     public function sponsorList()
     {
-        $sponcer = sponcer::all();
+        $userId = auth()->user()->id;
+        $sponcer = Sponsor::where('sponsor_id',$userId)->get();
+        // dd($sponcer);
         return view('frontend.dashboard.sponser_list', compact('sponcer'));
     }
     public function posList(Request $request)

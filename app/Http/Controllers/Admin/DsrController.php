@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use App\Imports\WalletImport;
 use App\Models\PosModel;
 use App\Models\sponcer;
+use App\Models\Sponsor;
 use App\Models\Wallet;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -49,7 +50,9 @@ class DsrController extends Controller
             $query->where('mobilenumber', 'LIKE', "%{$searchTerm}%");
         }
 
-        $wallets = $query->orderBy('id', 'desc')->simplePaginate(15);
+        $wallets = $query->with('user','getPos')->orderBy('id', 'desc')
+        ->simplePaginate(15);
+        // dd($wallets);
         $wallets->appends($request->only(['search', 'start_date', 'end_date']));
 
         return view('admin.dsr.index', compact('wallets'));
@@ -119,7 +122,7 @@ class DsrController extends Controller
             Log::info($item->user_id);
             // $item->transaction_month = date('F-Y', strtotime($item->transaction_date));
             $billing_amount = 0;
-            $check_sponser = sponcer::with('user')->where('sponsor_id', $item->user_id)->get();
+            $check_sponser = Sponsor::with('user')->where('sponsor_id', $item->user_id)->get();
             if (!$check_sponser->isEmpty()) {
                 $check_sponser->map(function ($items) use (&$billing_amount) {
                     $billing_amount += (Wallet::where('user_id', $items->user_id)->sum('billing_amount'));

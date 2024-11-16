@@ -19,13 +19,13 @@
                                 Name
                             </th>
                             <th>
+                                User Id
+                            </th>
+                            <th>
+                                Mobile Number
+                            </th>
+                            <th>
                                 Created ON
-                            </th>
-                            <th>
-                                Activated ON
-                            </th>
-                            <th>
-                                Sup Activated ON
                             </th>
                             <th>
                                 Action
@@ -41,9 +41,16 @@
                                         {{ $data->user->name }}
                                     @endif
                                 </td>
-                                <td>{{ $data->created_at->format('Y-m-d') }}</td>
-                                <td></td>
-                                <td></td>
+                                <td> @if ($data->user)
+                                    {{ $data->user->user_id }}
+                                @endif</td>
+                                <td>
+                                    @if ($data->user)
+                                        {{ $data->user->mobilenumber }}
+                                    @endif
+                                </td>
+                                <td>{{ $data->created_at }}</td>
+                               
                                 <td>
                                     <a href="{{ route('frontend.index') }}">
                                         <i class="bi bi-bookmark"

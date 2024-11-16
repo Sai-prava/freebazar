@@ -60,6 +60,7 @@
                         </div>
                         <div class="mb-2">
                             <label for="sponsor_id">Sponsor Id*</label>
+                            <input type="hidden" name="hidden_user_id" value="{{ auth()->user()->id }}">
                             <input type="text" id="sponsor_id" name="sponsor_id"
                                 class="form-control @error('sponsor_id') is-invalid @enderror" value="{{ $user_id }}"
                                 style="background-color: rgb(218, 211, 211)" readonly>

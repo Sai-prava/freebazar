@@ -19,7 +19,7 @@ class WalletController extends Controller
     public function walletManage(Request $request, $id)
     {
         $user = User::find($id);
-        $userId = Auth::user()->id;
+        $userId = Auth::user()->user_id;
         // dd($userId);
         $pos = PosModel::where('user_id', $userId)->first();
 
@@ -122,7 +122,7 @@ class WalletController extends Controller
             'amount' => 'required',
         ]);
 
-        $userId = Auth::user()->id;
+        $userId = Auth::user()->user_id;
         $pos = PosModel::where('user_id', $userId)->first();
         $randomNumber = mt_rand(1, 99999);
         $invoiceNumber = $randomNumber + 1;

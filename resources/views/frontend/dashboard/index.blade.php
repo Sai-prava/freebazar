@@ -321,7 +321,7 @@
                                     style="background-color: #4fc9da; color: #062962; font-size: 16px; text-align: center; padding: 10px 15px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); font-weight: 600;">
                                     Your Sponsored Users
                                 </h5>
-                                @foreach ($sponcers as $data)
+                                @foreach ($sponsors as $data)
                                     <div class="d-flex align-items-center">
                                         <span>
                                             <img style="height: 50px; width: 50px;"

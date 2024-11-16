@@ -62,7 +62,7 @@
                     <tr>
                         <th>Sl.No</th>
                         <th>INVOICE</th>
-                        <th>POS CODE</th>
+                        <th>POS ID</th>
                         <th>MOBILE</th>
                         <th>NAME</th>
                         <th>BILLING AMOUNT</th>

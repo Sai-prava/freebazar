@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Imports\MasterUsersImport;
 use App\Models\sponcer;
+use App\Models\Sponsor;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
@@ -118,10 +119,11 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = User::find($id);
+        $userData= User::where('role',3)->get(['id','name','user_id']);
         if (!$user) {
             return redirect()->route('admin.users.index')->with('error', 'User not found.');
         }
-        return view('admin.users.edit', compact('user'));
+        return view('admin.users.edit', compact('user','userData'));
     }
 
     /**
@@ -174,25 +176,33 @@ class UserController extends Controller
         $user->relation_user = $request->relation_user;
         $user->zip = $request->zip;
         $user->sponsor_id = $request->sponsor_id;
-        $user->parent_level = $request->parent_level;
 
-        // Save the changes to the database
-        $user->save();
+        if ($user->save()) {
+            $sponcer = Sponsor::where('user_id',$user->id)->first();
+            // dd($sponcer); 
+            if($sponcer == null){
+                $sponcer = new Sponsor();
+                $sponcer->user_id = $user->id;
+                $sponcer->sponsor_id = $request->sponsor_id;
+            }        
+            $sponcer->sponsor_id = $request->sponsor_id;
 
-        // Redirect or return a response
-        return redirect()->route('admin.users.index')->with('success', 'Customer updated successfully.');
+            if ($sponcer->save()) {
+                return redirect()->route('admin.users.index')->with('success', 'Customer updated successfully.');
+            }
+        }        
+            
     }
 
     public function customUser()
     {
-        return view('admin.users.custom_user');
+        $userData= User::where('role',3)->get(['id','name','user_id']);
+        return view('admin.users.custom_user',compact('userData'));
     }
     public function storeCustomUser(Request $request)
     {
+        // dd($request->all());
         $request->validate([
-            'name' => 'required',
-            'email' => 'required',
-            'password' => 'required',
             'mobilenumber' => 'required|unique:users,mobilenumber',
         ]);
         $user = new User();
@@ -200,6 +210,7 @@ class UserController extends Controller
         $user->email = $request->email;
         $user->user_id = mt_rand(1000000, 9999999);
         $user->password = Hash::make('123456');
+        // dd($user->password);
         $user->mobilenumber = $request->mobilenumber;
         $user->gender = $request->gender;
         $user->address = $request->address;
@@ -207,25 +218,21 @@ class UserController extends Controller
         $user->state = $request->state;
         $user->zip = $request->zip;
         $user->sponsor_id = $request->sponsor_id;
-        $user->parent_level = 1;
         $user->role = 3;
         $user->assignRole([$user->role]);
 
         if ($user->save()) {
-            $sponcer = new sponcer;
+            $sponcer = new Sponsor();
             $sponcer->user_id = $user->id;
             $sponcer->sponsor_id = $request->sponsor_id;
 
             if ($sponcer->save()) {
                 flash()->addSuccess('Customer User created successfully.');
-                return redirect()->route('admin.users.index');
-            } else {
-                flash()->addError('User created but failed to create Sponcer entry.');
-                return redirect()->route('admin.users.index');
-            }
+                return redirect()->back();
+            } 
         } else {
             flash()->addError('User create fail!');
-            return redirect()->route('admin.users.index');
+            return redirect()->back();
         }
     }
 
