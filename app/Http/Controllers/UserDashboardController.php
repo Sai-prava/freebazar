@@ -168,7 +168,6 @@ class UserDashboardController extends Controller
 
     public function storeUser(Request $request)
     {
-        dd($request->all());
         $user_add = new User;
         $user_add->name = $request->name;
         $user_add->user_id = mt_rand(1000000, 9999999);

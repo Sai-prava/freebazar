@@ -18,6 +18,28 @@
     <link rel="stylesheet" href="{{ asset('assets/css/slick.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/main-color04.css') }}">
+    <style>
+        .whatsapp-icon {
+            position: fixed;
+            bottom: 20px;
+            /* Adjust as needed */
+            right: 20px;
+            /* Adjust as needed */
+            z-index: 1000;
+            /* Ensures it stays on top */
+            background-color: #25D366;
+            border-radius: 50%;
+            padding: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+        }
+
+        .whatsapp-icon img {
+            display: block;
+            width: 40px;
+            height: 40px;
+        }
+    </style>
 </head>
 
 <body class="biolife-body">
@@ -31,6 +53,13 @@
                 <div class="dot dot-three"></div>
             </div>
         </div>
+    </div>
+    <div class="whatsapp-icon">
+        <a href="https://wa.me/9853560459?text=Hello,%20I%20would%20like%20to%20connect!" target="_blank"
+            aria-label="Connect with us on WhatsApp">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp Icon"
+                width="40" height="40">
+        </a>
     </div>
 
 </body>

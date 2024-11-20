@@ -5,7 +5,7 @@
         .card-header {
             text-align: center;
             font-size: 25px;
-            background-color: #a6d5e9;
+            background-color: orange;
         }
 
         /* Adjust padding and font sizes for smaller screens */
@@ -79,7 +79,7 @@
 
                             <div class="mb-0 row">
                                 <div class="col-md-8 offset-md-4">
-                                    <button type="submit" class="btn btn-primary">
+                                    <button type="submit" class="btn btn-warning">
                                         {{ __('Login') }}
                                     </button>
 

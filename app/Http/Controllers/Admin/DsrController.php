@@ -119,8 +119,7 @@ class DsrController extends Controller
             $query->whereRaw('DATE_FORMAT(transaction_date, "%Y-%m") = ?', [$selectedMonth]);
         }
         $monthlySales = $query->simplePaginate(15)->through(function ($item) {
-            Log::info($item->user_id);
-            // $item->transaction_month = date('F-Y', strtotime($item->transaction_date));
+            // Log::info($item->user_id);
             $billing_amount = 0;
             $check_sponser = Sponsor::with('user')->where('sponsor_id', $item->user_id)->get();
             if (!$check_sponser->isEmpty()) {
@@ -131,7 +130,6 @@ class DsrController extends Controller
             }
             $item->sponsor_expenditure = $billing_amount;
             return $item;
-            Log::info($item->sponsor_expenditure);
         });
 
 

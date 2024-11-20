@@ -5,7 +5,7 @@
         .card-header {
             text-align: center;
             font-size: 1.5rem;
-            background-color: #a6d5e9;
+            background-color: orange;
         }
         
         @media (max-width: 576px) {
@@ -135,7 +135,7 @@
                             <!-- Submit Button -->
                             <div class="row mb-0">
                                 <div class="col-md-8 offset-md-4">
-                                    <button type="submit" class="btn btn-primary w-100">
+                                    <button type="submit" class="btn btn-warning w-100">
                                         {{ __('Register') }}
                                     </button>
                                 </div>

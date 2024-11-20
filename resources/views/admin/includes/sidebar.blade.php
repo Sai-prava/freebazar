@@ -6,6 +6,8 @@
     .nav-subitem.open {
         display: block;
     }
+
+ 
 </style>
 <div class="sidebar position-fixed border-right col-md-3 col-lg-2 p-0 bg-body-tertiary" style="z-index: 9999;">
     <div class="offcanvas-md offcanvas-start bg-body-tertiary" tabindex="-1" id="sidebarMenu"
@@ -198,7 +200,7 @@
                             Products
                         </a>
                     </li>
-                @endcan 
+                @endcan
 
                 @can('post_access')
                     <li class="nav-item">

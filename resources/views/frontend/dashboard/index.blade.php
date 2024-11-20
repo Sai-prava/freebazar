@@ -210,7 +210,7 @@
                                     <div class="mt-4">
                                         <p class="mb-1">Full Name: {{ auth()->user()->name }}</p>
                                         <p class="mb-1">Email: {{ auth()->user()->email }}</p>
-                                        <p class="mb-1">Your Sponsor: {{ auth()->user()->sponsor_id ?? 'N/A' }}</p>
+                                        <p class="mb-1">Your Sponsor: {{ auth()->user()->user_id ?? 'N/A' }}</p>
                                         <p class="mb-1">Mobile Number: {{ auth()->user()->mobilenumber ?? 'N/A' }}</p>
                                     </div>
                                     <div>
@@ -332,8 +332,9 @@
                                             <p class="mb-1">
                                                 @if ($data->user)
                                                     {{ $data->user->name }}
+                                                    ({{ $data->user->user_id }})
                                                 @endif
-                                                ({{ $data->sponsor_id }})
+                                               
                                             </p>
                                         </div>
                                     </div>
