@@ -57,9 +57,9 @@ class ProductController extends Controller
         }
 
         $product->sector_id = $request->sector_id;
-        $product->subsector_id = $request->subsector_id;
+        // $product->subsector_id = $request->subsector_id;
         $product->title = $request->title;
-        $product->meta_tag = $request->meta_tag;
+       
         $product->description = $request->description;
         $product->dataset = $request->input('dataset');
         $product->image = $imageName;
@@ -72,7 +72,9 @@ class ProductController extends Controller
         // }
         // $product->product_file = $product_file_excel;
         $product->price = $request->price;
-        $product->source = $request->source;
+        $product->discount_price = $request->discount_price;
+        $product->total_price = $request->total_price;
+      
 
         if ($product->save()) {
             flash()->addSuccess('Product Successfully Created.');
@@ -146,14 +148,16 @@ class ProductController extends Controller
             $product->image = $imageName;
         }
     
-        $product->sector_id = $request->sector_id ?? $product->sector_id;
-        $product->subsector_id = $request->subsector_id ?? $product->subsector_id;
-        $product->title = $request->title ?? $product->title;
-        $product->meta_tag = $request->meta_tag ?? $product->meta_tag;
-        $product->description = $request->description ?? $product->description;
+        $product->sector_id = $request->sector_id;
+        // $product->subsector_id = $request->subsector_id ?? $product->subsector_id;
+        $product->title = $request->title;
+        
+        $product->description = $request->description;
         $product->price = $request->price ?? $product->price;
+        $product->discount_price = $request->discount_price;
+        $product->total_price = $request->total_price;
         $product->dataset = $request->input('dataset');
-        $product->source = $request->source ?? $product->source;
+      
     
         if ($product->save()) {
             flash()->addSuccess('Product Successfully Updated.');

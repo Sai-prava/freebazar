@@ -41,6 +41,7 @@
                         <th>Sl.No</th>
                         <th>MONTH</th>
                         <th>MOBILE NUMBER</th>
+                        <th>SPONSOR ID</th>
                         <th>TOTAL BILLING AMOUNT</th>
                         <th>SPONSOR EXPENDITURE</th>
                     </tr>
@@ -57,6 +58,11 @@
                                 <td>{{ \Carbon\Carbon::createFromFormat('Y-m', $data->transaction_month)->format('F Y') }}
                                 </td>
                                 <td>{{ $data->mobilenumber }}</td>
+                                <td>
+                                    @if ($data->user)
+                                        {{ $data->user->user_id }}
+                                    @endif
+                                </td>
                                 <td>₹{{ $data->total_billing_amount ?? 0 }}/-</td>
                                 <td>₹{{ $data->sponsor_expenditure }}/-</td>
                             </tr>

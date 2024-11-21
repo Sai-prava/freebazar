@@ -25,15 +25,13 @@
                             <th>
                                 Category
                             </th>
-                            <th>
+                            {{-- <th>
                                 SubCategory
-                            </th>
+                            </th> --}}
                             <th>
                                 Title
                             </th>
-                            <th>
-                                Meta tag
-                            </th>
+                           
                             <th>
                                 Description
                             </th>
@@ -48,11 +46,14 @@
                                 Product File
                             </th> --}}
                             <th>
-                                Price (Rs.)
-                            </th>
+                              Price (Rs.)
+                            </th>                           
                             <th>
-                                Source
-                            </th>
+                               Discount Price (Rs.)
+                            </th>                           
+                            <th>
+                               Total Price (Rs.)
+                            </th>                           
                             <th>
                                 Action
                             </th>
@@ -68,18 +69,16 @@
                                         {{ $product->sector->title }}
                                     @endif
                                 </td>
-                                <td>
+                                {{-- <td>
                                     @if ($product->subsector)
                                         {{ $product->subsector->title }}
                                     @endif
-                                </td>
+                                </td> --}}
 
                                 <td>
                                     {{ $product->title }}
                                 </td>
-                                <td>
-                                    {{ $product->meta_tag }}
-                                </td>
+                              
                                 <td>
                                     {!! Str::limit($product->description, 20, '...') !!}
                                 </td>
@@ -141,9 +140,9 @@
                                 <td>
                                     {{ $product->price }}
                                 </td>
-                                <td>
-                                    {{ $product->source }}
-                                </td>
+                                <td>{{ $product->discount_price }}</td>
+                                <td>{{ $product->total_price }}</td>
+                               
 
 
 

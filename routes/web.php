@@ -36,8 +36,9 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 //frontend
 
 Route::get('/', [FrontendController::class, 'index'])->name('frontend.index');
-Route::get('/category', [FrontendController::class, 'Sector'])->name('frontend.sector');
-Route::get('/sector/{id}', [FrontendController::class, 'SectorEdit'])->name('frontend.sectoredit');
+Route::get('/category/{id}', [FrontendController::class, 'category'])->name('frontend.category');
+Route::get('/product', [FrontendController::class, 'product'])->name('frontend.product');
+// Route::get('/category/{id}', [FrontendController::class, 'categoryView'])->name('frontend.categoryView');
 Route::get('/subsector/{id}', [FrontendController::class, 'subsector'])->name('frontend.subsector');
 Route::get('/viewsubsector/{id}', [FrontendController::class, 'viewSubsector'])->name('subsector.view');
 Route::get('/blog/category', [FrontendController::class, 'blogCategory'])->name('frontend.blogcategory');

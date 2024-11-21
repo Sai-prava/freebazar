@@ -2,7 +2,7 @@
  @section('content')
      <div class="card border-0 shadow-sm">
          <h4 class="card-header">
-            <b> Edit Product</b>
+             <b> Edit Product</b>
          </h4>
          <form action="{{ route('admin.product.update', $product->id) }}" method="POST" enctype="multipart/form-data">
              @csrf
@@ -22,7 +22,7 @@
                          </span>
                      @enderror
                  </div>
-                 <div class="mb-2">
+                 {{-- <div class="mb-2">
                      <label for="subsector">SubCategory*</label>
                      <select name="subsector_id" id="getSubsector"
                          class="form-control @error('subsector_id') is-invalid @enderror">
@@ -33,7 +33,7 @@
                              <strong>{{ $message }}</strong>
                          </span>
                      @enderror
-                 </div>
+                 </div> --}}
 
                  <div class="mb-2">
                      <label for="title">Title*</label>
@@ -46,7 +46,7 @@
                          </span>
                      @enderror
                  </div>
-                 <div class="mb-2">
+                 {{-- <div class="mb-2">
                      <label for="title">Meta Tag*</label>
                      <input type="text" id="meta_tag" name="meta_tag"
                          class="form-control @error('meta_tag') is-invalid @enderror "
@@ -56,7 +56,7 @@
                              <strong>{{ $message }}</strong>
                          </span>
                      @enderror
-                 </div>
+                 </div> --}}
                  <div class="mb-2">
                      <label for="title">Short Description*</label>
                      <textarea name="description" id="Editor" cols="30" rows="3"
@@ -117,17 +117,42 @@
                      @enderror
                  </div> --}}
                  <div class="mb-2">
-                     <label for="title">Price*</label>
-                     <input type="number" id="price" name="price"
-                         class="form-control @error('price') is-invalid @enderror"
-                         value="{{ old('price', isset($product) ? $product->price : '') }}">
-                     @error('price')
-                         <span class="invalid-feedback" role="alert">
-                             <strong>{{ $message }}</strong>
-                         </span>
-                     @enderror
-                 </div>
-                 <div class="mb-2">
+                    <label for="price">Price*</label>
+                    <input type="number" id="price" step="0.01" name="price"
+                        class="form-control @error('price') is-invalid @enderror"
+                        value="{{ old('price', isset($product) ? $product->price : '') }}" 
+                        oninput="calculateTotalPrice()">
+                    @error('price')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
+                </div>
+                <div class="mb-2">
+                    <label for="discount_price">Discount Price*</label>
+                    <input type="number" step="0.01" id="discount_price" name="discount_price"
+                        class="form-control @error('discount_price') is-invalid @enderror"
+                        value="{{ old('discount_price', isset($product) ? $product->discount_price : '') }}" 
+                        oninput="calculateTotalPrice()">
+                    @error('discount_price')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
+                </div>
+                <div class="mb-2">
+                    <label for="total_price">Total Price*</label>
+                    <input type="number" step="0.01" id="total_price" name="total_price"
+                        class="form-control @error('total_price') is-invalid @enderror"
+                        value="{{ old('total_price', isset($product) ? $product->total_price : '') }}" 
+                        readonly>
+                    @error('total_price')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
+                </div>
+                 {{-- <div class="mb-2">
                      <label for="title">Source*</label>
                      <input type="text" id="source" name="source"
                          class="form-control @error('source') is-invalid @enderror"
@@ -137,7 +162,7 @@
                              <strong>{{ $message }}</strong>
                          </span>
                      @enderror
-                 </div>
+                 </div> --}}
 
              </div>
              <div class="card-footer">
@@ -154,6 +179,25 @@
      <script>
          CKEDITOR.replace('Editor');
      </script>
+      <script>
+        function calculateTotalPrice() {
+            // Get the values of price and discount price
+            const price = parseFloat(document.getElementById('price').value) || 0;
+            const discountPrice = parseFloat(document.getElementById('discount_price').value) || 0;
+   
+            // Calculate total price (price - discount price)
+            const totalPrice = price - discountPrice;
+   
+            // Set the total price value in the total_price input field
+            document.getElementById('total_price').value = totalPrice.toFixed(2); // Two decimal places
+        }
+   
+        // Automatically calculate total price on page load (for editing case)
+        document.addEventListener('DOMContentLoaded', () => {
+            calculateTotalPrice();
+        });
+    </script>
+   
  @endsection
  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
  <script>

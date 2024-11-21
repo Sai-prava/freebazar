@@ -16,23 +16,25 @@ class FrontendController extends Controller
 {
     public function index()
     {
-        $allSector = Sector::all();
-        $allblog = Blog::latest()->take(2)->get();
-        $dataset = Product::where('dataset', 1)->latest()->take(2)->get();
-        $events = Event::latest()->take(2)->get();
-        $infoGraphics = InfoGraphic::latest()->take(2)->get();
-        return view('ui.index', compact('allSector', 'allblog', 'dataset', 'events', 'infoGraphics'));
+        $category = Sector::all(); 
+        $products = Product::all();
+        return view('ui.index',compact('category','products'));
     }
 
-    // public function Sector()
+    public function category($id)
+    {     
+        $category = Sector::find($id);
+        $products = Product::where('sector_id', $id)->get();
+        return view('ui.categoryList',compact('category','products'));
+    }
+    public function product(){
+        $products = Product::all();
+        return view('ui.product',compact('products'));
+    }
+    // public function categoryView($id)
     // {
-    //     $allSector = Sector::all();
-    //     return view('frontend.sector', compact('allSector'));
-    // }
-    // public function SectorEdit($id)
-    // {
-    //     $editSector = Sector::find($id);
-    //     return view('frontend.subsector', compact('editSector'));
+    //     $viewCategory = Sector::find($id);
+    //     return view('ui.categoryList', compact('viewCategory'));
     // }
 
     // public function subsector($id)
