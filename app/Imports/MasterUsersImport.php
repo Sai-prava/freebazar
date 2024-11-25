@@ -54,7 +54,7 @@ class MasterUsersImport implements ToModel, WithHeadingRow, SkipsEmptyRows
                 'user_id' => strlen((string) $row['my_id'])>8 ?$row['phone']: $row['my_id'],
                 'mobilenumber' => strlen((string) $row['phone'])<10 ?$row['my_id']: $row['phone'],
                 'email' => $row['user_email'],
-                'name' =>  $row['user_lname'],
+                'name' => $row['user_name'] . ' ' . $row['user_lname'],
                 'gender' => $row['gender'],
                 'address' => $row['address'],
                 'password' => Hash::make('123456'), // Default password

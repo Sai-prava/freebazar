@@ -99,7 +99,7 @@
                         <div class="mb-2">
                             <label for="sponsor_id">Sponsor Id*</label>
                             <select id="sponsor_id" name="sponsor_id"
-                                class="form-control @error('sponsor_id') is-invalid @enderror" required>
+                                class="form-control @error('sponsor_id') is-invalid @enderror">
                                 <option value="">Select a Sponsor</option>
                                 @foreach ($userData as $sponsor)
                                     <option value="{{ $sponsor->id }}"

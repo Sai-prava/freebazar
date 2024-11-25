@@ -204,6 +204,7 @@ class UserController extends Controller
         // dd($request->all());
         $request->validate([
             'mobilenumber' => 'required|unique:users,mobilenumber',
+            'sponsor_id' => 'required|exists:users,id',
         ]);
         $user = new User();
         $user->name = $request->name;

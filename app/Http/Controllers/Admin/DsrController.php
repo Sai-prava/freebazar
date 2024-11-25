@@ -50,8 +50,8 @@ class DsrController extends Controller
             $query->where('mobilenumber', 'LIKE', "%{$searchTerm}%");
         }
 
-        $wallets = $query->with('user','getPos')->orderBy('id', 'desc')
-        ->simplePaginate(15);
+        $wallets = $query->with('user', 'getPos')->orderBy('id', 'desc')
+            ->simplePaginate(15);
         // dd($wallets);
         $wallets->appends($request->only(['search', 'start_date', 'end_date']));
 
@@ -114,11 +114,19 @@ class DsrController extends Controller
             $userId = $request->search;
             $query->where('pos_id', $userId);
         }
+        if ($request->filled('filter')) {
+            $filterTerm = $request->filter;
+            $query->where('mobilenumber', $filterTerm)
+                  ->orWhereHas('user', function ($q) use ($filterTerm) {
+                      $q->where('id', $filterTerm); 
+                  });
+        }
+        
         if ($request->has('month') && !empty($request->month)) {
             $selectedMonth = $request->month;
             $query->whereRaw('DATE_FORMAT(transaction_date, "%Y-%m") = ?', [$selectedMonth]);
         }
-        $monthlySales = $query->simplePaginate(15)->through(function ($item) {
+        $monthlySales = $query->orderBy('id', 'desc')->simplePaginate(15)->through(function ($item) {
             // Log::info($item->user_id);
             $billing_amount = 0;
             $check_sponser = Sponsor::with('user')->where('sponsor_id', $item->user_id)->get();
@@ -132,9 +140,8 @@ class DsrController extends Controller
             return $item;
         });
 
-
         // $monthlySales = $query->orderBy('id', 'desc')->simplePaginate(15);
-        $monthlySales->appends($request->only(['search', 'month']));
+        $monthlySales->appends($request->only(['search', 'month', 'sponsor_id']));
 
         return view('admin.msr.index', compact('pos', 'monthlySales'));
     }

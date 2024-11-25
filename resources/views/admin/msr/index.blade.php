@@ -25,6 +25,15 @@
                 <button class="btn btn-info btn-block" type="submit">FILTER</button>
             </div>
         </form>
+        <form method="GET" action="{{ route('admin.msr') }}" class="row align-items-center mb-3">          
+            <div class="col-12 col-md-4 mb-2">
+                <input type="text" name="filter" class="form-control" placeholder="Search Mobile Number"
+                    value="{{ request('filter') }}">
+            </div>
+            <div class="col-12 col-md-auto mb-2">
+                <button class="btn btn-primary btn-block" type="submit"><i class="fas fa-search"></i></button>
+            </div>
+        </form>
 
         <div class="col-md-12 mb-3 text-end">
             <form method="GET" action="{{ route('admin.msr.export') }}" class="d-inline">
@@ -60,7 +69,19 @@
                                 <td>{{ $data->mobilenumber }}</td>
                                 <td>
                                     @if ($data->user)
-                                        {{ $data->user->user_id }}
+                                        @if ($data->user->sponsor_id)
+                                            @php
+                                                $sponsorUser = \App\Models\User::where(
+                                                    'id',
+                                                    $data->user->sponsor_id,
+                                                )->first();
+                                            @endphp
+                                            {{ $sponsorUser ? $sponsorUser->user_id : 'N/A' }}
+                                        @else
+                                            N/A
+                                        @endif
+                                    @else
+                                        N/A
                                     @endif
                                 </td>
                                 <td>₹{{ $data->total_billing_amount ?? 0 }}/-</td>

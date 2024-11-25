@@ -77,7 +77,7 @@ class User extends Authenticatable
     }
     public function sponcer()
     {
-        return $this->belongsTo(sponcer::class, 'user_id');
+        return $this->belongsTo(Sponsor::class, 'user_id');
     }
    
 }
