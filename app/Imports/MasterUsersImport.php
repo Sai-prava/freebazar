@@ -41,13 +41,10 @@ class MasterUsersImport implements ToModel, WithHeadingRow, SkipsEmptyRows
 
         if ($existingUserData) {
             $this->count++;
-            Log::info($row['phone']);
         }
-        Log::info($this->count);
         $userCount = User::where('email', $row['user_email'])
             ->orWhere('mobilenumber', $row['phone'])
-            ->count();
-        // Log::info($userCount);       
+            ->count();      
         if ($this->shouldImportRow($row) != true && $existingUserData == null) {
             // if (self::shouldImportRow($row) != true) {
             return User::create([
@@ -57,7 +54,7 @@ class MasterUsersImport implements ToModel, WithHeadingRow, SkipsEmptyRows
                 'name' => $row['user_name'] . ' ' . $row['user_lname'],
                 'gender' => $row['gender'],
                 'address' => $row['address'],
-                'password' => Hash::make('123456'), // Default password
+                'password' => Hash::make('123456'), 
                 'city' => $row['city'],
                 'state' => $row['state'],
                 'country' => $row['country'],

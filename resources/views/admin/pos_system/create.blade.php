@@ -33,16 +33,7 @@
                                     </span>
                                 @enderror
                             </div>
-                            {{-- <div class="mb-2">
-                                <label for="qr_code">QR Code Upload*</label>
-                                <input type="file" id="qr_code" name="qr_code"
-                                    class="form-control @error('qr_code') is-invalid @enderror" required>
-                                @error('qr_code')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div> --}}
+                           
                             <div class="mb-2">
                                 <label for="mobilenumber">Phone*</label>
                                 <input type="number" id="mobilenumber" name="mobilenumber"

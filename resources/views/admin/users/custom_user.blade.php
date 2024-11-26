@@ -99,7 +99,7 @@
                         <div class="mb-2">
                             <label for="search_user">Sponsor User</label>
                             <input type="text" id="search_user" name="sponsor" class="form-control"
-                                placeholder="Type Sponsor name or user ID..." autocomplete="off">
+                                placeholder="Type Sponsor MobileNumber or user ID..." autocomplete="off">
 
                             <input type="hidden" id="hidden_sponsor_id" name="sponsor_id" class="form-control">
                             <div id="userList" class="dropdown-menu" style="display: none; width: 100%;"></div>
@@ -146,7 +146,7 @@
                                 $('#userList').append(
                                     '<a href="#" class="dropdown-item user-item" data-id="' +
                                     user.id + '">' +
-                                    user.name + ' (' + user.user_id + ')</a>'
+                                    user.mobilenumber + ' (' + user.user_id + ')</a>'
                                 );
                             });
                         } else {

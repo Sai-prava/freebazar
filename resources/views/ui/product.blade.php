@@ -3,16 +3,6 @@
 
 <body class="biolife-body">
 
-    <!-- Preloader -->
-    <div id="biof-loading">
-        <div class="biof-loading-center">
-            <div class="biof-loading-center-absolute">
-                <div class="dot dot-one"></div>
-                <div class="dot dot-two"></div>
-                <div class="dot dot-three"></div>
-            </div>
-        </div>
-    </div>
 
  
 
@@ -25,7 +15,7 @@
     <div class="container">
         <nav class="biolife-nav">
             <ul>
-                <li class="nav-item"><a href="index-2.html" class="permal-link">Home</a></li>             
+                <li class="nav-item"><a href="" class="permal-link">Home</a></li>             
                 <li class="nav-item"><span class="current-page">Fresh Fruit</span></li>
             </ul>
         </nav>
@@ -42,18 +32,18 @@
                 <div class="sumary-product single-layout">
                     <div class="media">
                         <ul class="biolife-carousel slider-for" data-slick='{"arrows":false,"dots":false,"slidesMargin":30,"slidesToShow":1,"slidesToScroll":1,"fade":true,"asNavFor":".slider-nav"}'>
-                            <li><img src="assets/images/details-product/p09.jpg" alt="" width="500" height="500"></li>
-                            <li><img src="assets/images/details-product/p08.jpg" alt="" width="500" height="500"></li>
-                            <li><img src="assets/images/details-product/p05.jpg" alt="" width="500" height="500"></li>
-                            <li><img src="assets/images/details-product/p06.jpg" alt="" width="500" height="500"></li>
-                            <li><img src="assets/images/details-product/p07.jpg" alt="" width="500" height="500"></li>
+                            <li><img src="{{ asset('assets/images/details-product/p09.jpg') }}" alt="" width="500" height="500"></li>
+                            <li><img src="{{ asset('assets/images/details-product/p08.jpg') }}" alt="" width="500" height="500"></li>
+                            <li><img src="{{ asset('assets/images/details-product/p05.jpg') }}" alt="" width="500" height="500"></li>
+                            <li><img src="{{ asset('assets/images/details-product/p06.jpg') }}" alt="" width="500" height="500"></li>
+                            <li><img src="{{ asset('assets/images/details-product/p07.jpg') }}" alt="" width="500" height="500"></li>
                         </ul>
                         <ul class="biolife-carousel slider-nav" data-slick='{"arrows":false,"dots":false,"centerMode":false,"focusOnSelect":true,"slidesMargin":10,"slidesToShow":4,"slidesToScroll":1,"asNavFor":".slider-for"}'>
-                            <li><img src="assets/images/details-product/thumb_p09.jpg" alt="" width="88" height="88"></li>
-                            <li><img src="assets/images/details-product/thumb_p08.jpg" alt="" width="88" height="88"></li>
-                            <li><img src="assets/images/details-product/thumb_p05.jpg" alt="" width="88" height="88"></li>
-                            <li><img src="assets/images/details-product/thumb_p06.jpg" alt="" width="88" height="88"></li>
-                            <li><img src="assets/images/details-product/thumb_p07.jpg" alt="" width="88" height="88"></li>
+                            <li><img src="{{ asset('assets/images/details-product/thumb_p09.jpg') }}" alt="" width="88" height="88"></li>
+                            <li><img src="{{ asset('assets/images/details-product/thumb_p08.jpg') }}" alt="" width="88" height="88"></li>
+                            <li><img src="{{ asset('assets/images/details-product/thumb_p05.jpg') }}" alt="" width="88" height="88"></li>
+                            <li><img src="{{ asset('assets/images/details-product/thumb_p06.jpg') }}" alt="" width="88" height="88"></li>
+                            <li><img src="{{ asset('assets/images/details-product/thumb_p07.jpg') }}" alt="" width="88" height="88"></li>
                         </ul>
                     </div>
                     <div class="product-attribute">
@@ -104,10 +94,10 @@
                         </div>
                         <div class="acepted-payment-methods">
                             <ul class="payment-methods">
-                                <li><img src="assets/images/card1.jpg" alt="" width="51" height="36"></li>
-                                <li><img src="assets/images/card2.jpg" alt="" width="51" height="36"></li>
-                                <li><img src="assets/images/card3.jpg" alt="" width="51" height="36"></li>
-                                <li><img src="assets/images/card4.jpg" alt="" width="51" height="36"></li>
+                                <li><img src="{{ asset('assets/images/card1.jpg') }}" alt="" width="51" height="36"></li>
+                                <li><img src="{{ asset('assets/images/card2.jpg') }}" alt="" width="51" height="36"></li>
+                                <li><img src="{{ asset('assets/images/card3.jpg') }}" alt="" width="51" height="36"></li>
+                                <li><img src="{{ asset('assets/images/card4.jpg') }}" alt="" width="51" height="36"></li>
                             </ul>
                         </div>
                     </div>

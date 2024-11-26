@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\UserExport;
 use App\Http\Controllers\Controller;
 use App\Imports\MasterUsersImport;
 use App\Models\sponcer;
@@ -56,9 +57,9 @@ class UserController extends Controller
         $query = $request->get('query');  // Get the search query
 
         // Fetch users based on name or user_id with LIKE query
-        $users = User::where('name', 'LIKE', "%$query%")
+        $users = User::where('mobilenumber', 'LIKE', "%$query%")
             ->orWhere('user_id', 'LIKE', "%$query%")
-            ->get(['id', 'name', 'user_id']); // Return only relevant fields
+            ->get(['id', 'mobilenumber', 'user_id']); // Return only relevant fields
 
         // Return the users as JSON for AJAX
         return response()->json($users);
@@ -85,6 +86,12 @@ class UserController extends Controller
             return redirect()->back()->with('error', $e->getMessage());
         }
     }
+    public function export()
+    {
+        $fileName = 'Format.xlsx';
+        return Excel::download(new UserExport, $fileName);
+    }
+
 
     public function store(Request $request)
     {
@@ -132,13 +139,13 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = User::find($id);
-        $sponsor = User::find($user->sponsor_id); 
-        
+        $sponsor = User::find($user->sponsor_id);
+
         $userData = User::where('role', 3)->get(['id', 'name', 'user_id']);
         if (!$user) {
             return redirect()->route('admin.users.index')->with('error', 'User not found.');
         }
-        return view('admin.users.edit', compact('user', 'userData','sponsor'));
+        return view('admin.users.edit', compact('user', 'userData', 'sponsor'));
     }
 
     /**
@@ -150,6 +157,7 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
+
         // dd($request->all());
         // Validate the incoming request data
         // $request->validate([
@@ -174,6 +182,10 @@ class UserController extends Controller
 
         // Find the user by ID
         $user = User::findOrFail($id);
+
+        $request->validate([
+            'mobilenumber' => 'required|regex:/^[0-9]{10}$/|unique:users,mobilenumber,' . $user->id,
+        ]);
 
         // Update user attributes
         $user->name = $request->name;
@@ -218,9 +230,10 @@ class UserController extends Controller
     {
         //  dd($request->all());
         $request->validate([
-            'mobilenumber' => 'required|unique:users,mobilenumber',
+            'mobilenumber' => 'required|unique:users,mobilenumber|regex:/^[0-9]{10}$/',
             'sponsor_id' => 'required|exists:users,id',
         ]);
+
         $user = new User();
         $user->name = $request->name;
         $user->email = $request->email;

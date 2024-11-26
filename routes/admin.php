@@ -44,6 +44,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth']], 
     // Route::get('user/edit/{$id}', [UserController::class,'userEdit'])->name('user.edit');
     Route::post('user-customer/store', [UserController::class, 'storeCustomUser'])->name('user.customer-store');
     Route::post('import/user', [UserController::class, 'importUser'])->name('user.import');
+    Route::get('user/export', [UserController::class, 'export'])->name('user.export');
+
 
     //roles
     Route::resource('roles', RoleController::class);

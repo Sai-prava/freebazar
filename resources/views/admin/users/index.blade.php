@@ -24,6 +24,7 @@
                     @can('permission_create')
                         <a class="btn btn-success btn-sm text-white" href="{{ route('admin.users.create') }}">Add User</a>
                     @endcan
+                    <a class="btn btn-danger btn-sm text-white" href="{{ route('admin.user.export') }}">Export</a>
                 </div>
             </div>
 

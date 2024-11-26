@@ -14,7 +14,7 @@
                                <li class="menu-item"><a href="{{ route('frontend.index') }}">Home</a></li>
                               
                                <li class="menu-item menu-item-has-children has-child">
-                                   <a href="#" class="menu-name" data-title="Product">Product</a>
+                                   <a href="{{ route('frontend.product') }}" class="menu-name" data-title="Product">Product</a>
                                    <ul class="sub-menu">
                                        <li class="menu-item"><a href="#">Omelettes</a></li>
                                        <li class="menu-item"><a href="#">Breakfast Scrambles</a></li>

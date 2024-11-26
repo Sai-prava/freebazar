@@ -41,9 +41,9 @@ class PosController extends Controller
      */
     public function store(Request $request)
     {
-        // $validate = $request->validate([
-        //     'mobilenumber' => 'required|unique:users,mobilenumber',
-        // ]);
+        $request->validate([
+            'mobilenumber' => 'required|unique:users,mobilenumber|regex:/^[0-9]{10}$/',
+        ]);
         $rand_user  = mt_rand(1000000, 9999999);
         $user = new User;
         $user->name = $request->name;
@@ -161,6 +161,9 @@ class PosController extends Controller
     public function update(Request $request, $id)
     {
         $pos = PosModel::find($id);
+        $request->validate([
+            'mobilenumber' => 'required|regex:/^[0-9]{10}$/|unique:users,mobilenumber,' . $pos->id,
+        ]);
 
         $pos->name = $request->name;
         $pos->email = $request->email;

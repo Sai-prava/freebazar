@@ -24,7 +24,7 @@ class UserDashboardController extends Controller
         $user_profile = auth()->user();
         $userId = $user_profile->id;
         // dd($userId);
-        $sponsors = Sponsor::where('sponsor_id',$userId)->get();
+        $sponsors = Sponsor::where('sponsor_id', $userId)->get();
         // dd($sponsors);
         $transactionQuery = Wallet::where('user_id', $userId);
         // dd($transactionQuery);
@@ -169,6 +169,9 @@ class UserDashboardController extends Controller
 
     public function storeUser(Request $request)
     {
+        $request->validate([
+            'mobilenumber' => 'required|unique:users,mobilenumber|regex:/^[0-9]{10}$/',
+        ]);
         $user_add = new User;
         $user_add->name = $request->name;
         $user_add->user_id = mt_rand(1000000, 9999999);
@@ -232,7 +235,7 @@ class UserDashboardController extends Controller
     public function sponsorList()
     {
         $userId = auth()->user()->id;
-        $sponcer = Sponsor::where('sponsor_id',$userId)->get();
+        $sponcer = Sponsor::where('sponsor_id', $userId)->get();
         // dd($sponcer);
         return view('frontend.dashboard.sponser_list', compact('sponcer'));
     }
@@ -260,8 +263,10 @@ class UserDashboardController extends Controller
     }
     public function updateprofile(Request $request)
     {
+       
         $update_profile = User::find(auth()->id());
 
+     
         if ($request->mobilenumber !== $update_profile->mobilenumber) {
             $update_profile->requestMobileNumberUpdate($request->mobilenumber);
 
