@@ -184,23 +184,17 @@
                         @enderror
                     </div>
                     <div class="mb-2">
-                        <label for="sponsor_id">Sponsor ID</label>
-                        <select id="sponsor_id" name="sponsor_id"
-                            class="form-control @error('sponsor_id') is-invalid @enderror">
-                            <option value="">Select a Sponsor</option>
-                            @foreach ($userData as $sponsor)
-                                <option value="{{ $sponsor->id }}"
-                                    {{ old('sponsor_id', $user->sponsor_id) == $sponsor->id ? 'selected' : '' }}>
-                                    {{ $sponsor->name }} ({{ $sponsor->user_id }})
-                                </option>
-                            @endforeach
-                        </select>
-                        @error('sponsor_id')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
+                        <label for="search_user">Sponsor User</label>
+                        <input type="text" id="search_user" name="sponsor" class="form-control"
+                            placeholder="Type Sponsor name or user ID..." autocomplete="off"
+                            value="{{ $sponsor ? $sponsor->name . ' (' . $sponsor->user_id . ')' : '' }}">
+
+                        <input type="hidden" id="hidden_sponsor_id" name="sponsor_id" class="form-control"
+                            value="{{ $sponsor ? $sponsor->id : '' }}">
+
+                        <div id="userList" class="dropdown-menu" style="display: none; width: 100%;"></div>
                     </div>
+
 
                     {{-- <div class="mb-2">
                         <label for="parent_level">Parent Level</label>
@@ -224,3 +218,53 @@
         </form>
     </div>
 @endsection
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#search_user').on('keyup', function() {
+            let query = $(this).val();
+            if (query.length > 0) {
+                $.ajax({
+                    url: "{{ route('admin.search.sponsor') }}",
+                    type: "GET",
+                    data: {
+                        query: query
+                    },
+                    success: function(data) {
+                        $('#userList').empty().show();
+                        if (data.length > 0) {
+                            $.each(data, function(index, user) {
+                                $('#userList').append(
+                                    '<a href="#" class="dropdown-item user-item" data-id="' +
+                                    user.id + '">' +
+                                    user.name + ' (' + user.user_id + ')</a>'
+                                );
+                            });
+                        } else {
+                            $('#userList').append(
+                                '<div class="dropdown-item">No users found</div>'
+                            );
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("AJAX Error: " + status + " - " +
+                            error);
+                    },
+                });
+            } else {
+                $('#userList').hide();
+            }
+        });
+
+        $(document).on('click', '.user-item', function() {
+            let userName = $(this).text();
+            let sponsorId = $(this).data('id');
+            console.log(sponsorId);
+
+            $('#search_user').val(userName);
+            $('#hidden_sponsor_id').val(sponsorId);
+            $('#userList').hide();
+        });
+    });
+</script>

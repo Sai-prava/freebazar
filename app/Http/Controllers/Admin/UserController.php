@@ -51,6 +51,19 @@ class UserController extends Controller
         $roles = Role::all();
         return view('admin.users.create', compact('roles'));
     }
+    public function searchSponsor(Request $request)
+    {
+        $query = $request->get('query');  // Get the search query
+
+        // Fetch users based on name or user_id with LIKE query
+        $users = User::where('name', 'LIKE', "%$query%")
+            ->orWhere('user_id', 'LIKE', "%$query%")
+            ->get(['id', 'name', 'user_id']); // Return only relevant fields
+
+        // Return the users as JSON for AJAX
+        return response()->json($users);
+    }
+
 
     /**
      * Store a newly created resource in storage.
@@ -119,11 +132,13 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = User::find($id);
-        $userData= User::where('role',3)->get(['id','name','user_id']);
+        $sponsor = User::find($user->sponsor_id); 
+        
+        $userData = User::where('role', 3)->get(['id', 'name', 'user_id']);
         if (!$user) {
             return redirect()->route('admin.users.index')->with('error', 'User not found.');
         }
-        return view('admin.users.edit', compact('user','userData'));
+        return view('admin.users.edit', compact('user', 'userData','sponsor'));
     }
 
     /**
@@ -135,6 +150,7 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
+        // dd($request->all());
         // Validate the incoming request data
         // $request->validate([
         //     'name' => 'required|string|max:255',
@@ -178,30 +194,29 @@ class UserController extends Controller
         $user->sponsor_id = $request->sponsor_id;
 
         if ($user->save()) {
-            $sponcer = Sponsor::where('user_id',$user->id)->first();
+            $sponcer = Sponsor::where('user_id', $user->id)->first();
             // dd($sponcer); 
-            if($sponcer == null){
+            if ($sponcer == null) {
                 $sponcer = new Sponsor();
                 $sponcer->user_id = $user->id;
                 $sponcer->sponsor_id = $request->sponsor_id;
-            }        
+            }
             $sponcer->sponsor_id = $request->sponsor_id;
 
             if ($sponcer->save()) {
                 return redirect()->route('admin.users.index')->with('success', 'Customer updated successfully.');
             }
-        }        
-            
+        }
     }
 
     public function customUser()
     {
-        $userData= User::where('role',3)->get(['id','name','user_id']);
-        return view('admin.users.custom_user',compact('userData'));
+        $userData = User::where('role', 3)->get(['id', 'name', 'user_id']);
+        return view('admin.users.custom_user', compact('userData'));
     }
     public function storeCustomUser(Request $request)
     {
-        // dd($request->all());
+        //  dd($request->all());
         $request->validate([
             'mobilenumber' => 'required|unique:users,mobilenumber',
             'sponsor_id' => 'required|exists:users,id',
@@ -230,7 +245,7 @@ class UserController extends Controller
             if ($sponcer->save()) {
                 flash()->addSuccess('Customer User created successfully.');
                 return redirect()->back();
-            } 
+            }
         } else {
             flash()->addError('User create fail!');
             return redirect()->back();

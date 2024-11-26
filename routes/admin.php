@@ -38,6 +38,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth']], 
     Route::resource('users', UserController::class);
     Route::get('user-ban-unban/{id}/{status}', 'UserController@banUnban')->name('user.banUnban');
     Route::get('user-customer', [UserController::class, 'customUser'])->name('user.customer');
+    Route::get('search-sponsor', [UserController::class, 'searchSponsor'])->name('search.sponsor');
+
+
     // Route::get('user/edit/{$id}', [UserController::class,'userEdit'])->name('user.edit');
     Route::post('user-customer/store', [UserController::class, 'storeCustomUser'])->name('user.customer-store');
     Route::post('import/user', [UserController::class, 'importUser'])->name('user.import');

@@ -10,7 +10,7 @@ class Sponsor extends Model
     use HasFactory;
 
     public $timestamps = true;
-
+    public $table = 'sponsors';
     protected $fillable = [
         'user_id',
         'sponsor_id',

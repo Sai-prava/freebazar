@@ -23,8 +23,9 @@ class UserDashboardController extends Controller
     {
         $user_profile = auth()->user();
         $userId = $user_profile->id;
+        // dd($userId);
         $sponsors = Sponsor::where('sponsor_id',$userId)->get();
-
+        // dd($sponsors);
         $transactionQuery = Wallet::where('user_id', $userId);
         // dd($transactionQuery);
         //     $monthlyPurchases = Wallet::where('user_id', $userId)

@@ -58,7 +58,7 @@
                 <tbody>
                     @if ($monthlySales->isEmpty())
                         <tr>
-                            <td colspan="5" class="text-center text-danger font-weight-bold">No Data Available</td>
+                            <td colspan="8" class="text-center text-danger font-weight-bold">No Data Available</td>
                         </tr>
                     @else
                         @foreach ($monthlySales as $key => $data)
