@@ -237,7 +237,7 @@
                                     <li class="product-item">
                                         <div class="contain-product layout-default">
                                             <div class="product-thumb">
-                                                <a href="{{ route('frontend.product') }}" class="link-to-product">
+                                                <a href="{{ route('frontend.product',$data->id) }}" class="link-to-product">
                                                     <img src="{{ asset('images/' . $data->image) }}" alt="Vegetables"
                                                         width="270" height="270" class="product-thumnail">
                                                 </a>
@@ -246,11 +246,11 @@
                                             </div>
                                             <div class="info">
                                                 <b class="categories">{{ $data->sector->title }}</b>
-                                                <h4 class="product-title"><a href="{{ route('frontend.product') }}"
+                                                <h4 class="product-title"><a href="{{ route('frontend.product',$data->id) }}"
                                                         class="pr-name">{{ $data->title }}</a></h4>
                                                 <div class="price ">
                                                     <ins><span class="price-amount"><span
-                                                                class="currencySymbol">£</span>{{ $data->total_price }}</span></ins>
+                                                                class="currencySymbol">£</span>{{ $data->price }}</span></ins>
                                                     <del><span class="price-amount"><span
                                                                 class="currencySymbol">£</span>{{ $data->discount_price }}</span></del>
                                                 </div>

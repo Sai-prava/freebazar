@@ -14,7 +14,7 @@
                                <li class="menu-item"><a href="{{ route('frontend.index') }}">Home</a></li>
                               
                                <li class="menu-item menu-item-has-children has-child">
-                                   <a href="{{ route('frontend.product') }}" class="menu-name" data-title="Product">Product</a>
+                                   <a href="" class="menu-name" data-title="Product">Product</a>
                                    <ul class="sub-menu">
                                        <li class="menu-item"><a href="#">Omelettes</a></li>
                                        <li class="menu-item"><a href="#">Breakfast Scrambles</a></li>
@@ -104,12 +104,13 @@
                            <div class="minicart-block">
                                <div class="minicart-contain">
                                    <a href="javascript:void(0)" class="link-to">
+                                    @php
+                                        $cart = App\Models\Cart::where('user_id', Auth::id())->get();
+                                    @endphp
                                        <span class="icon-qty-combine">
                                            <i class="icon-cart-mini biolife-icon"></i>
-                                           <span class="qty">8</span>
+                                           <span class="qty">{{ count($cart) }}</span>
                                        </span>
-                                       <span class="title">My Cart -</span>
-                                       <span class="sub-total">$0.00</span>
                                    </a>
                                    <div class="cart-content">
                                        <div class="cart-inner">

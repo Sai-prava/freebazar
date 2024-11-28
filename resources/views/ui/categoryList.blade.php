@@ -150,7 +150,7 @@
                                             <p class="excerpt">{!! $data->description !!}</p>
                                             <div class="price">
                                                 <ins><span class="price-amount"><span
-                                                            class="currencySymbol">£</span>{{ $data->total_price }}</span></ins>
+                                                            class="currencySymbol">£</span>{{ $data->price }}</span></ins>
                                                 <del><span class="price-amount"><span
                                                             class="currencySymbol">£</span>{{ $data->discount_price }}</span></del>
                                             </div>

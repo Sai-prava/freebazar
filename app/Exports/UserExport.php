@@ -15,7 +15,6 @@ class UserExport implements FromCollection, WithHeadings, WithMapping
      */
     public function collection()
     {
-        // Fetch all users along with sponsor_id
         return User::select(
             'user_id',
             'name',
@@ -33,7 +32,7 @@ class UserExport implements FromCollection, WithHeadings, WithMapping
             'bank',
             'relation_user',
             'zip',
-            'sponsor_id',  // Assuming sponsor_id stores the user_id
+            'sponsor_id',  
         )->get();
     }
 
@@ -56,7 +55,7 @@ class UserExport implements FromCollection, WithHeadings, WithMapping
             'Bank Name',      
             'Relation to User', 
             'ZIP Code',     
-            'Sponsor ID',    // The column name in the Excel export
+            'Sponsor ID',    
         ];
     }
 
@@ -68,11 +67,10 @@ class UserExport implements FromCollection, WithHeadings, WithMapping
      */
     public function map($user): array
     {
-        // Fetch the actual user_id from the 'sponsor_id'
-        $sponsor = User::find($user->sponsor_id);  // Fetch the user based on sponsor_id
+        $sponsor = User::find($user->sponsor_id);  
 
         return [
-            $user->user_id,            // Display actual user_id
+            $user->user_id,         
             $user->name,              
             $user->email,             
             $user->gender,            
@@ -88,7 +86,7 @@ class UserExport implements FromCollection, WithHeadings, WithMapping
             $user->bank,              
             $user->relation_user,     
             $user->zip,               
-            $sponsor ? $sponsor->user_id : 'N/A',  // Display the user_id of sponsor
+            $sponsor ? $sponsor->user_id : 'N/A',  
         ];
     }
 }

@@ -37,7 +37,7 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::get('/', [FrontendController::class, 'index'])->name('frontend.index');
 Route::get('/category/{id}', [FrontendController::class, 'category'])->name('frontend.category');
-Route::get('/product', [FrontendController::class, 'product'])->name('frontend.product');
+Route::get('/product/{id}', [FrontendController::class, 'product'])->name('frontend.product');
 // Route::get('/category/{id}', [FrontendController::class, 'categoryView'])->name('frontend.categoryView');
 Route::get('/subsector/{id}', [FrontendController::class, 'subsector'])->name('frontend.subsector');
 Route::get('/viewsubsector/{id}', [FrontendController::class, 'viewSubsector'])->name('subsector.view');
@@ -51,6 +51,11 @@ Route::get('/event/category', [FrontendController::class, 'eventCategory'])->nam
 Route::get('/event/{id}', [FrontendController::class, 'eventView'])->name('event.view');
 Route::get('/event/view/{id}', [FrontendController::class, 'eventReadmore'])->name('event.readmore');
 Route::get('/infographics', [FrontendController::class, 'infographics'])->name('frontend.infographics');
+// Route::get('/cart', [FrontendController::class, 'cart'])->name('frontend.cart');
+// Route::get('/cart/add/{id}', [FrontendController::class, 'addToCart'])->name('cart.add');
+// Route::post('/increase/quantity/{id}', [FrontendController::class, 'increaseQuantity'])->name('increase.quantity');
+// Route::post('/decrease/quantity/{id}', [FrontendController::class, 'decreaseQuantity'])->name('decrease.quantity');
+// Route::delete('/delete/{id}', [FrontendController::class, 'delete'])->name('cart.delete');
 
 
 
@@ -61,16 +66,18 @@ Route::get('/infographics', [FrontendController::class, 'infographics'])->name('
 // Route::post('register/store', [LoginController::class, 'storeRegister'])->name('register.store');
 
 
-Route::group(['middleware' => 'user'], function () {
+Route::group(['middleware' => 'auth'], function () {
     //carts
-    Route::get('/cart', [CartController::class, 'cart'])->name('cart.index');
-    Route::get('/cart/add/{id}', [CartController::class, 'addToCart'])->name('cart.add');  
-    Route::post('/cart/increase/{id}', [CartController::class, 'increaseQuantity'])->name('cart.increase');
-    Route::post('/cart/decrease/{id}', [CartController::class, 'decreaseQuantity'])->name('cart.decrease');     
-    Route::delete('/cart/delete/{id}', [CartController::class, 'delete'])->name('cart.delete');
+    Route::get('/cart', [CartController::class, 'cart'])->name('frontend.cart');
+    Route::get('/cart/add/{id}', [CartController::class, 'addToCart'])->name('cart.add');
+    Route::get('/cart/delete/{id}', [CartController::class, 'delete'])->name('cart.delete');
+    Route::post('/cart/increase/{id}', [CartController::class, 'increaseQuantity'])->name('increase.quantity');
+    Route::post('/cart/decrease/{id}', [CartController::class, 'decreaseQuantity'])->name('decrease.quantity');
+    Route::get('/cart/checkout', [CartController::class, 'checkOut'])->name('cart.checkout');
     //logout
-    Route::get('/logout/user', [LoginController::class, 'logout'])->name('auth.logout');
+    // Route::get('/logout/user', [LoginController::class, 'logout'])->name('auth.logout');
 });
+
 
 
 // //user dashboard
@@ -111,8 +118,6 @@ Route::group(['prefix' => 'pos', 'as' => 'pos.', 'middleware' => ['auth']], func
     Route::get('unverified/user', [WalletController::class, 'unverified'])->name('unverified.user');
     Route::put('customers/{id}', [WalletController::class, 'update'])->name('customers.update');
     Route::get('wallet/update-status/{id}', [WalletController::class, 'updateStatus'])->name('wallet.updateStatus');
-
 });
 
 Route::get('/admin/pos_system/download/{id}/{name}', [AdminPosController::class, 'download_qr'])->name('admin.pos_system.download');
-

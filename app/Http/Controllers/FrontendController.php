@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Blog;
 use App\Models\BlogCategory;
+use App\Models\Cart;
 use App\Models\Event;
 use App\Models\EventCategory;
 use App\Models\InfoGraphic;
@@ -11,26 +12,30 @@ use App\Models\Product;
 use App\Models\Sector;
 use App\Models\SubSector;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class FrontendController extends Controller
 {
     public function index()
     {
-        $category = Sector::all(); 
+        $category = Sector::all();
         $products = Product::all();
-        return view('ui.index',compact('category','products'));
+        return view('ui.index', compact('category', 'products'));
     }
 
     public function category($id)
-    {     
+    {
         $category = Sector::find($id);
         $products = Product::where('sector_id', $id)->get();
-        return view('ui.categoryList',compact('category','products'));
+        return view('ui.categoryList', compact('category', 'products'));
     }
-    public function product(){
-        $products = Product::all();
-        return view('ui.product',compact('products'));
+    public function product($id)
+    {
+        $products = Product::find($id);
+        return view('ui.product', compact('products'));
     }
+
+  
     // public function categoryView($id)
     // {
     //     $viewCategory = Sector::find($id);

@@ -3,20 +3,17 @@
 
 <body class="biolife-body">
 
-
- 
-
     <!--Hero Section-->
     <div class="hero-section hero-background">
-        <h1 class="page-title">Organic Fruits</h1>
+        <h1 class="page-title">{{ $products->title }}</h1>
     </div>
 
     <!--Navigation section-->
     <div class="container">
         <nav class="biolife-nav">
             <ul>
-                <li class="nav-item"><a href="" class="permal-link">Home</a></li>             
-                <li class="nav-item"><span class="current-page">Fresh Fruit</span></li>
+                <li class="nav-item"><a href="{{ route('frontend.index') }}" class="permal-link">Home</a></li>             
+                <li class="nav-item"><span class="current-page">{{ $products->sector->title }}</span></li>
             </ul>
         </nav>
     </div>
@@ -32,48 +29,50 @@
                 <div class="sumary-product single-layout">
                     <div class="media">
                         <ul class="biolife-carousel slider-for" data-slick='{"arrows":false,"dots":false,"slidesMargin":30,"slidesToShow":1,"slidesToScroll":1,"fade":true,"asNavFor":".slider-nav"}'>
-                            <li><img src="{{ asset('assets/images/details-product/p09.jpg') }}" alt="" width="500" height="500"></li>
-                            <li><img src="{{ asset('assets/images/details-product/p08.jpg') }}" alt="" width="500" height="500"></li>
+                            <li><img src="{{ asset('images/' . $products->image) }}" alt="" width="500" height="500"></li>
+                            {{-- <li><img src="{{ asset('assets/images/details-product/p08.jpg') }}" alt="" width="500" height="500"></li>
                             <li><img src="{{ asset('assets/images/details-product/p05.jpg') }}" alt="" width="500" height="500"></li>
                             <li><img src="{{ asset('assets/images/details-product/p06.jpg') }}" alt="" width="500" height="500"></li>
-                            <li><img src="{{ asset('assets/images/details-product/p07.jpg') }}" alt="" width="500" height="500"></li>
+                            <li><img src="{{ asset('assets/images/details-product/p07.jpg') }}" alt="" width="500" height="500"></li> --}}
                         </ul>
-                        <ul class="biolife-carousel slider-nav" data-slick='{"arrows":false,"dots":false,"centerMode":false,"focusOnSelect":true,"slidesMargin":10,"slidesToShow":4,"slidesToScroll":1,"asNavFor":".slider-for"}'>
+                        {{-- <ul class="biolife-carousel slider-nav" data-slick='{"arrows":false,"dots":false,"centerMode":false,"focusOnSelect":true,"slidesMargin":10,"slidesToShow":4,"slidesToScroll":1,"asNavFor":".slider-for"}'>
                             <li><img src="{{ asset('assets/images/details-product/thumb_p09.jpg') }}" alt="" width="88" height="88"></li>
                             <li><img src="{{ asset('assets/images/details-product/thumb_p08.jpg') }}" alt="" width="88" height="88"></li>
                             <li><img src="{{ asset('assets/images/details-product/thumb_p05.jpg') }}" alt="" width="88" height="88"></li>
                             <li><img src="{{ asset('assets/images/details-product/thumb_p06.jpg') }}" alt="" width="88" height="88"></li>
                             <li><img src="{{ asset('assets/images/details-product/thumb_p07.jpg') }}" alt="" width="88" height="88"></li>
-                        </ul>
+                        </ul> --}}
                     </div>
                     <div class="product-attribute">
-                        <h3 class="title">Organic 10 Assorted Flavors Jelly Beans, 5.5 Oz</h3>
-                        <div class="rating">
+                        <h3 class="title">{{ $products->title }}</h3>
+                        {{-- <div class="rating">
                             <p class="star-rating"><span class="width-80percent"></span></p>
                             <span class="review-count">(04 Reviews)</span>
                             <span class="qa-text">Q&A</span>
                             <b class="category">By: Natural food</b>
-                        </div>
-                        <span class="sku">Sku: #76584HH</span>
-                        <p class="excerpt">Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a. Cras ultricies ligula sed magna dictum porta. Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Cras ultricies ligula sed magna dictum porta. Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a.</p>
+                        </div> --}}
+                        {{-- <span class="sku">Sku: #76584HH</span> --}}
+                        <p class="excerpt">{!! Str::limit($products->description, 30, '...') !!}</p>
+
                         <div class="price">
-                            <ins><span class="price-amount"><span class="currencySymbol">£</span>85.00</span></ins>
-                            <del><span class="price-amount"><span class="currencySymbol">£</span>95.00</span></del>
+                            <ins><span class="price-amount"><span class="currencySymbol">£</span>{{ $products->price }}</span></ins>
+                            <del><span class="price-amount"><span class="currencySymbol">£</span>{{ $products->discount_price }}</span></del>
                         </div>
+                        
                         <div class="shipping-info">
-                            <p class="shipping-day">3-Day Shipping</p>
-                            <p class="for-today">Pree Pickup Today</p>
+                            {{-- <p class="shipping-day">3-Day Shipping</p>
+                            <p class="for-today">Pree Pickup Today</p> --}}
                         </div>
                     </div>
                     <div class="action-form">
                         <div class="buttons external-btn">
-                            <a href="#" class="btn add-to-cart-btn">Buy Product</a>
-                            <p class="pull-row">
+                            <a href="{{ route('cart.add',$products->id) }}" class="btn add-to-cart-btn">Add To Cart</a>
+                            {{-- <p class="pull-row">
                                 <a href="#" class="btn wishlist-btn">wishlist</a>
                                 <a href="#" class="btn compare-btn">compare</a>
-                            </p>
+                            </p> --}}
                         </div>
-                        <div class="location-shipping-to">
+                        {{-- <div class="location-shipping-to">
                             <span class="title">Ship to:</span>
                             <select name="shipping_to" class="country">
                                 <option value="-1">Select Country</option>
@@ -99,34 +98,33 @@
                                 <li><img src="{{ asset('assets/images/card3.jpg') }}" alt="" width="51" height="36"></li>
                                 <li><img src="{{ asset('assets/images/card4.jpg') }}" alt="" width="51" height="36"></li>
                             </ul>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
 
                 <!-- Tab info -->
-                <div class="product-tabs single-layout biolife-tab-contain">
+                <div class="product-tabs single-layout biolife-tab-contain" style="margin-top: 40px;">
                     <div class="tab-head">
                         <ul class="tabs">
                             <li class="tab-element active"><a href="#tab_1st" class="tab-link">Products Descriptions</a></li>
-                            <li class="tab-element" ><a href="#tab_2nd" class="tab-link">Addtional information</a></li>
-                            <li class="tab-element" ><a href="#tab_3rd" class="tab-link">Shipping & Delivery</a></li>
+                            {{-- <li class="tab-element" ><a href="#tab_2nd" class="tab-link">Addtional information</a></li>
+                            <li class="tab-element" ><a href="#tab_3rd" class="tab-link">Shipping & Delivery</a></li> --}}
                             <li class="tab-element" ><a href="#tab_4th" class="tab-link">Customer Reviews <sup>(3)</sup></a></li>
                         </ul>
                     </div>
                     <div class="tab-content">
                         <div id="tab_1st" class="tab-contain desc-tab active">
-                            <p class="desc">Quisque quis ipsum venenatis, fermentum ante volutpat, ornare enim. Phasellus molestie risus non aliquet cursus. Integer vestibulum mi lorem, id hendrerit ante lobortis non. Nunc ante ante, lobortis non pretium non, vulputate vel nisi. Maecenas dolor elit, fringilla nec turpis ac, auctor vulputate nulla. Phasellus sed laoreet velit.
-                                Proin fringilla urna vel mattis euismod. Etiam sodales, massa non tincidunt iaculis, mauris libero scelerisque justo, ut rutrum lectus urna sit amet quam. Nulla maximus vestibulum mi vitae accumsan. Donec sit amet ligula et enim semper viverra a in arcu. Vestibulum enim ligula, varius sed enim vitae, posuere molestie velit. Morbi risus orci, congue in nulla at, sodales fermentum magna.</p>
-                            <div class="desc-expand">
+                            <p class="desc">{!! $products->description !!}</p>
+                            {{-- <div class="desc-expand">
                                 <span class="title">Organic Fresh Fruit</span>
                                 <ul class="list">
                                     <li>100% real fruit ingredients</li>
                                     <li>100 fresh fruit bags individually wrapped</li>
                                     <li>Blending Eastern & Western traditions, naturally</li>
                                 </ul>
-                            </div>
+                            </div> --}}
                         </div>
-                        <div id="tab_2nd" class="tab-contain addtional-info-tab">
+                        {{-- <div id="tab_2nd" class="tab-contain addtional-info-tab">
                             <table class="tbl_attributes">
                                 <tbody>
                                 <tr>
@@ -185,7 +183,7 @@
                                     </li>
                                 </ul>
                             </div>
-                        </div>
+                        </div> --}}
                         <div id="tab_4th" class="tab-contain review-tab">
                             <div class="container">
                                 <div class="row">
