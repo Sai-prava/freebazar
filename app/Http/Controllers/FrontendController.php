@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Banner;
 use App\Models\Blog;
 use App\Models\BlogCategory;
 use App\Models\Cart;
@@ -18,9 +19,10 @@ class FrontendController extends Controller
 {
     public function index()
     {
-        $category = Sector::all();
+        $banner = Banner::latest()->take(3)->get();
+        $category = Sector::latest()->take(5)->get();  
         $products = Product::all();
-        return view('ui.index', compact('category', 'products'));
+        return view('ui.index', compact('category', 'products','banner'));
     }
 
     public function category($id)

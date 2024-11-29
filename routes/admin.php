@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\Admin\BlogCategoryController;
 use App\Http\Controllers\Admin\BlogController;
 use App\Http\Controllers\Admin\DsrController;
@@ -52,6 +53,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth']], 
 
     //permission
     Route::resource('permissions', PermissionController::class);
+
+    //banner
+    Route::resource('banner', BannerController::class);
+    Route::post('banner/{id}/update', [BannerController::class, 'update'])->name('banner.update');
 
     //sector
     Route::resource('sector', SectorController::class);

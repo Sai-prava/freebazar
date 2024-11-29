@@ -1,5 +1,5 @@
    <!-- HEADER -->
-   <header id="header" class="header-area style-01 layout-04">     
+   <header id="header" class="header-area style-01 layout-04">
        <div class="header-middle biolife-sticky-object ">
            <div class="container">
                <div class="row">
@@ -12,48 +12,23 @@
                            <ul class="menu biolife-menu clone-main-menu clone-primary-menu" id="primary-menu"
                                data-menuname="main menu">
                                <li class="menu-item"><a href="{{ route('frontend.index') }}">Home</a></li>
-                              
+                               @php
+                                   $products = DB::table('products')->select('id', 'title')->latest('id')->take(10)->get();
+                               @endphp
                                <li class="menu-item menu-item-has-children has-child">
                                    <a href="" class="menu-name" data-title="Product">Product</a>
                                    <ul class="sub-menu">
-                                       <li class="menu-item"><a href="#">Omelettes</a></li>
-                                       <li class="menu-item"><a href="#">Breakfast Scrambles</a></li>
-                                       <li class="menu-item menu-item-has-children has-child"><a href="#"
-                                               class="menu-name" data-title="Eggs & other considerations">Eggs & other
-                                               considerations</a>
-                                           <ul class="sub-menu">
-                                               <li class="menu-item"><a href="#">Classic Breakfast</a></li>
-                                               <li class="menu-item"><a href="#">Huevos Rancheros</a></li>
-                                               <li class="menu-item"><a href="#">Everything Egg Sandwich</a>
-                                               </li>
-                                               <li class="menu-item"><a href="#">Egg Sandwich</a></li>
-                                               <li class="menu-item"><a href="#">Vegan Burrito</a></li>
-                                               <li class="menu-item"><a href="#">Biscuits and Gravy</a></li>
-                                               <li class="menu-item"><a href="#">Bacon Avo Egg Sandwich</a></li>
-                                           </ul>
-                                       </li>
-                                       <li class="menu-item"><a href="#">Griddle</a></li>
-                                       <li class="menu-item menu-item-has-children has-child"><a href="#"
-                                               class="menu-name" data-title="Sides & Extras">Sides & Extras</a>
-                                           <ul class="sub-menu">
-                                               <li class="menu-item"><a href="#">Breakfast Burrito</a></li>
-                                               <li class="menu-item"><a href="#">Crab Cake Benedict</a></li>
-                                               <li class="menu-item"><a href="#">Corned Beef Hash</a></li>
-                                               <li class="menu-item"><a href="#">Steak & Eggs</a></li>
-                                               <li class="menu-item"><a href="#">Oatmeal</a></li>
-                                               <li class="menu-item"><a href="#">Fruit & Yogurt Parfait</a></li>
-                                           </ul>
-                                       </li>
-                                       <li class="menu-item"><a href="#">Biscuits</a></li>
-                                       <li class="menu-item"><a href="#">Seasonal Fruit Plate</a></li>
+                                       @foreach ($products as $product)
+                                           <li class="menu-item"><a href="{{ route('frontend.product',$product->id) }}">{{$product->title  }}</a></li>
+                                       @endforeach
                                    </ul>
                                </li>
                                <li>
-                                   @auth                                      
+                                   @auth
+                                       <a href="{{ route('user.index') }}" style="margin-right: 25px;">Dashboard</a>
                                        <a href="{{ route('logout') }}" style="display: inline;"
                                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
-                                       <form id="logout-form" action="{{ route('logout') }}" method="POST"
-                                           class="d-none">
+                                       <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                            @csrf
                                        </form>
                                    @else
@@ -68,7 +43,7 @@
                    </div>
                    <div class="col-lg-3 col-md-3 col-md-6 col-xs-6">
                        <div class="biolife-cart-info">
-                           <div class="mobile-search">
+                           {{-- <div class="mobile-search">
                                <a href="javascript:void(0)" class="open-searchbox"><i
                                        class="biolife-icon icon-search"></i></a>
                                <div class="mobile-search-content">
@@ -92,27 +67,27 @@
                                        <button type="submit" class="btn-submit">go</button>
                                    </form>
                                </div>
-                           </div>
-                           <div class="wishlist-block hidden-sm hidden-xs">
+                           </div> --}}
+                           {{-- <div class="wishlist-block hidden-sm hidden-xs">
                                <a href="#" class="link-to">
                                    <span class="icon-qty-combine">
                                        <i class="icon-heart-bold biolife-icon"></i>
                                        <span class="qty">4</span>
                                    </span>
                                </a>
-                           </div>
+                           </div> --}}
                            <div class="minicart-block">
                                <div class="minicart-contain">
-                                   <a href="javascript:void(0)" class="link-to">
-                                    @php
-                                        $cart = App\Models\Cart::where('user_id', Auth::id())->get();
-                                    @endphp
+                                   <a href="{{ route('frontend.cart') }}" class="link-to">
+                                       @php
+                                           $cart = App\Models\Cart::where('user_id', Auth::id())->get();
+                                       @endphp
                                        <span class="icon-qty-combine">
                                            <i class="icon-cart-mini biolife-icon"></i>
                                            <span class="qty">{{ count($cart) }}</span>
                                        </span>
                                    </a>
-                                   <div class="cart-content">
+                                   {{-- <div class="cart-content">
                                        <div class="cart-inner">
                                            <ul class="products">
                                                <li>
@@ -281,7 +256,7 @@
                                                <a href="#" class="btn">checkout</a>
                                            </p>
                                        </div>
-                                   </div>
+                                   </div> --}}
                                </div>
                            </div>
                            <div class="mobile-menu-toggle">

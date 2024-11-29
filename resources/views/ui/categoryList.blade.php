@@ -45,7 +45,7 @@
                                         </h4>
                                         <div class="price">
                                             <ins><span class="price-amount"><span
-                                                        class="currencySymbol">£</span>{{ $data->total_price }}</span></ins>
+                                                        class="currencySymbol">£</span>{{ $data->price }}</span></ins>
                                             <del><span class="price-amount"><span
                                                         class="currencySymbol">£</span>{{ $data->discount_price }}</span></del>
                                         </div>
@@ -157,7 +157,7 @@
                                             <div class="buttons">
                                                 <a href="#" class="btn wishlist-btn"><i class="fa fa-heart"
                                                         aria-hidden="true"></i></a>
-                                                <a href="#" class="btn add-to-cart-btn">add to cart</a>
+                                                <a href="{{ route('cart.add',$data->id) }}" class="btn add-to-cart-btn">add to cart</a>
                                                 <a href="#" class="btn compare-btn"><i class="fa fa-random"
                                                         aria-hidden="true"></i></a>
                                             </div>

@@ -89,16 +89,6 @@ class DsrController extends Controller
             return $data;
         });
 
-        // $query = Wallet::select(
-        //     'pos_id',
-        //     'user_id',
-        //     'mobilenumber',
-        //     DB::raw('DATE_FORMAT(transaction_date, "%Y-%m") as transaction_month'),
-        //     DB::raw('SUM(billing_amount) as total_billing_amount')
-        // )
-        //     ->whereNotNull('transaction_date')
-        //     ->groupBy('user_id', 'pos_id', 'mobilenumber', 'transaction_month');
-
         $query = Wallet::select(
             'user_id',
             'mobilenumber',
@@ -117,11 +107,11 @@ class DsrController extends Controller
         if ($request->filled('filter')) {
             $filterTerm = $request->filter;
             $query->where('mobilenumber', $filterTerm)
-                  ->orWhereHas('user', function ($q) use ($filterTerm) {
-                      $q->where('id', $filterTerm); 
-                  });
+                ->orWhereHas('user', function ($q) use ($filterTerm) {
+                    $q->where('id', $filterTerm);
+                });
         }
-        
+
         if ($request->has('month') && !empty($request->month)) {
             $selectedMonth = $request->month;
             $query->whereRaw('DATE_FORMAT(transaction_date, "%Y-%m") = ?', [$selectedMonth]);
@@ -170,7 +160,18 @@ class DsrController extends Controller
         }
 
         $filteredData = $query->get();
+        $dataWithSponsorExpenditure = $filteredData->map(function ($data) {
+            $check_sponsor = Sponsor::where('sponsor_id', $data->user_id)->get();
+            $billing_amount = 0;
 
-        return Excel::download(new MsrExport($filteredData), 'MonthlySalesReport.csv');
+            if (!$check_sponsor->isEmpty()) {
+                $check_sponsor->map(function ($item) use (&$billing_amount) {
+                    $billing_amount += Wallet::where('user_id', $item->user_id)->sum('billing_amount');
+                });
+            }
+            $data->sponsor_expenditure = $billing_amount;
+            return $data;
+        });
+        return Excel::download(new MsrExport($dataWithSponsorExpenditure), 'MonthlySalesReport.csv');
     }
 }

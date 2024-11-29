@@ -67,7 +67,7 @@
                                             <td class="product-price" data-title="Price">
                                                 <div class="price price-contain">
                                                     <ins><span class="price-amount"><span
-                                                                class="currencySymbol">£</span>{{ $cart->product->total_price }}</span></ins>
+                                                                class="currencySymbol">£</span>{{ number_format($cart->product->total_price,2)  }}</span></ins>
 
                                                 </div>
                                             </td>
@@ -90,7 +90,7 @@
                                             <td class="product-subtotal" data-title="Total">
                                                 <div class="price price-contain">
                                                     <ins><span class="price-amount">£<span
-                                                                class="totalPrice{{ $cart->id }}">{{ $cart->total_price }}</span></span></ins>
+                                                                class="totalPrice{{ $cart->id }}">{{ number_format($cart->total_price ,2) }}</span></span></ins>
 
                                                 </div>
                                             </td>
@@ -115,7 +115,7 @@
                             <div class="subtotal-line">
                                 <b class="stt-name">Subtotal <span class="sub">({{ count($cartItems) }}
                                         items)</span></b>
-                                <span class="stt-price">£ <span class="sub_total">{{ $total_price }}</span></span>
+                                <span class="stt-price">£ <span class="sub_total">{{ number_format($total_price,2)  }}</span></span>
                             </div>
 
                             {{-- <div class="tax-fee">

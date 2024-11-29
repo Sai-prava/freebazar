@@ -5,17 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class SubSector extends Model
+class Banner extends Model
 {
     use HasFactory;
     public $timestamps = true;
 
-    protected $fillable = [        
-        'title',
+    protected $fillable = [               
         'image',
-        'sector_id',
+        'title',
+        'sub_title',
+        'description'
     ];
-    public function sector(){
-        return $this->belongsTo(Sector::class,'sector_id');
-    }
 }

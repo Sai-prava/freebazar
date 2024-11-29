@@ -11,7 +11,7 @@
                 <div class="mb-2">
                     <label for="title">Name*</label>
                     <input type="text" id="title" name="name" class="form-control @error('name') is-invalid @enderror"
-                           value="{{ old('name', isset($user) ? $user->name : '') }}" required>
+                           value="{{ old('name', isset($user) ? $user->name : '') }}">
                     @error('name')
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
@@ -21,7 +21,7 @@
                 <div class="mb-2">
                     <label for="title">Email*</label>
                     <input type="email" id="email" name="email" class="form-control @error('name') is-invalid @enderror"
-                           value="{{ old('email', isset($email) ? $user->email : '') }}" required>
+                           value="{{ old('email', isset($email) ? $user->email : '') }}">
                     @error('email')
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
@@ -31,7 +31,7 @@
                 <div class="mb-2">
                     <label for="title">Password*</label>
                     <input type="password" id="paasword" name="password" class="form-control @error('name') is-invalid @enderror"
-                           value="{{ old('password', isset($password) ? $user->$password : '') }}" required>
+                           value="{{ old('password', isset($password) ? $user->$password : '') }}">
                     @error('password')
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>

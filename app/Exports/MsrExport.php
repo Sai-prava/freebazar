@@ -9,21 +9,32 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 
 class MsrExport implements FromCollection, WithHeadings
 {
-    protected $filteredData;
+    protected $data;
 
-    public function __construct($filteredData)
+    public function __construct($data)
     {
-        $this->filteredData = $filteredData;
+        $this->data = $data;
     }
 
     public function collection()
     {
-        return $this->filteredData->map(function ($wallet) {
+        return collect($this->data)->map(function ($item) {
+            $sponsor_id = 'N/A';
+            if ($item->user) {
+                if ($item->user->sponsor_id) {
+                    $sponsorUser = \App\Models\User::where('id', $item->user->sponsor_id)->first();
+                    $sponsor_id = $sponsorUser ? $sponsorUser->user_id : 'N/A';
+                } else {
+                    $sponsor_id = 'N/A';
+                }
+            }
+
             return [
-                'month' => Carbon::parse($wallet->transaction_month)->format('F Y'), 
-                'mobilenumber' => $wallet->mobilenumber,
-                'pos_id' => $wallet->pos_id, 
-                'billing_amount' => $wallet->total_billing_amount,
+                'month' => Carbon::parse($item->transaction_month)->format('F Y'),
+                'mobilenumber' => $item->mobilenumber,
+                'sponsor_id' => $sponsor_id,
+                'total_billing_amount' => $item->total_billing_amount ?? 0,
+                'sponsor_expenditure' => $item->sponsor_expenditure ?? 0,
             ];
         });
     }
@@ -31,10 +42,11 @@ class MsrExport implements FromCollection, WithHeadings
     public function headings(): array
     {
         return [
-            'Month',
-            'Mobile Number',
-            'Pos Id',
-            'Billing Amount',
+            'MONTH',
+            'MOBILE NUMBER',
+            'SPONSOR ID',
+            'TOTAL BILLING AMOUNT',
+            'SPONSOR EXPENDITURE'
         ];
     }
 }

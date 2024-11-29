@@ -26,10 +26,10 @@
                             <div class="wrap-menu">
                                 <ul class="menu clone-main-menu">
                                     @foreach ($category as $data)
-                                        <li class="menu-item menu-item-has-children has-megamenu">
+                                        <li class="menu-item">
                                             <a href="{{ route('frontend.category', $data->id) }}" class="menu-name"
                                                 data-title="Fruit & Nut Gifts"><i>{{ $data->title }}</i></a>
-                                            <ul class="sub-menu">
+                                            {{-- <ul class="sub-menu">
                                                 <li class="menu-item" style="color: orange;font-size:18px;">
                                                     <b>{{ $data->title }}</b>
                                                 </li>
@@ -40,10 +40,9 @@
 
                                                 <li class="menu-item"><a href="#">Biscuits</a></li>
                                                 <li class="menu-item"><a href="#">Seasonal Fruit Plate</a></li>
-                                            </ul>
+                                            </ul> --}}
                                         </li>
                                     @endforeach
-
                                 </ul>
                             </div>
                         </div>
@@ -53,13 +52,14 @@
                     <div class="main-slide block-slider nav-change hover-main-color type02">
                         <ul class="biolife-carousel"
                             data-slick='{"arrows": true, "dots": false, "slidesMargin": 0, "slidesToShow": 1, "infinite": true, "speed": 800}'>
+                            @foreach ($banner as $data )
                             <li>
                                 <div class="slide-contain slider-opt04__layout01 light-version first-slide">
                                     <div class="media"></div>
                                     <div class="text-content">
-                                        <i class="first-line">Pomegranate</i>
-                                        <h3 class="second-line">Vegetables 100% Organic</h3>
-                                        <p class="third-line">A blend of freshly squeezed green apple & fruits</p>
+                                        <i class="first-line">{{ $data->title }}</i>
+                                        <h3 class="second-line">{{ $data->sub_title }}</h3>
+                                        <p class="third-line">{{ $data->description }}</p>
                                         <p class="buttons">
                                             <a href="#" class="btn btn-bold">Shop now</a>
                                             <a href="#" class="btn btn-thin">View lookbook</a>
@@ -67,34 +67,9 @@
                                     </div>
                                 </div>
                             </li>
-                            <li>
-                                <div class="slide-contain slider-opt04__layout01 light-version second-slide">
-                                    <div class="media"></div>
-                                    <div class="text-content">
-                                        <i class="first-line">Pomegranate</i>
-                                        <h3 class="second-line">Vegetables 100% Organic</h3>
-                                        <p class="third-line">A blend of freshly squeezed green apple & fruits</p>
-                                        <p class="buttons">
-                                            <a href="#" class="btn btn-bold">Shop now</a>
-                                            <a href="#" class="btn btn-thin">View lookbook</a>
-                                        </p>
-                                    </div>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="slide-contain slider-opt04__layout01 light-version third-slide">
-                                    <div class="media"></div>
-                                    <div class="text-content">
-                                        <i class="first-line">Pomegranate</i>
-                                        <h3 class="second-line">Vegetables 100% Organic</h3>
-                                        <p class="third-line">A blend of freshly squeezed green apple & fruits</p>
-                                        <p class="buttons">
-                                            <a href="#" class="btn btn-bold">Shop now</a>
-                                            <a href="#" class="btn btn-thin">View lookbook</a>
-                                        </p>
-                                    </div>
-                                </div>
-                            </li>
+                           
+                            @endforeach
+                            
                         </ul>
                     </div>
                 </div>
@@ -102,7 +77,7 @@
 
         </div>
 
-        <!--Block 02: Banners-->
+        {{-- <!--Block 02: Banners-->
         <div class="banner-block sm-margin-bottom-57px xs-margin-top-80px sm-margin-top-30px">
             <div class="container">
                 <ul class="biolife-carousel nav-center-bold nav-none-on-mobile"
@@ -152,10 +127,10 @@
                     </li>
                 </ul>
             </div>
-        </div>
+        </div> --}}
 
         <!--Block 03: Categories-->
-        <div class="wrap-category xs-margin-top-80px">
+        <div class="wrap-category xs-margin-top-20px">
             <div class="container">
                 <div class="biolife-title-box style-02 xs-margin-bottom-33px">
                     <h3 class="main-title">Top Categories</h3>

@@ -12,7 +12,7 @@
                         <div class="mb-2">
                             <label for="name">Name*</label>
                             <input type="text" id="name" name="name"
-                                class="form-control @error('name') is-invalid @enderror" required>
+                                class="form-control @error('name') is-invalid @enderror">
                             @error('name')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -23,7 +23,7 @@
                         <div class="mb-2">
                             <label for="email">Email*</label>
                             <input type="email" id="email" name="email"
-                                class="form-control @error('email') is-invalid @enderror" required>
+                                class="form-control @error('email') is-invalid @enderror">
                             @error('email')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -43,7 +43,7 @@
                         <div class="mb-2">
                             <label for="address">Address*</label>
                             <input type="text" id="address" name="address"
-                                class="form-control @error('address') is-invalid @enderror" required>
+                                class="form-control @error('address') is-invalid @enderror" >
                             @error('address')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -53,7 +53,7 @@
                         <div class="mb-2">
                             <label for="gender">Gender*</label>
                             <select id="gender" name="gender" class="form-control @error('gender') is-invalid @enderror"
-                                required>
+                                >
                                 <option value="">Select Gender</option>
                                 <option value="male" {{ old('gender') == 'male' ? 'selected' : '' }}>Male</option>
                                 <option value="female" {{ old('gender') == 'female' ? 'selected' : '' }}>Female</option>
@@ -69,7 +69,7 @@
                         <div class="mb-2">
                             <label for="city">City*</label>
                             <input type="text" id="city" name="city"
-                                class="form-control @error('city') is-invalid @enderror" required>
+                                class="form-control @error('city') is-invalid @enderror" >
                             @error('city')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -79,7 +79,7 @@
                         <div class="mb-2">
                             <label for="state">State*</label>
                             <input type="text" id="state" name="state"
-                                class="form-control @error('state') is-invalid @enderror" required>
+                                class="form-control @error('state') is-invalid @enderror" >
                             @error('state')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -89,7 +89,7 @@
                         <div class="mb-2">
                             <label for="zip">Zip*</label>
                             <input type="number" id="zip" name="zip"
-                                class="form-control @error('zip') is-invalid @enderror" required>
+                                class="form-control @error('zip') is-invalid @enderror" >
                             @error('zip')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -107,7 +107,7 @@
 
                         {{-- <div class="mb-2">
                         <label for="parent_level">Parent FOR LEVEL*</label>
-                        <input type="text" id="parent_level" name="parent_level" class="form-control @error('parent_level') is-invalid @enderror" required>
+                        <input type="text" id="parent_level" name="parent_level" class="form-control @error('parent_level') is-invalid @enderror">
                         @error('parent_level')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>

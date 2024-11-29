@@ -129,6 +129,15 @@
 
                 @can('role_access')
                     <li class="nav-item">
+                        <a class="nav-link {{ request()->is('admin/banner*') ? 'active' : '' }}"
+                            href="{{ route('admin.banner.index') }}">
+                            <span data-feather="file-text" class="align-text-bottom"></span>
+                            Banner
+                        </a>
+                    </li>
+                @endcan
+                @can('role_access')
+                    <li class="nav-item">
                         <a class="nav-link {{ request()->is('admin/sectors*') ? 'active' : '' }}"
                             href="{{ route('admin.sector.index') }}">
                             <span data-feather="briefcase" class="align-text-bottom"></span>

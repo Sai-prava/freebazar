@@ -31,7 +31,7 @@
                             <h3 class="title">Order Summary</h3>
                         </div>
                         <div class="cart-list-box short-type">
-                            <span class="number">2 items</span>
+                            <span class="number"></span>
                             <ul class="cart-list">
                                 @php
                                     $total_price = 0;
