@@ -22,7 +22,9 @@ class FrontendController extends Controller
         $banner = Banner::latest()->take(3)->get();
         $category = Sector::latest()->take(5)->get();  
         $products = Product::all();
-        return view('ui.index', compact('category', 'products','banner'));
+        $bestseller = Product::where('bestseller',1)->get();
+        // dd($bestseller);
+        return view('ui.index', compact('category', 'products','banner','bestseller'));
     }
 
     public function category($id)
@@ -36,6 +38,13 @@ class FrontendController extends Controller
         $products = Product::find($id);
         return view('ui.product', compact('products'));
     }
+    //  public function bestseller($id)
+    // {
+    //     Product::where('sector_id', $id)->where('dataset', 1)->increment('views');
+    //     $sectors = Sector::all();
+    //     $product = Product::where('sector_id', $id)->where('dataset', 1)->get();
+    //     return view('frontend.highvalue', compact('product', 'sectors'));
+    // }
 
   
     // public function categoryView($id)
@@ -83,13 +92,7 @@ class FrontendController extends Controller
     //     return view('frontend.blog.readmore', compact('view'));
     // }
 
-    // public function dataset($id)
-    // {
-    //     Product::where('sector_id', $id)->where('dataset', 1)->increment('views');
-    //     $sectors = Sector::all();
-    //     $product = Product::where('sector_id', $id)->where('dataset', 1)->get();
-    //     return view('frontend.highvalue', compact('product', 'sectors'));
-    // }
+   
     // public function datasetView()
     // {
     //     $product = Product::where('dataset', 1)->orderBy('views', 'desc')->get();

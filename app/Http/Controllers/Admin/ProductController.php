@@ -61,7 +61,7 @@ class ProductController extends Controller
         $product->title = $request->title;
        
         $product->description = $request->description;
-        $product->dataset = $request->input('dataset');
+        $product->bestseller = $request->input('bestseller');
         $product->image = $imageName;
         // $product->header = $headers;
 
@@ -156,7 +156,7 @@ class ProductController extends Controller
         $product->price = $request->price ?? $product->price;
         $product->discount_price = $request->discount_price;
         $product->total_price = $request->total_price;
-        $product->dataset = $request->input('dataset');
+        $product->bestseller = $request->input('bestseller');
       
     
         if ($product->save()) {

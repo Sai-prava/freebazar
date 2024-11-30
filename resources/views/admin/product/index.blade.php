@@ -35,9 +35,9 @@
                             <th>
                                 Description
                             </th>
-                            {{-- <th>
-                                Dataset
-                            </th> --}}
+                            <th>
+                               Best Seller
+                            </th>
                             <th>
                                 Image
                             </th>
@@ -82,9 +82,9 @@
                                 <td>
                                     {!! Str::limit($product->description, 20, '...') !!}
                                 </td>
-                                {{-- <td>
-                                    {{ $product->dataset == 1 ? 'Yes' : 'No' }}
-                                </td> --}}
+                                <td>
+                                    {{ $product->bestseller == 1 ? 'Yes' : 'No' }}
+                                </td>
                                 <td>
                                     <img src="{{ asset('images/' . $product->image) }}" alt=""
                                         style="max-width: 50px; max-height: 50px;">

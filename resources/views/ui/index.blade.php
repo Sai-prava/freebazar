@@ -52,24 +52,23 @@
                     <div class="main-slide block-slider nav-change hover-main-color type02">
                         <ul class="biolife-carousel"
                             data-slick='{"arrows": true, "dots": false, "slidesMargin": 0, "slidesToShow": 1, "infinite": true, "speed": 800}'>
-                            @foreach ($banner as $data )
-                            <li>
-                                <div class="slide-contain slider-opt04__layout01 light-version first-slide">
-                                    <div class="media"></div>
-                                    <div class="text-content">
-                                        <i class="first-line">{{ $data->title }}</i>
-                                        <h3 class="second-line">{{ $data->sub_title }}</h3>
-                                        <p class="third-line">{{ $data->description }}</p>
-                                        <p class="buttons">
-                                            <a href="#" class="btn btn-bold">Shop now</a>
-                                            <a href="#" class="btn btn-thin">View lookbook</a>
-                                        </p>
+                            @foreach ($banner as $data)
+                                <li>
+                                    <div class="slide-contain slider-opt04__layout01 light-version first-slide">
+                                        <div class="media"></div>
+                                        <div class="text-content">
+                                            <i class="first-line">{{ $data->title }}</i>
+                                            <h3 class="second-line">{{ $data->sub_title }}</h3>
+                                            <p class="third-line">{{ $data->description }}</p>
+                                            <p class="buttons">
+                                                <a href="#" class="btn btn-bold">Shop now</a>
+                                                <a href="#" class="btn btn-thin">View lookbook</a>
+                                            </p>
+                                        </div>
                                     </div>
-                                </div>
-                            </li>
-                           
+                                </li>
                             @endforeach
-                            
+
                         </ul>
                     </div>
                 </div>
@@ -142,8 +141,8 @@
                             <div class="biolife-cat-box-item">
                                 <div class="cat-thumb">
                                     <a href="{{ route('frontend.category', $data->id) }}" class="cat-link">
-                                        <img src="{{ asset('images/' . $data->image) }}" width="277"
-                                            height="185" alt="">
+                                        <img src="{{ asset('images/' . $data->image) }}" width="277" height="185"
+                                            alt="">
                                     </a>
                                 </div>
                                 <a class="cat-info" href="{{ route('frontend.category', $data->id) }}">
@@ -187,23 +186,22 @@
         <div class="product-tab z-index-20 sm-margin-top-59px xs-margin-top-20px">
             <div class="container">
                 <div class="biolife-title-box slim-item">
-                    <span class="subtitle">All the best item for You</span>
                     <h3 class="main-title">Our Products</h3>
                 </div>
                 <div class="biolife-tab biolife-tab-contain sm-margin-top-23px">
-                    <div class="tab-head tab-head__sample-layout">
-                        <ul class="tabs">
-                            <li class="tab-element active">
-                                <a href="#tab01_1st" class="tab-link">Featured</a>
-                            </li>
-                            <li class="tab-element">
-                                <a href="#tab01_2nd" class="tab-link">Top Rated</a>
-                            </li>
-                            <li class="tab-element">
-                                <a href="#tab01_3rd" class="tab-link">On Sale</a>
-                            </li>
-                        </ul>
-                    </div>
+                    {{-- <div class="tab-head tab-head__sample-layout">
+                            <ul class="tabs">
+                                <li class="tab-element active">
+                                    <a href="#tab01_1st" class="tab-link">Featured</a>
+                                </li>
+                                <li class="tab-element">
+                                    <a href="#tab01_2nd" class="tab-link">Top Rated</a>
+                                </li>
+                                <li class="tab-element">
+                                    <a href="#tab01_3rd" class="tab-link">On Sale</a>
+                                </li>
+                            </ul>
+                        </div> --}}
                     <div class="tab-content">
                         <div id="tab01_1st" class="tab-contain active">
                             <ul class="products-list biolife-carousel nav-center-02 nav-none-on-mobile eq-height-contain"
@@ -212,7 +210,8 @@
                                     <li class="product-item">
                                         <div class="contain-product layout-default">
                                             <div class="product-thumb">
-                                                <a href="{{ route('frontend.product',$data->id) }}" class="link-to-product">
+                                                <a href="{{ route('frontend.product', $data->id) }}"
+                                                    class="link-to-product">
                                                     <img src="{{ asset('images/' . $data->image) }}" alt="Vegetables"
                                                         width="270" height="270" class="product-thumnail">
                                                 </a>
@@ -221,7 +220,8 @@
                                             </div>
                                             <div class="info">
                                                 <b class="categories">{{ $data->sector->title }}</b>
-                                                <h4 class="product-title"><a href="{{ route('frontend.product',$data->id) }}"
+                                                <h4 class="product-title"><a
+                                                        href="{{ route('frontend.product', $data->id) }}"
                                                         class="pr-name">{{ $data->title }}</a></h4>
                                                 <div class="price ">
                                                     <ins><span class="price-amount"><span
@@ -230,7 +230,7 @@
                                                                 class="currencySymbol">£</span>{{ $data->discount_price }}</span></del>
                                                 </div>
                                                 <div class="slide-down-box">
-                                                   
+
                                                     <div class="buttons">
                                                         <a href="#" class="btn wishlist-btn"><i
                                                                 class="fa fa-heart" aria-hidden="true"></i></a>
@@ -1017,430 +1017,52 @@
         <!--Block 06: Advance Box-->
         <div class="container z-index-20 xs-margin-top-80px sm-margin-top-0">
             <div class="row">
-                <div class="col-lg-4 sm-margin-top-60px ">
-                    <div class="row">
-                        <div class="col-lg-12 col-md-4 col-sm-6 col-xs-12">
-                            <div class="biolife-banner style-05 biolife-banner__style-05">
-                                <div class="banner-contain">
-                                    <div class="media">
-                                        <a href="#" class="bn-link"><img
-                                                src="assets/images/home-04/bn_style05.png" width="197"
-                                                height="230" alt=""></a>
-                                    </div>
-                                    <div class="text-content">
-                                        <b class="text1">Mid June Royal Lee cherries</b>
-                                        <b class="text-pr"><span>Only:</span>£8.00</b>
-                                        <a href="#" class="btn btn-shopnow">shop now</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div
-                            class="col-lg-12 col-md-4 col-sm-6 col-xs-12 xs-margin-top-30px sm-margin-top-0 lg-margin-top-30px">
-                            <div class="biolife-banner style-06 biolife-banner__style-06">
-                                <div class="banner-contain">
-                                    <div class="media">
-                                        <a href="#" class="bn-link"><img
-                                                src="assets/images/home-04/bn_style06.png" width="214"
-                                                height="230" alt=""></a>
-                                    </div>
-                                    <div class="text-content">
-                                        <b class="text1">California</b>
-                                        <b class="text2">Peaches</b>
-                                        <b class="text-pr"><span>Only:</span>£8.00</b>
-                                        <a href="#" class="btn btn-shopnow">shop now</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div
-                            class="col-lg-12 col-md-4 col-sm-12 col-xs-12 xs-margin-top-30px md-margin-top-0 lg-margin-top-30px">
-                            <div class="biolife-banner style-07 biolife-banner__style-07">
-                                <div class="banner-contain">
-                                    <div class="media">
-                                        <a href="#" class="bn-link"><img
-                                                src="assets/images/home-04/bn_style07.png" width="204"
-                                                height="230" alt=""></a>
-                                    </div>
-                                    <div class="text-content">
-                                        <b class="text1">Grapes</b>
-                                        <span class="text2">Make the plate</span>
-                                        <b class="text-pr"><span>Only:</span>£18.00</b>
-                                        <a href="#" class="btn btn-shopnow">shop now</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-8 sm-margin-top-64px">
+                <div class="col-lg-12 sm-margin-top-64px">
                     <div class="advance-product-box">
-                        <div
-                            class="biolife-title-box bold-style biolife-title-box__bold-style xs-margin-top-80px-im sm-margin-top-0-im lg-margin-bottom-26px-im">
-                            <h3 class="title">Bestseller Products</h3>
+                        <div style="display: flex; justify-content: center; align-items: center;">
+                            <div
+                                class="biolife-title-box bold-style biolife-title-box__bold-style xs-margin-top-80px-im sm-margin-top-0-im lg-margin-bottom-26px-im">
+                                <h3 class="title" style="text-align: center;">Bestseller Products</h3>
+                            </div>
                         </div>
                         <ul class="products-list biolife-carousel nav-top-right nav-main-color nav-none-on-mobile eq-height-contain"
                             data-slick='{"rows":2 ,"arrows":true,"dots":false,"infinite":true,"speed":400,"slidesMargin":0,"slidesToShow":3, "responsive":[{"breakpoint":1200, "settings":{ "slidesToShow": 4}},{"breakpoint":992, "settings":{ "slidesToShow": 3, "slidesMargin": 20}},{"breakpoint":768, "settings":{ "slidesToShow": 2, "slidesMargin": 15}}]}'>
-                            <li class="product-item">
-                                <div class="contain-product layout-default">
-                                    <div class="product-thumb">
-                                        <a href="#" class="link-to-product">
-                                            <img src="assets/images/products/p-19.jpg" alt="Vegetables"
-                                                width="270" height="270" class="product-thumnail">
-                                        </a>
-                                        <a class="lookup btn_call_quickview" href="#"><i
-                                                class="biolife-icon icon-search"></i></a>
-                                    </div>
-                                    <div class="info">
-                                        <b class="categories">Vegetables</b>
-                                        <h4 class="product-title"><a href="#" class="pr-name">Pumpkins
-                                                Fairytale</a></h4>
-                                        <div class="price ">
-                                            <ins><span class="price-amount"><span
-                                                        class="currencySymbol">£</span>85.00</span></ins>
-                                            <del><span class="price-amount"><span
-                                                        class="currencySymbol">£</span>95.00</span></del>
+                            @foreach ($bestseller as $seller)
+                                <li class="product-item">
+                                    <div class="contain-product layout-default">
+                                        <div class="product-thumb">
+                                            <a href="#" class="link-to-product">
+                                                <img src="{{ asset('images/' . $seller->image) }}" alt="Vegetables"
+                                                    width="270" height="270" class="product-thumnail">
+                                            </a>
+                                            {{-- <a class="lookup btn_call_quickview" href="#"><i
+                                                    class="biolife-icon icon-search"></i></a> --}}
                                         </div>
-                                        <div class="slide-down-box">
-                                            <p class="message">All products are carefully selected to ensure food
-                                                safety.</p>
-                                            <div class="buttons">
-                                                <a href="#" class="btn wishlist-btn"><i class="fa fa-heart"
-                                                        aria-hidden="true"></i></a>
-                                                <a href="#" class="btn add-to-cart-btn"><i
-                                                        class="fa fa-cart-arrow-down" aria-hidden="true"></i>add to
-                                                    cart</a>
-                                                <a href="#" class="btn compare-btn"><i class="fa fa-random"
-                                                        aria-hidden="true"></i></a>
+                                        <div class="info">
+                                            <b class="categories">{{ $seller->sector->title }}</b>
+                                            <h4 class="product-title"><a href="#"
+                                                    class="pr-name">{{ $seller->title }}</a></h4>
+                                            <div class="price ">
+                                                <ins><span class="price-amount"><span
+                                                            class="currencySymbol">£</span>{{ number_format($seller->price, 2) }}</span></ins>
+                                                <del><span class="price-amount"><span
+                                                            class="currencySymbol">£</span>{{ $seller->discount_price }}</span></del>
+                                            </div>
+                                            <div class="slide-down-box">
+                                                <div class="buttons">
+                                                    <a href="" class="btn wishlist-btn"><i class="fa fa-heart"
+                                                            aria-hidden="true"></i></a>
+                                                    <a href="{{ route('cart.add', $seller->id) }}"
+                                                        class="btn add-to-cart-btn"><i class="fa fa-cart-arrow-down"
+                                                            aria-hidden="true"></i>add
+                                                        to
+                                                        cart</a>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </li>
-                            <li class="product-item">
-                                <div class="contain-product layout-default">
-                                    <div class="product-thumb">
-                                        <a href="#" class="link-to-product">
-                                            <img src="assets/images/products/p-24.jpg" alt="Vegetables"
-                                                width="270" height="270" class="product-thumnail">
-                                        </a>
-                                        <a class="lookup btn_call_quickview" href="#"><i
-                                                class="biolife-icon icon-search"></i></a>
-                                    </div>
-                                    <div class="info">
-                                        <b class="categories">Vegetables</b>
-                                        <h4 class="product-title"><a href="#" class="pr-name">13 Healing
-                                                Powers of Lemons</a></h4>
-                                        <div class="price ">
-                                            <ins><span class="price-amount"><span
-                                                        class="currencySymbol">£</span>85.00</span></ins>
-                                            <del><span class="price-amount"><span
-                                                        class="currencySymbol">£</span>95.00</span></del>
-                                        </div>
-                                        <div class="slide-down-box">
-                                            <p class="message">All products are carefully selected to ensure food
-                                                safety.</p>
-                                            <div class="buttons">
-                                                <a href="#" class="btn wishlist-btn"><i class="fa fa-heart"
-                                                        aria-hidden="true"></i></a>
-                                                <a href="#" class="btn add-to-cart-btn"><i
-                                                        class="fa fa-cart-arrow-down" aria-hidden="true"></i>add to
-                                                    cart</a>
-                                                <a href="#" class="btn compare-btn"><i class="fa fa-random"
-                                                        aria-hidden="true"></i></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="product-item">
-                                <div class="contain-product layout-default">
-                                    <div class="product-thumb">
-                                        <a href="#" class="link-to-product">
-                                            <img src="assets/images/products/p-03.jpg" alt="Vegetables"
-                                                width="270" height="270" class="product-thumnail">
-                                        </a>
-                                        <a class="lookup btn_call_quickview" href="#"><i
-                                                class="biolife-icon icon-search"></i></a>
-                                    </div>
-                                    <div class="info">
-                                        <b class="categories">Vegetables</b>
-                                        <h4 class="product-title"><a href="#" class="pr-name">Passover
-                                                Cauliflower Kugel</a></h4>
-                                        <div class="price ">
-                                            <ins><span class="price-amount"><span
-                                                        class="currencySymbol">£</span>85.00</span></ins>
-                                            <del><span class="price-amount"><span
-                                                        class="currencySymbol">£</span>95.00</span></del>
-                                        </div>
-                                        <div class="slide-down-box">
-                                            <p class="message">All products are carefully selected to ensure food
-                                                safety.</p>
-                                            <div class="buttons">
-                                                <a href="#" class="btn wishlist-btn"><i class="fa fa-heart"
-                                                        aria-hidden="true"></i></a>
-                                                <a href="#" class="btn add-to-cart-btn"><i
-                                                        class="fa fa-cart-arrow-down" aria-hidden="true"></i>add to
-                                                    cart</a>
-                                                <a href="#" class="btn compare-btn"><i class="fa fa-random"
-                                                        aria-hidden="true"></i></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="product-item">
-                                <div class="contain-product layout-default">
-                                    <div class="product-thumb">
-                                        <a href="#" class="link-to-product">
-                                            <img src="assets/images/products/p-06.jpg" alt="Vegetables"
-                                                width="270" height="270" class="product-thumnail">
-                                        </a>
-                                        <a class="lookup btn_call_quickview" href="#"><i
-                                                class="biolife-icon icon-search"></i></a>
-                                    </div>
-                                    <div class="info">
-                                        <b class="categories">Vegetables</b>
-                                        <h4 class="product-title"><a href="#" class="pr-name">Packham's
-                                                Pears</a></h4>
-                                        <div class="price ">
-                                            <ins><span class="price-amount"><span
-                                                        class="currencySymbol">£</span>85.00</span></ins>
-                                            <del><span class="price-amount"><span
-                                                        class="currencySymbol">£</span>95.00</span></del>
-                                        </div>
-                                        <div class="slide-down-box">
-                                            <p class="message">All products are carefully selected to ensure food
-                                                safety.</p>
-                                            <div class="buttons">
-                                                <a href="#" class="btn wishlist-btn"><i class="fa fa-heart"
-                                                        aria-hidden="true"></i></a>
-                                                <a href="#" class="btn add-to-cart-btn"><i
-                                                        class="fa fa-cart-arrow-down" aria-hidden="true"></i>add to
-                                                    cart</a>
-                                                <a href="#" class="btn compare-btn"><i class="fa fa-random"
-                                                        aria-hidden="true"></i></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="product-item">
-                                <div class="contain-product layout-default">
-                                    <div class="product-thumb">
-                                        <a href="#" class="link-to-product">
-                                            <img src="assets/images/products/p-01.jpg" alt="Vegetables"
-                                                width="270" height="270" class="product-thumnail">
-                                        </a>
-                                        <a class="lookup btn_call_quickview" href="#"><i
-                                                class="biolife-icon icon-search"></i></a>
-                                    </div>
-                                    <div class="info">
-                                        <b class="categories">Vegetables</b>
-                                        <h4 class="product-title"><a href="#" class="pr-name">Organic Hass
-                                                Avocado, Large</a></h4>
-                                        <div class="price ">
-                                            <ins><span class="price-amount"><span
-                                                        class="currencySymbol">£</span>85.00</span></ins>
-                                            <del><span class="price-amount"><span
-                                                        class="currencySymbol">£</span>95.00</span></del>
-                                        </div>
-                                        <div class="slide-down-box">
-                                            <p class="message">All products are carefully selected to ensure food
-                                                safety.</p>
-                                            <div class="buttons">
-                                                <a href="#" class="btn wishlist-btn"><i class="fa fa-heart"
-                                                        aria-hidden="true"></i></a>
-                                                <a href="#" class="btn add-to-cart-btn"><i
-                                                        class="fa fa-cart-arrow-down" aria-hidden="true"></i>add to
-                                                    cart</a>
-                                                <a href="#" class="btn compare-btn"><i class="fa fa-random"
-                                                        aria-hidden="true"></i></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="product-item">
-                                <div class="contain-product layout-default">
-                                    <div class="product-thumb">
-                                        <a href="#" class="link-to-product">
-                                            <img src="assets/images/products/p-23.jpg" alt="Vegetables"
-                                                width="270" height="270" class="product-thumnail">
-                                        </a>
-                                        <a class="lookup btn_call_quickview" href="#"><i
-                                                class="biolife-icon icon-search"></i></a>
-                                    </div>
-                                    <div class="info">
-                                        <b class="categories">Vegetables</b>
-                                        <h4 class="product-title"><a href="#" class="pr-name">National Fresh
-                                                Fruit</a></h4>
-                                        <div class="price ">
-                                            <ins><span class="price-amount"><span
-                                                        class="currencySymbol">£</span>85.00</span></ins>
-                                            <del><span class="price-amount"><span
-                                                        class="currencySymbol">£</span>95.00</span></del>
-                                        </div>
-                                        <div class="slide-down-box">
-                                            <p class="message">All products are carefully selected to ensure food
-                                                safety.</p>
-                                            <div class="buttons">
-                                                <a href="#" class="btn wishlist-btn"><i class="fa fa-heart"
-                                                        aria-hidden="true"></i></a>
-                                                <a href="#" class="btn add-to-cart-btn"><i
-                                                        class="fa fa-cart-arrow-down" aria-hidden="true"></i>add to
-                                                    cart</a>
-                                                <a href="#" class="btn compare-btn"><i class="fa fa-random"
-                                                        aria-hidden="true"></i></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="product-item">
-                                <div class="contain-product layout-default">
-                                    <div class="product-thumb">
-                                        <a href="#" class="link-to-product">
-                                            <img src="assets/images/products/p-02.jpg" alt="Vegetables"
-                                                width="270" height="270" class="product-thumnail">
-                                        </a>
-                                        <a class="lookup btn_call_quickview" href="#"><i
-                                                class="biolife-icon icon-search"></i></a>
-                                    </div>
-                                    <div class="info">
-                                        <b class="categories">Vegetables</b>
-                                        <h4 class="product-title"><a href="#" class="pr-name">Hot Chili
-                                                Peppers Magnetic Salt</a></h4>
-                                        <div class="price ">
-                                            <ins><span class="price-amount"><span
-                                                        class="currencySymbol">£</span>85.00</span></ins>
-                                            <del><span class="price-amount"><span
-                                                        class="currencySymbol">£</span>95.00</span></del>
-                                        </div>
-                                        <div class="slide-down-box">
-                                            <p class="message">All products are carefully selected to ensure food
-                                                safety.</p>
-                                            <div class="buttons">
-                                                <a href="#" class="btn wishlist-btn"><i class="fa fa-heart"
-                                                        aria-hidden="true"></i></a>
-                                                <a href="#" class="btn add-to-cart-btn"><i
-                                                        class="fa fa-cart-arrow-down" aria-hidden="true"></i>add to
-                                                    cart</a>
-                                                <a href="#" class="btn compare-btn"><i class="fa fa-random"
-                                                        aria-hidden="true"></i></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="product-item">
-                                <div class="contain-product layout-default">
-                                    <div class="product-thumb">
-                                        <a href="#" class="link-to-product">
-                                            <img src="assets/images/products/p-05.jpg" alt="Vegetables"
-                                                width="270" height="270" class="product-thumnail">
-                                        </a>
-                                        <a class="lookup btn_call_quickview" href="#"><i
-                                                class="biolife-icon icon-search"></i></a>
-                                    </div>
-                                    <div class="info">
-                                        <b class="categories">Vegetables</b>
-                                        <h4 class="product-title"><a href="#" class="pr-name">Organic Hass
-                                                Avocado</a></h4>
-                                        <div class="price ">
-                                            <ins><span class="price-amount"><span
-                                                        class="currencySymbol">£</span>85.00</span></ins>
-                                            <del><span class="price-amount"><span
-                                                        class="currencySymbol">£</span>95.00</span></del>
-                                        </div>
-                                        <div class="slide-down-box">
-                                            <p class="message">All products are carefully selected to ensure food
-                                                safety.</p>
-                                            <div class="buttons">
-                                                <a href="#" class="btn wishlist-btn"><i class="fa fa-heart"
-                                                        aria-hidden="true"></i></a>
-                                                <a href="#" class="btn add-to-cart-btn"><i
-                                                        class="fa fa-cart-arrow-down" aria-hidden="true"></i>add to
-                                                    cart</a>
-                                                <a href="#" class="btn compare-btn"><i class="fa fa-random"
-                                                        aria-hidden="true"></i></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="product-item">
-                                <div class="contain-product layout-default">
-                                    <div class="product-thumb">
-                                        <a href="#" class="link-to-product">
-                                            <img src="assets/images/products/p-22.jpg" alt="Vegetables"
-                                                width="270" height="270" class="product-thumnail">
-                                        </a>
-                                        <a class="lookup btn_call_quickview" href="#"><i
-                                                class="biolife-icon icon-search"></i></a>
-                                    </div>
-                                    <div class="info">
-                                        <b class="categories">Vegetables</b>
-                                        <h4 class="product-title"><a href="#" class="pr-name">Cherry Tomato
-                                                Seeds</a></h4>
-                                        <div class="price ">
-                                            <ins><span class="price-amount"><span
-                                                        class="currencySymbol">£</span>85.00</span></ins>
-                                            <del><span class="price-amount"><span
-                                                        class="currencySymbol">£</span>95.00</span></del>
-                                        </div>
-                                        <div class="slide-down-box">
-                                            <p class="message">All products are carefully selected to ensure food
-                                                safety.</p>
-                                            <div class="buttons">
-                                                <a href="#" class="btn wishlist-btn"><i class="fa fa-heart"
-                                                        aria-hidden="true"></i></a>
-                                                <a href="#" class="btn add-to-cart-btn"><i
-                                                        class="fa fa-cart-arrow-down" aria-hidden="true"></i>add to
-                                                    cart</a>
-                                                <a href="#" class="btn compare-btn"><i class="fa fa-random"
-                                                        aria-hidden="true"></i></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="product-item">
-                                <div class="contain-product layout-default">
-                                    <div class="product-thumb">
-                                        <a href="#" class="link-to-product">
-                                            <img src="assets/images/products/p-18.jpg" alt="Vegetables"
-                                                width="270" height="270" class="product-thumnail">
-                                        </a>
-                                        <a class="lookup btn_call_quickview" href="#"><i
-                                                class="biolife-icon icon-search"></i></a>
-                                    </div>
-                                    <div class="info">
-                                        <b class="categories">Vegetables</b>
-                                        <h4 class="product-title"><a href="#" class="pr-name">National Fresh
-                                                Fruit</a></h4>
-                                        <div class="price ">
-                                            <ins><span class="price-amount"><span
-                                                        class="currencySymbol">£</span>85.00</span></ins>
-                                            <del><span class="price-amount"><span
-                                                        class="currencySymbol">£</span>95.00</span></del>
-                                        </div>
-                                        <div class="slide-down-box">
-                                            <p class="message">All products are carefully selected to ensure food
-                                                safety.</p>
-                                            <div class="buttons">
-                                                <a href="#" class="btn wishlist-btn"><i class="fa fa-heart"
-                                                        aria-hidden="true"></i></a>
-                                                <a href="#" class="btn add-to-cart-btn"><i
-                                                        class="fa fa-cart-arrow-down" aria-hidden="true"></i>add to
-                                                    cart</a>
-                                                <a href="#" class="btn compare-btn"><i class="fa fa-random"
-                                                        aria-hidden="true"></i></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
+                                </li>
+                            @endforeach
                         </ul>
                     </div>
                 </div>
@@ -1450,7 +1072,7 @@
 
 
         <!--Block 08: Products-->
-        <div class="container">
+        {{-- <div class="container">
             <div class="row">
                 <div class="col-sm-6 col-md-4 col-xs-12">
                     <div class="advance-product-box">
@@ -1697,7 +1319,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
     </div>
 
 </div>

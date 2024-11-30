@@ -63,26 +63,26 @@
                         </span>
                     @enderror
                 </div>
-                {{-- <div class="mb-2">
-                    <label for="status">Is high value dataset ?*</label>
+                <div class="mb-2">
+                    <label for="status">Is BestSeller Product ?*</label>
                     <div class="form-check">
-                        <input class="form-check-input @error('dataset') is-invalid @enderror" type="radio" name="dataset" id="datasetYes" value="1">
-                        <label class="form-check-label" for="datasetYes">
+                        <input class="form-check-input @error('bestseller') is-invalid @enderror" type="radio" name="bestseller" id="bestsellerYes" value="1">
+                        <label class="form-check-label" for="bestsellerYes">
                            Yes
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input @error('dataset') is-invalid @enderror" type="radio" name="dataset" id="datasetNo" value="0">
-                        <label class="form-check-label" for="datasetNo">
+                        <input class="form-check-input @error('bestseller') is-invalid @enderror" type="radio" name="bestseller" id="bestsellerNo" value="0">
+                        <label class="form-check-label" for="bestsellerNo">
                            No
                         </label>
                     </div>
-                    @error('dataset')
+                    @error('bestseller')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
                         </span>
                     @enderror
-                </div> --}}
+                </div>
 
                 <div class="mb-2">
                     <label for="image">Image*</label>

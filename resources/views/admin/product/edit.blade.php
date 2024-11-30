@@ -67,30 +67,30 @@
                          </span>
                      @enderror
                  </div>
-                 {{-- <div class="mb-2">
-                     <label for="dataset">Is high value dataset ?*</label>
+                 <div class="mb-2">
+                     <label for="bestseller">Is BestSeller Product ?*</label>
                      <div class="form-check">
-                         <input class="form-check-input @error('dataset') is-invalid @enderror" type="radio"
-                             name="dataset" id="datasetYes" value="1"
-                             {{ old('dataset', isset($product) && $product->dataset == 1 ? 'checked' : '') }}>
-                         <label class="form-check-label" for="datasetYes">
+                         <input class="form-check-input @error('bestseller') is-invalid @enderror" type="radio"
+                             name="bestseller" id="bestsellerYes" value="1"
+                             {{ old('bestseller', isset($product) && $product->bestseller == 1 ? 'checked' : '') }}>
+                         <label class="form-check-label" for="bestsellerYes">
                              Yes
                          </label>
                      </div>
                      <div class="form-check">
-                         <input class="form-check-input @error('dataset') is-invalid @enderror" type="radio"
-                             name="dataset" id="datasetNo" value="0"
-                             {{ old('dataset', isset($product) && $product->dataset == 0 ? 'checked' : '') }}>
-                         <label class="form-check-label" for="datasetNo">
+                         <input class="form-check-input @error('bestseller') is-invalid @enderror" type="radio"
+                             name="bestseller" id="bestsellerNo" value="0"
+                             {{ old('bestseller', isset($product) && $product->bestseller == 0 ? 'checked' : '') }}>
+                         <label class="form-check-label" for="bestsellerNo">
                              No
                          </label>
                      </div>
-                     @error('dataset')
+                     @error('bestseller')
                          <span class="invalid-feedback" role="alert">
                              <strong>{{ $message }}</strong>
                          </span>
                      @enderror
-                 </div> --}}
+                 </div>
 
                  <div class="mb-2">
                      <label for="image">Image*</label>
