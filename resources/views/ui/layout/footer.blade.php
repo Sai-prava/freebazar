@@ -3,44 +3,23 @@
     <div class="footer-content background-footer-03">
         <div class="container">
             <div class="row">
-                <div class="col-lg-4 col-md-4 col-sm-9">
-                    <section class="footer-item">
-                        <a href="home-04-light.html" class="logo footer-logo"><b style="font-size: 40px;color:orange;">FREE BAZAR</b></a>
-                        <div class="footer-phone-info">
-                            <i class="biolife-icon icon-head-phone"></i>
-                            <p class="r-info">
-                                <span>Got Questions ?</span>
-                                <span>(700)  9001-1909  (900) 689 -66</span>
-                            </p>
-                        </div>
-                        <div class="newsletter-block layout-01">
-                            <h4 class="title">Newsletter Signup</h4>
-                            <div class="form-content">
-                                <form action="#" name="new-letter-foter">
-                                    <input type="email" class="input-text email" value="" placeholder="Your email here...">
-                                    <button type="submit" class="bnt-submit" name="ok">Sign up</button>
-                                </form>
-                            </div>
-                        </div>
-                    </section>
-                </div>
+                <a href="{{ route('frontend.index') }}" class="logo footer-logo"><b style="font-size: 40px;color:orange;">FREE BAZAR</b></a>
                 <div class="col-lg-4 col-md-4 col-sm-6 md-margin-top-5px sm-margin-top-50px xs-margin-top-40px">
+                  
                     <section class="footer-item">
                         <h3 class="section-title">Useful Links</h3>
                         <div class="row">
                             <div class="col-lg-6 col-sm-6 col-xs-6">
                                 <div class="wrap-custom-menu vertical-menu-2">
                                     <ul class="menu">
-                                        <li><a href="#">About Us</a></li>
+                                        <li><a href="{{ route('frontend.index') }}">Home</a></li>
                                         <li><a href="#">About Our Shop</a></li>
                                         <li><a href="#">Secure Shopping</a></li>
-                                        <li><a href="#">Delivery infomation</a></li>
-                                        <li><a href="#">Privacy Policy</a></li>
-                                        <li><a href="#">Our Sitemap</a></li>
+                                        <li><a href="#">Delivery infomation</a></li>                                      
                                     </ul>
                                 </div>
                             </div>
-                            <div class="col-lg-6 col-sm-6 col-xs-6">
+                            {{-- <div class="col-lg-6 col-sm-6 col-xs-6">
                                 <div class="wrap-custom-menu vertical-menu-2">
                                     <ul class="menu">
                                         <li><a href="#">Who We Are</a></li>
@@ -51,7 +30,7 @@
                                         <li><a href="#">Testimonials</a></li>
                                     </ul>
                                 </div>
-                            </div>
+                            </div> --}}
                         </div>
                     </section>
                 </div>
@@ -75,7 +54,7 @@
                                 <li>
                                     <p class="info-item">
                                         <i class="biolife-icon icon-letter"></i>
-                                        <b class="desc">Email:  contact@company.com</b>
+                                        <b class="desc">Email:  contact@freebazar.com</b>
                                     </p>
                                 </li>
                                 <li>
@@ -86,7 +65,7 @@
                                 </li>
                             </ul>
                         </div>
-                        <div class="biolife-social inline">
+                        {{-- <div class="biolife-social inline">
                             <ul class="socials">
                                 <li><a href="#" title="twitter" class="socail-btn"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
                                 <li><a href="#" title="facebook" class="socail-btn"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
@@ -94,11 +73,11 @@
                                 <li><a href="#" title="youtube" class="socail-btn"><i class="fa fa-youtube" aria-hidden="true"></i></a></li>
                                 <li><a href="#" title="instagram" class="socail-btn"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
                             </ul>
-                        </div>
+                        </div> --}}
                     </section>
                 </div>
             </div>
-            <div class="row">
+            {{-- <div class="row">
                 <div class="col-xs-12">
                     <div class="separator sm-margin-top-62px xs-margin-top-40px"></div>
                 </div>
@@ -116,7 +95,7 @@
                         </ul>
                     </div>
                 </div>
-            </div>
+            </div> --}}
         </div>
     </div>
 </footer>

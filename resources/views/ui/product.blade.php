@@ -109,7 +109,7 @@
                             <li class="tab-element active"><a href="#tab_1st" class="tab-link">Products Descriptions</a></li>
                             {{-- <li class="tab-element" ><a href="#tab_2nd" class="tab-link">Addtional information</a></li>
                             <li class="tab-element" ><a href="#tab_3rd" class="tab-link">Shipping & Delivery</a></li> --}}
-                            <li class="tab-element" ><a href="#tab_4th" class="tab-link">Customer Reviews <sup>(3)</sup></a></li>
+                            {{-- <li class="tab-element" ><a href="#tab_4th" class="tab-link">Customer Reviews <sup>(3)</sup></a></li> --}}
                         </ul>
                     </div>
                     <div class="tab-content">
@@ -184,7 +184,7 @@
                                 </ul>
                             </div>
                         </div> --}}
-                        <div id="tab_4th" class="tab-contain review-tab">
+                        {{-- <div id="tab_4th" class="tab-contain review-tab">
                             <div class="container">
                                 <div class="row">
                                     <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12">
@@ -352,7 +352,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
 

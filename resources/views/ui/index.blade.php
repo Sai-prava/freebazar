@@ -154,7 +154,7 @@
                     @endforeach
 
                 </ul>
-                <div class="biolife-service type01 biolife-service__type01 xs-margin-top-60px sm-margin-top-45px">
+                {{-- <div class="biolife-service type01 biolife-service__type01 xs-margin-top-60px sm-margin-top-45px">
                     <ul class="services-list">
                         <li>
                             <div class="service-inner color-reverse">
@@ -178,7 +178,7 @@
                             </div>
                         </li>
                     </ul>
-                </div>
+                </div> --}}
             </div>
         </div>
 
@@ -235,8 +235,7 @@
                                                         <a href="#" class="btn wishlist-btn"><i
                                                                 class="fa fa-heart" aria-hidden="true"></i></a>
                                                         <a href="#" class="btn add-to-cart-btn"><i
-                                                                class="fa fa-cart-arrow-down"
-                                                                aria-hidden="true"></i>add
+                                                                class="fa fa-cart-arrow-down" aria-hidden="true"></i>add
                                                             to cart</a>
                                                         <a href="#" class="btn compare-btn"><i
                                                                 class="fa fa-random" aria-hidden="true"></i></a>
@@ -986,7 +985,7 @@
         </div>
 
         <!--Block 05: Banner Promotion-->
-        <div class="banner-promotion-04 xs-margin-top-50px sm-margin-top-40px">
+        {{-- <div class="banner-promotion-04 xs-margin-top-50px sm-margin-top-40px">
             <div class="biolife-banner promotion4 biolife-banner__promotion4 v2">
                 <div class="container">
                     <div class="banner-contain">
@@ -1012,7 +1011,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
 
         <!--Block 06: Advance Box-->
         <div class="container z-index-20 xs-margin-top-80px sm-margin-top-0">

@@ -21,7 +21,6 @@
 <div class="page-contain category-page no-sidebar">
     <div class="container">
         <div class="row">
-
             <!-- Main content -->
             <div id="main-content" class="main-content col-lg-12 col-md-12 col-sm-12 col-xs-12">
 

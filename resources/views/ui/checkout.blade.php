@@ -65,7 +65,7 @@
 
                                             <div class="price price-contain">
                                                 <ins><span class="price-amount"><span
-                                                            class="currencySymbol">£</span>{{ $items->total_price }}</span></ins>
+                                                            class="currencySymbol">£</span>{{ number_format($items->total_price),2  }}</span></ins>
 
                                             </div>
                                         </div>
@@ -79,28 +79,28 @@
                             <ul class="subtotal">
                                 <li>
                                     <div class="subtotal-line">
-                                        <b class="stt-name">Subtotal</b>
-                                        <span class="stt-price">£{{ $total_price }}</span>
+                                        <b class="stt-name">Total Price</b>
+                                        <span class="stt-price">£{{number_format($total_price),2 }}</span>
                                     </div>
                                 </li>
-                                <li>
+                                {{-- <li>
                                     <div class="subtotal-line">
                                         <b class="stt-name">Shipping</b>
                                         <span class="stt-price">£20.00</span>
                                     </div>
-                                </li>
+                                </li> --}}
                                 {{-- <li>
                                     <div class="subtotal-line">
                                         <b class="stt-name">Tax</b>
                                         <span class="stt-price">£0.00</span>
                                     </div>
                                 </li> --}}
-                                <li>
+                                {{-- <li>
                                     <div class="subtotal-line">
                                         <b class="stt-name">total:</b>
                                         <span class="stt-price">£190.00</span>
                                     </div>
-                                </li>
+                                </li> --}}
                             </ul>
                         </div>
                     </div>
