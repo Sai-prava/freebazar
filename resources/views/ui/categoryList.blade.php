@@ -44,9 +44,9 @@
                                         </h4>
                                         <div class="price">
                                             <ins><span class="price-amount"><span
-                                                        class="currencySymbol">£</span>{{ $data->price }}</span></ins>
+                                                        class="currencySymbol">₹</span>{{ $data->price }}</span></ins>
                                             <del><span class="price-amount"><span
-                                                        class="currencySymbol">£</span>{{ $data->discount_price }}</span></del>
+                                                        class="currencySymbol">₹</span>{{ $data->discount_price }}</span></del>
                                         </div>
                                     </div>
                                 </div>
@@ -149,9 +149,9 @@
                                             <p class="excerpt">{!! $data->description !!}</p>
                                             <div class="price">
                                                 <ins><span class="price-amount"><span
-                                                            class="currencySymbol">£</span>{{ $data->price }}</span></ins>
+                                                            class="currencySymbol">₹</span>{{ $data->price }}</span></ins>
                                                 <del><span class="price-amount"><span
-                                                            class="currencySymbol">£</span>{{ $data->discount_price }}</span></del>
+                                                            class="currencySymbol">₹</span>{{ $data->discount_price }}</span></del>
                                             </div>
                                             <div class="buttons">
                                                 <a href="#" class="btn wishlist-btn"><i class="fa fa-heart"
@@ -169,7 +169,7 @@
                         </ul>
                     </div>
 
-                    <div class="biolife-panigations-block">
+                    {{-- <div class="biolife-panigations-block">
                         <ul class="panigation-contain">
                             <li><span class="current-page">1</span></li>
                             <li><a href="#" class="link-page">2</a></li>
@@ -179,7 +179,7 @@
                             <li><a href="#" class="link-page next"><i class="fa fa-angle-right"
                                         aria-hidden="true"></i></a></li>
                         </ul>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </div>

@@ -12,7 +12,7 @@
     <div class="container">
         <nav class="biolife-nav">
             <ul>
-                <li class="nav-item"><a href="{{ route('frontend.index') }}" class="permal-link">Home</a></li>             
+                <li class="nav-item"><a href="{{ route('frontend.index') }}" class="permal-link">Home</a></li>
                 <li class="nav-item"><span class="current-page">{{ $products->sector->title }}</span></li>
             </ul>
         </nav>
@@ -24,12 +24,14 @@
 
             <!-- Main content -->
             <div id="main-content" class="main-content">
-                
+
                 <!-- summary info -->
                 <div class="sumary-product single-layout">
                     <div class="media">
-                        <ul class="biolife-carousel slider-for" data-slick='{"arrows":false,"dots":false,"slidesMargin":30,"slidesToShow":1,"slidesToScroll":1,"fade":true,"asNavFor":".slider-nav"}'>
-                            <li><img src="{{ asset('images/' . $products->image) }}" alt="" width="500" height="500"></li>
+                        <ul class="biolife-carousel slider-for"
+                            data-slick='{"arrows":false,"dots":false,"slidesMargin":30,"slidesToShow":1,"slidesToScroll":1,"fade":true,"asNavFor":".slider-nav"}'>
+                            <li><img src="{{ asset('images/' . $products->image) }}" alt="" width="500"
+                                    height="500"></li>
                             {{-- <li><img src="{{ asset('assets/images/details-product/p08.jpg') }}" alt="" width="500" height="500"></li>
                             <li><img src="{{ asset('assets/images/details-product/p05.jpg') }}" alt="" width="500" height="500"></li>
                             <li><img src="{{ asset('assets/images/details-product/p06.jpg') }}" alt="" width="500" height="500"></li>
@@ -55,10 +57,12 @@
                         <p class="excerpt">{!! Str::limit($products->description, 30, '...') !!}</p>
 
                         <div class="price">
-                            <ins><span class="price-amount"><span class="currencySymbol">£</span>{{ $products->price }}</span></ins>
-                            <del><span class="price-amount"><span class="currencySymbol">£</span>{{ $products->discount_price }}</span></del>
+                            <ins><span class="price-amount"><span
+                                        class="currencySymbol">₹</span>{{ $products->price }}</span></ins>
+                            <del><span class="price-amount"><span
+                                        class="currencySymbol">₹</span>{{ $products->discount_price }}</span></del>
                         </div>
-                        
+
                         <div class="shipping-info">
                             {{-- <p class="shipping-day">3-Day Shipping</p>
                             <p class="for-today">Pree Pickup Today</p> --}}
@@ -66,7 +70,7 @@
                     </div>
                     <div class="action-form">
                         <div class="buttons external-btn">
-                            <a href="{{ route('cart.add',$products->id) }}" class="btn add-to-cart-btn">Add To Cart</a>
+                            <a href="{{ route('cart.add', $products->id) }}" class="btn add-to-cart-btn">Add To Cart</a>
                             {{-- <p class="pull-row">
                                 <a href="#" class="btn wishlist-btn">wishlist</a>
                                 <a href="#" class="btn compare-btn">compare</a>
@@ -106,7 +110,8 @@
                 <div class="product-tabs single-layout biolife-tab-contain" style="margin-top: 40px;">
                     <div class="tab-head">
                         <ul class="tabs">
-                            <li class="tab-element active"><a href="#tab_1st" class="tab-link">Products Descriptions</a></li>
+                            <li class="tab-element active"><a href="#tab_1st" class="tab-link">Products Descriptions</a>
+                            </li>
                             {{-- <li class="tab-element" ><a href="#tab_2nd" class="tab-link">Addtional information</a></li>
                             <li class="tab-element" ><a href="#tab_3rd" class="tab-link">Shipping & Delivery</a></li> --}}
                             {{-- <li class="tab-element" ><a href="#tab_4th" class="tab-link">Customer Reviews <sup>(3)</sup></a></li> --}}
@@ -376,8 +381,8 @@
                                     <b class="categories">Fresh Fruit</b>
                                     <h4 class="product-title"><a href="#" class="pr-name">National Fresh Fruit</a></h4>
                                     <div class="price">
-                                        <ins><span class="price-amount"><span class="currencySymbol">£</span>85.00</span></ins>
-                                        <del><span class="price-amount"><span class="currencySymbol">£</span>95.00</span></del>
+                                        <ins><span class="price-amount"><span class="currencySymbol">₹</span>85.00</span></ins>
+                                        <del><span class="price-amount"><span class="currencySymbol">₹</span>95.00</span></del>
                                     </div>
                                     <div class="slide-down-box">
                                         <p class="message">All products are carefully selected to ensure food safety.</p>
@@ -401,8 +406,8 @@
                                     <b class="categories">Fresh Fruit</b>
                                     <h4 class="product-title"><a href="#" class="pr-name">National Fresh Fruit</a></h4>
                                     <div class="price">
-                                        <ins><span class="price-amount"><span class="currencySymbol">£</span>85.00</span></ins>
-                                        <del><span class="price-amount"><span class="currencySymbol">£</span>95.00</span></del>
+                                        <ins><span class="price-amount"><span class="currencySymbol">₹</span>85.00</span></ins>
+                                        <del><span class="price-amount"><span class="currencySymbol">₹</span>95.00</span></del>
                                     </div>
                                     <div class="slide-down-box">
                                         <p class="message">All products are carefully selected to ensure food safety.</p>
@@ -426,8 +431,8 @@
                                     <b class="categories">Fresh Fruit</b>
                                     <h4 class="product-title"><a href="#" class="pr-name">National Fresh Fruit</a></h4>
                                     <div class="price">
-                                        <ins><span class="price-amount"><span class="currencySymbol">£</span>85.00</span></ins>
-                                        <del><span class="price-amount"><span class="currencySymbol">£</span>95.00</span></del>
+                                        <ins><span class="price-amount"><span class="currencySymbol">₹</span>85.00</span></ins>
+                                        <del><span class="price-amount"><span class="currencySymbol">₹</span>95.00</span></del>
                                     </div>
                                     <div class="slide-down-box">
                                         <p class="message">All products are carefully selected to ensure food safety.</p>
@@ -451,8 +456,8 @@
                                     <b class="categories">Fresh Fruit</b>
                                     <h4 class="product-title"><a href="#" class="pr-name">National Fresh Fruit</a></h4>
                                     <div class="price">
-                                        <ins><span class="price-amount"><span class="currencySymbol">£</span>85.00</span></ins>
-                                        <del><span class="price-amount"><span class="currencySymbol">£</span>95.00</span></del>
+                                        <ins><span class="price-amount"><span class="currencySymbol">₹</span>85.00</span></ins>
+                                        <del><span class="price-amount"><span class="currencySymbol">₹</span>95.00</span></del>
                                     </div>
                                     <div class="slide-down-box">
                                         <p class="message">All products are carefully selected to ensure food safety.</p>
@@ -476,8 +481,8 @@
                                     <b class="categories">Fresh Fruit</b>
                                     <h4 class="product-title"><a href="#" class="pr-name">National Fresh Fruit</a></h4>
                                     <div class="price">
-                                        <ins><span class="price-amount"><span class="currencySymbol">£</span>85.00</span></ins>
-                                        <del><span class="price-amount"><span class="currencySymbol">£</span>95.00</span></del>
+                                        <ins><span class="price-amount"><span class="currencySymbol">₹</span>85.00</span></ins>
+                                        <del><span class="price-amount"><span class="currencySymbol">₹</span>95.00</span></del>
                                     </div>
                                     <div class="slide-down-box">
                                         <p class="message">All products are carefully selected to ensure food safety.</p>
@@ -501,8 +506,8 @@
                                     <b class="categories">Fresh Fruit</b>
                                     <h4 class="product-title"><a href="#" class="pr-name">National Fresh Fruit</a></h4>
                                     <div class="price">
-                                        <ins><span class="price-amount"><span class="currencySymbol">£</span>85.00</span></ins>
-                                        <del><span class="price-amount"><span class="currencySymbol">£</span>95.00</span></del>
+                                        <ins><span class="price-amount"><span class="currencySymbol">₹</span>85.00</span></ins>
+                                        <del><span class="price-amount"><span class="currencySymbol">₹</span>95.00</span></del>
                                     </div>
                                     <div class="slide-down-box">
                                         <p class="message">All products are carefully selected to ensure food safety.</p>
@@ -526,8 +531,8 @@
                                     <b class="categories">Fresh Fruit</b>
                                     <h4 class="product-title"><a href="#" class="pr-name">National Fresh Fruit</a></h4>
                                     <div class="price">
-                                        <ins><span class="price-amount"><span class="currencySymbol">£</span>85.00</span></ins>
-                                        <del><span class="price-amount"><span class="currencySymbol">£</span>95.00</span></del>
+                                        <ins><span class="price-amount"><span class="currencySymbol">₹</span>85.00</span></ins>
+                                        <del><span class="price-amount"><span class="currencySymbol">₹</span>95.00</span></del>
                                     </div>
                                     <div class="slide-down-box">
                                         <p class="message">All products are carefully selected to ensure food safety.</p>
@@ -543,9 +548,9 @@
 
                     </ul>
                 </div> -->
-                
+
             </div>
         </div>
 
     </div>
-@include('ui.layout.footer')
+    @include('ui.layout.footer')

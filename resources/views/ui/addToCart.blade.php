@@ -21,8 +21,6 @@
     <!-- Main content -->
     <div id="main-content" class="main-content">
         <div class="container">
-
-
             <!--Cart Table-->
             <div class="shopping-cart-container">
                 <div class="row">
@@ -67,7 +65,7 @@
                                             <td class="product-price" data-title="Price">
                                                 <div class="price price-contain">
                                                     <ins><span class="price-amount"><span
-                                                                class="currencySymbol">£</span>{{ number_format($cart->product->total_price,2)  }}</span></ins>
+                                                                class="currencySymbol">₹</span>{{ number_format($cart->product->total_price, 2) }}</span></ins>
 
                                                 </div>
                                             </td>
@@ -89,8 +87,8 @@
 
                                             <td class="product-subtotal" data-title="Total">
                                                 <div class="price price-contain">
-                                                    <ins><span class="price-amount">£<span
-                                                                class="totalPrice{{ $cart->id }}">{{ number_format($cart->total_price ,2) }}</span></span></ins>
+                                                    <ins><span class="price-amount">₹<span
+                                                                class="totalPrice{{ $cart->id }}">{{ number_format($cart->total_price, 2) }}</span></span></ins>
 
                                                 </div>
                                             </td>
@@ -103,7 +101,6 @@
                                         <td class="wrap-btn-control" colspan="4">
                                             <a href="{{ route('frontend.index') }}" class="btn back-to-shop">Back to
                                                 Shop</a>
-
                                         </td>
                                     </tr>
                                 </tbody>
@@ -115,7 +112,8 @@
                             <div class="subtotal-line">
                                 <b class="stt-name">Subtotal <span class="sub">({{ count($cartItems) }}
                                         items)</span></b>
-                                <span class="stt-price">£ <span class="sub_total">{{ number_format($total_price,2)  }}</span></span>
+                                <span class="stt-price">₹ <span
+                                        class="sub_total">{{ number_format($total_price, 2) }}</span></span>
                             </div>
 
                             {{-- <div class="tax-fee">
@@ -143,8 +141,8 @@
                                     </tr>
                                 </table> --}}
                             </div>
-                            <p class="pickup-info"><b>Free Pickup</b> is available as soon as today More about shipping
-                                and pickup</p>
+                            {{-- <p class="pickup-info"><b>Free Pickup</b> is available as soon as today More about shipping
+                                and pickup</p> --}}
                         </div>
                     </div>
                 </div>

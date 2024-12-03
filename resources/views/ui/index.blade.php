@@ -225,16 +225,16 @@
                                                         class="pr-name">{{ $data->title }}</a></h4>
                                                 <div class="price ">
                                                     <ins><span class="price-amount"><span
-                                                                class="currencySymbol">£</span>{{ $data->price }}</span></ins>
+                                                                class="currencySymbol">₹</span>{{ $data->price }}</span></ins>
                                                     <del><span class="price-amount"><span
-                                                                class="currencySymbol">£</span>{{ $data->discount_price }}</span></del>
+                                                                class="currencySymbol">₹</span>{{ $data->discount_price }}</span></del>
                                                 </div>
                                                 <div class="slide-down-box">
 
                                                     <div class="buttons">
                                                         <a href="#" class="btn wishlist-btn"><i
                                                                 class="fa fa-heart" aria-hidden="true"></i></a>
-                                                        <a href="#" class="btn add-to-cart-btn"><i
+                                                        <a href="{{ route('cart.add',$data->id) }}" class="btn add-to-cart-btn"><i
                                                                 class="fa fa-cart-arrow-down" aria-hidden="true"></i>add
                                                             to cart</a>
                                                         <a href="#" class="btn compare-btn"><i
@@ -245,11 +245,9 @@
                                         </div>
                                     </li>
                                 @endforeach
-
-
                             </ul>
                         </div>
-                        <div id="tab01_2nd" class="tab-contain ">
+                        {{-- <div id="tab01_2nd" class="tab-contain ">
                             <ul class="products-list biolife-carousel nav-center-02 nav-none-on-mobile eq-height-contain"
                                 data-slick='{"rows":1 ,"arrows":true,"dots":false,"infinite":true,"speed":400,"slidesMargin":10,"slidesToShow":4, "responsive":[{"breakpoint":1200, "settings":{ "slidesToShow": 4}},{"breakpoint":992, "settings":{ "slidesToShow": 3, "slidesMargin":20 }},{"breakpoint":768, "settings":{ "slidesToShow": 2,"rows":2, "slidesMargin":15 }}]}'>
                                 <li class="product-item">
@@ -268,9 +266,9 @@
                                                     Fresh Fruit</a></h4>
                                             <div class="price ">
                                                 <ins><span class="price-amount"><span
-                                                            class="currencySymbol">£</span>85.00</span></ins>
+                                                            class="currencySymbol">₹</span>85.00</span></ins>
                                                 <del><span class="price-amount"><span
-                                                            class="currencySymbol">£</span>95.00</span></del>
+                                                            class="currencySymbol">₹</span>95.00</span></del>
                                             </div>
                                             <div class="slide-down-box">
                                                 <p class="message">All products are carefully selected to ensure food
@@ -304,9 +302,9 @@
                                                     Peppers Magnetic Salt</a></h4>
                                             <div class="price ">
                                                 <ins><span class="price-amount"><span
-                                                            class="currencySymbol">£</span>85.00</span></ins>
+                                                            class="currencySymbol">₹</span>85.00</span></ins>
                                                 <del><span class="price-amount"><span
-                                                            class="currencySymbol">£</span>95.00</span></del>
+                                                            class="currencySymbol">₹</span>95.00</span></del>
                                             </div>
                                             <div class="slide-down-box">
                                                 <p class="message">All products are carefully selected to ensure food
@@ -340,9 +338,9 @@
                                                     Fairytale</a></h4>
                                             <div class="price ">
                                                 <ins><span class="price-amount"><span
-                                                            class="currencySymbol">£</span>85.00</span></ins>
+                                                            class="currencySymbol">₹</span>85.00</span></ins>
                                                 <del><span class="price-amount"><span
-                                                            class="currencySymbol">£</span>95.00</span></del>
+                                                            class="currencySymbol">₹</span>95.00</span></del>
                                             </div>
                                             <div class="slide-down-box">
                                                 <p class="message">All products are carefully selected to ensure food
@@ -376,9 +374,9 @@
                                                     Cauliflower Kugel</a></h4>
                                             <div class="price ">
                                                 <ins><span class="price-amount"><span
-                                                            class="currencySymbol">£</span>85.00</span></ins>
+                                                            class="currencySymbol">₹</span>85.00</span></ins>
                                                 <del><span class="price-amount"><span
-                                                            class="currencySymbol">£</span>95.00</span></del>
+                                                            class="currencySymbol">₹</span>95.00</span></del>
                                             </div>
                                             <div class="slide-down-box">
                                                 <p class="message">All products are carefully selected to ensure food
@@ -412,9 +410,9 @@
                                                     Powers of Lemons</a></h4>
                                             <div class="price ">
                                                 <ins><span class="price-amount"><span
-                                                            class="currencySymbol">£</span>85.00</span></ins>
+                                                            class="currencySymbol">₹</span>85.00</span></ins>
                                                 <del><span class="price-amount"><span
-                                                            class="currencySymbol">£</span>95.00</span></del>
+                                                            class="currencySymbol">₹</span>95.00</span></del>
                                             </div>
                                             <div class="slide-down-box">
                                                 <p class="message">All products are carefully selected to ensure food
@@ -448,9 +446,9 @@
                                                     Fresh Fruit</a></h4>
                                             <div class="price ">
                                                 <ins><span class="price-amount"><span
-                                                            class="currencySymbol">£</span>85.00</span></ins>
+                                                            class="currencySymbol">₹</span>85.00</span></ins>
                                                 <del><span class="price-amount"><span
-                                                            class="currencySymbol">£</span>95.00</span></del>
+                                                            class="currencySymbol">₹</span>95.00</span></del>
                                             </div>
                                             <div class="slide-down-box">
                                                 <p class="message">All products are carefully selected to ensure food
@@ -484,9 +482,9 @@
                                                     Hass Avocado, Large</a></h4>
                                             <div class="price ">
                                                 <ins><span class="price-amount"><span
-                                                            class="currencySymbol">£</span>85.00</span></ins>
+                                                            class="currencySymbol">₹</span>85.00</span></ins>
                                                 <del><span class="price-amount"><span
-                                                            class="currencySymbol">£</span>95.00</span></del>
+                                                            class="currencySymbol">₹</span>95.00</span></del>
                                             </div>
                                             <div class="slide-down-box">
                                                 <p class="message">All products are carefully selected to ensure food
@@ -520,9 +518,9 @@
                                                     Pears</a></h4>
                                             <div class="price ">
                                                 <ins><span class="price-amount"><span
-                                                            class="currencySymbol">£</span>85.00</span></ins>
+                                                            class="currencySymbol">₹</span>85.00</span></ins>
                                                 <del><span class="price-amount"><span
-                                                            class="currencySymbol">£</span>95.00</span></del>
+                                                            class="currencySymbol">₹</span>95.00</span></del>
                                             </div>
                                             <div class="slide-down-box">
                                                 <p class="message">All products are carefully selected to ensure food
@@ -556,9 +554,9 @@
                                                     Hass Avocado</a></h4>
                                             <div class="price ">
                                                 <ins><span class="price-amount"><span
-                                                            class="currencySymbol">£</span>85.00</span></ins>
+                                                            class="currencySymbol">₹</span>85.00</span></ins>
                                                 <del><span class="price-amount"><span
-                                                            class="currencySymbol">£</span>95.00</span></del>
+                                                            class="currencySymbol">₹</span>95.00</span></del>
                                             </div>
                                             <div class="slide-down-box">
                                                 <p class="message">All products are carefully selected to ensure food
@@ -592,9 +590,9 @@
                                                     Tomato Seeds</a></h4>
                                             <div class="price ">
                                                 <ins><span class="price-amount"><span
-                                                            class="currencySymbol">£</span>85.00</span></ins>
+                                                            class="currencySymbol">₹</span>85.00</span></ins>
                                                 <del><span class="price-amount"><span
-                                                            class="currencySymbol">£</span>95.00</span></del>
+                                                            class="currencySymbol">₹</span>95.00</span></del>
                                             </div>
                                             <div class="slide-down-box">
                                                 <p class="message">All products are carefully selected to ensure food
@@ -633,9 +631,9 @@
                                                     Hass Avocado, Large</a></h4>
                                             <div class="price ">
                                                 <ins><span class="price-amount"><span
-                                                            class="currencySymbol">£</span>85.00</span></ins>
+                                                            class="currencySymbol">₹</span>85.00</span></ins>
                                                 <del><span class="price-amount"><span
-                                                            class="currencySymbol">£</span>95.00</span></del>
+                                                            class="currencySymbol">₹</span>95.00</span></del>
                                             </div>
                                             <div class="slide-down-box">
                                                 <p class="message">All products are carefully selected to ensure food
@@ -669,9 +667,9 @@
                                                     Peppers Magnetic Salt</a></h4>
                                             <div class="price ">
                                                 <ins><span class="price-amount"><span
-                                                            class="currencySymbol">£</span>85.00</span></ins>
+                                                            class="currencySymbol">₹</span>85.00</span></ins>
                                                 <del><span class="price-amount"><span
-                                                            class="currencySymbol">£</span>95.00</span></del>
+                                                            class="currencySymbol">₹</span>95.00</span></del>
                                             </div>
                                             <div class="slide-down-box">
                                                 <p class="message">All products are carefully selected to ensure food
@@ -705,9 +703,9 @@
                                                     Hass Avocado</a></h4>
                                             <div class="price ">
                                                 <ins><span class="price-amount"><span
-                                                            class="currencySymbol">£</span>85.00</span></ins>
+                                                            class="currencySymbol">₹</span>85.00</span></ins>
                                                 <del><span class="price-amount"><span
-                                                            class="currencySymbol">£</span>95.00</span></del>
+                                                            class="currencySymbol">₹</span>95.00</span></del>
                                             </div>
                                             <div class="slide-down-box">
                                                 <p class="message">All products are carefully selected to ensure food
@@ -741,9 +739,9 @@
                                                     Pears</a></h4>
                                             <div class="price ">
                                                 <ins><span class="price-amount"><span
-                                                            class="currencySymbol">£</span>85.00</span></ins>
+                                                            class="currencySymbol">₹</span>85.00</span></ins>
                                                 <del><span class="price-amount"><span
-                                                            class="currencySymbol">£</span>95.00</span></del>
+                                                            class="currencySymbol">₹</span>95.00</span></del>
                                             </div>
                                             <div class="slide-down-box">
                                                 <p class="message">All products are carefully selected to ensure food
@@ -777,9 +775,9 @@
                                                     Powers of Lemons</a></h4>
                                             <div class="price ">
                                                 <ins><span class="price-amount"><span
-                                                            class="currencySymbol">£</span>85.00</span></ins>
+                                                            class="currencySymbol">₹</span>85.00</span></ins>
                                                 <del><span class="price-amount"><span
-                                                            class="currencySymbol">£</span>95.00</span></del>
+                                                            class="currencySymbol">₹</span>95.00</span></del>
                                             </div>
                                             <div class="slide-down-box">
                                                 <p class="message">All products are carefully selected to ensure food
@@ -813,9 +811,9 @@
                                                     Fresh Fruit</a></h4>
                                             <div class="price ">
                                                 <ins><span class="price-amount"><span
-                                                            class="currencySymbol">£</span>85.00</span></ins>
+                                                            class="currencySymbol">₹</span>85.00</span></ins>
                                                 <del><span class="price-amount"><span
-                                                            class="currencySymbol">£</span>95.00</span></del>
+                                                            class="currencySymbol">₹</span>95.00</span></del>
                                             </div>
                                             <div class="slide-down-box">
                                                 <p class="message">All products are carefully selected to ensure food
@@ -849,9 +847,9 @@
                                                     Fresh Fruit</a></h4>
                                             <div class="price ">
                                                 <ins><span class="price-amount"><span
-                                                            class="currencySymbol">£</span>85.00</span></ins>
+                                                            class="currencySymbol">₹</span>85.00</span></ins>
                                                 <del><span class="price-amount"><span
-                                                            class="currencySymbol">£</span>95.00</span></del>
+                                                            class="currencySymbol">₹</span>95.00</span></del>
                                             </div>
                                             <div class="slide-down-box">
                                                 <p class="message">All products are carefully selected to ensure food
@@ -885,9 +883,9 @@
                                                     Tomato Seeds</a></h4>
                                             <div class="price ">
                                                 <ins><span class="price-amount"><span
-                                                            class="currencySymbol">£</span>85.00</span></ins>
+                                                            class="currencySymbol">₹</span>85.00</span></ins>
                                                 <del><span class="price-amount"><span
-                                                            class="currencySymbol">£</span>95.00</span></del>
+                                                            class="currencySymbol">₹</span>95.00</span></del>
                                             </div>
                                             <div class="slide-down-box">
                                                 <p class="message">All products are carefully selected to ensure food
@@ -921,9 +919,9 @@
                                                     Fairytale</a></h4>
                                             <div class="price ">
                                                 <ins><span class="price-amount"><span
-                                                            class="currencySymbol">£</span>85.00</span></ins>
+                                                            class="currencySymbol">₹</span>85.00</span></ins>
                                                 <del><span class="price-amount"><span
-                                                            class="currencySymbol">£</span>95.00</span></del>
+                                                            class="currencySymbol">₹</span>95.00</span></del>
                                             </div>
                                             <div class="slide-down-box">
                                                 <p class="message">All products are carefully selected to ensure food
@@ -957,9 +955,9 @@
                                                     Cauliflower Kugel</a></h4>
                                             <div class="price ">
                                                 <ins><span class="price-amount"><span
-                                                            class="currencySymbol">£</span>85.00</span></ins>
+                                                            class="currencySymbol">₹</span>85.00</span></ins>
                                                 <del><span class="price-amount"><span
-                                                            class="currencySymbol">£</span>95.00</span></del>
+                                                            class="currencySymbol">₹</span>95.00</span></del>
                                             </div>
                                             <div class="slide-down-box">
                                                 <p class="message">All products are carefully selected to ensure food
@@ -978,7 +976,7 @@
                                     </div>
                                 </li>
                             </ul>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
             </div>
@@ -1032,7 +1030,7 @@
                                         <div class="product-thumb">
                                             <a href="#" class="link-to-product">
                                                 <img src="{{ asset('images/' . $seller->image) }}" alt="Vegetables"
-                                                    width="270" height="270" class="product-thumnail">
+                                                    width="200" height="200" class="product-thumnail">
                                             </a>
                                             {{-- <a class="lookup btn_call_quickview" href="#"><i
                                                     class="biolife-icon icon-search"></i></a> --}}
@@ -1043,9 +1041,9 @@
                                                     class="pr-name">{{ $seller->title }}</a></h4>
                                             <div class="price ">
                                                 <ins><span class="price-amount"><span
-                                                            class="currencySymbol">£</span>{{ number_format($seller->price, 2) }}</span></ins>
+                                                            class="currencySymbol">₹</span>{{ number_format($seller->price, 2) }}</span></ins>
                                                 <del><span class="price-amount"><span
-                                                            class="currencySymbol">£</span>{{ $seller->discount_price }}</span></del>
+                                                            class="currencySymbol">₹</span>{{ $seller->discount_price }}</span></del>
                                             </div>
                                             <div class="slide-down-box">
                                                 <div class="buttons">
@@ -1093,9 +1091,9 @@
                                                 Fairytale</a></h4>
                                         <div class="price ">
                                             <ins><span class="price-amount"><span
-                                                        class="currencySymbol">£</span>85.00</span></ins>
+                                                        class="currencySymbol">₹</span>85.00</span></ins>
                                             <del><span class="price-amount"><span
-                                                        class="currencySymbol">£</span>95.00</span></del>
+                                                        class="currencySymbol">₹</span>95.00</span></del>
                                         </div>
                                         <div class="rating">
                                             <p class="star-rating"><span class="width-80percent"></span></p>
@@ -1117,9 +1115,9 @@
                                                 Fairytale</a></h4>
                                         <div class="price ">
                                             <ins><span class="price-amount"><span
-                                                        class="currencySymbol">£</span>85.00</span></ins>
+                                                        class="currencySymbol">₹</span>85.00</span></ins>
                                             <del><span class="price-amount"><span
-                                                        class="currencySymbol">£</span>95.00</span></del>
+                                                        class="currencySymbol">₹</span>95.00</span></del>
                                         </div>
                                         <div class="rating">
                                             <p class="star-rating"><span class="width-80percent"></span></p>
@@ -1141,9 +1139,9 @@
                                                 Fairytale</a></h4>
                                         <div class="price ">
                                             <ins><span class="price-amount"><span
-                                                        class="currencySymbol">£</span>85.00</span></ins>
+                                                        class="currencySymbol">₹</span>85.00</span></ins>
                                             <del><span class="price-amount"><span
-                                                        class="currencySymbol">£</span>95.00</span></del>
+                                                        class="currencySymbol">₹</span>95.00</span></del>
                                         </div>
                                         <div class="rating">
                                             <p class="star-rating"><span class="width-80percent"></span></p>
@@ -1174,9 +1172,9 @@
                                                 Fairytale</a></h4>
                                         <div class="price ">
                                             <ins><span class="price-amount"><span
-                                                        class="currencySymbol">£</span>85.00</span></ins>
+                                                        class="currencySymbol">₹</span>85.00</span></ins>
                                             <del><span class="price-amount"><span
-                                                        class="currencySymbol">£</span>95.00</span></del>
+                                                        class="currencySymbol">₹</span>95.00</span></del>
                                         </div>
                                         <div class="rating">
                                             <p class="star-rating"><span class="width-80percent"></span></p>
@@ -1198,9 +1196,9 @@
                                                 Fairytale</a></h4>
                                         <div class="price ">
                                             <ins><span class="price-amount"><span
-                                                        class="currencySymbol">£</span>85.00</span></ins>
+                                                        class="currencySymbol">₹</span>85.00</span></ins>
                                             <del><span class="price-amount"><span
-                                                        class="currencySymbol">£</span>95.00</span></del>
+                                                        class="currencySymbol">₹</span>95.00</span></del>
                                         </div>
                                         <div class="rating">
                                             <p class="star-rating"><span class="width-80percent"></span></p>
@@ -1222,9 +1220,9 @@
                                                 Fairytale</a></h4>
                                         <div class="price ">
                                             <ins><span class="price-amount"><span
-                                                        class="currencySymbol">£</span>85.00</span></ins>
+                                                        class="currencySymbol">₹</span>85.00</span></ins>
                                             <del><span class="price-amount"><span
-                                                        class="currencySymbol">£</span>95.00</span></del>
+                                                        class="currencySymbol">₹</span>95.00</span></del>
                                         </div>
                                         <div class="rating">
                                             <p class="star-rating"><span class="width-80percent"></span></p>
@@ -1255,9 +1253,9 @@
                                                 Fairytale</a></h4>
                                         <div class="price ">
                                             <ins><span class="price-amount"><span
-                                                        class="currencySymbol">£</span>85.00</span></ins>
+                                                        class="currencySymbol">₹</span>85.00</span></ins>
                                             <del><span class="price-amount"><span
-                                                        class="currencySymbol">£</span>95.00</span></del>
+                                                        class="currencySymbol">₹</span>95.00</span></del>
                                         </div>
                                         <div class="rating">
                                             <p class="star-rating"><span class="width-80percent"></span></p>
@@ -1279,9 +1277,9 @@
                                                 Fairytale</a></h4>
                                         <div class="price ">
                                             <ins><span class="price-amount"><span
-                                                        class="currencySymbol">£</span>85.00</span></ins>
+                                                        class="currencySymbol">₹</span>85.00</span></ins>
                                             <del><span class="price-amount"><span
-                                                        class="currencySymbol">£</span>95.00</span></del>
+                                                        class="currencySymbol">₹</span>95.00</span></del>
                                         </div>
                                         <div class="rating">
                                             <p class="star-rating"><span class="width-80percent"></span></p>
@@ -1303,9 +1301,9 @@
                                                 Fairytale</a></h4>
                                         <div class="price ">
                                             <ins><span class="price-amount"><span
-                                                        class="currencySymbol">£</span>85.00</span></ins>
+                                                        class="currencySymbol">₹</span>85.00</span></ins>
                                             <del><span class="price-amount"><span
-                                                        class="currencySymbol">£</span>95.00</span></del>
+                                                        class="currencySymbol">₹</span>95.00</span></del>
                                         </div>
                                         <div class="rating">
                                             <p class="star-rating"><span class="width-80percent"></span></p>
