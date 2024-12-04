@@ -3,17 +3,31 @@
 @section('content')
     <div class="card">
         <div class="card-header">
-            <h3 class="float-start">
-                <b>Product List</b>
-            </h3>
-            @can('permission_create')
-                <div class="float-end">
-                    <a class="btn btn-success btn-sm text-white" href="{{ route('admin.product.create') }}">
-                        Add Product
-                    </a>
-                </div>
-            @endcan
+            <div class="d-flex flex-wrap justify-content-between align-items-center">
+                <h3 class="mb-3 mb-md-0">
+                    <b>Product List</b>
+                </h3>
+                @can('permission_create')
+                    <div class="d-flex flex-wrap gap-2 align-items-center">
+                        <a class="btn btn-success btn-sm text-white" href="{{ route('admin.product.create') }}">
+                            Add Product
+                        </a>
+                        <a class="btn btn-danger btn-sm text-white" href="{{ route('admin.product.export') }}">
+                            Export
+                        </a>
+                        <!-- Import Form -->
+                        <form action="{{ route('admin.product.import') }}" method="POST" enctype="multipart/form-data"
+                            class="d-flex align-items-center">
+                            @csrf
+                            <input type="file" name="file" class="form-control form-control-sm me-2" style="width: auto;">
+                            <button type="submit" class="btn btn-primary btn-sm">Import</button>
+                        </form>
+                    </div>
+                @endcan
+            </div>
         </div>
+
+
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table">
@@ -31,12 +45,12 @@
                             <th>
                                 Title
                             </th>
-                           
+
                             <th>
                                 Description
                             </th>
                             <th>
-                               Best Seller
+                                Best Seller
                             </th>
                             <th>
                                 Image
@@ -46,14 +60,14 @@
                                 Product File
                             </th> --}}
                             <th>
-                              Price (Rs.)
-                            </th>                           
+                                Price (Rs.)
+                            </th>
                             <th>
-                               Discount Price (Rs.)
-                            </th>                           
+                                Discount Price (Rs.)
+                            </th>
                             <th>
-                               Total Price (Rs.)
-                            </th>                           
+                                Total Price (Rs.)
+                            </th>
                             <th>
                                 Action
                             </th>
@@ -62,7 +76,7 @@
                     <tbody>
                         @foreach ($products as $key => $product)
                             <tr>
-                                <td>{{ __($key + 1) }}</td>
+                                <td>{{ $products->firstItem() + $key }}</td>
 
                                 <td>
                                     @if ($product->sector)
@@ -78,7 +92,6 @@
                                 <td>
                                     {{ $product->title }}
                                 </td>
-                              
                                 <td>
                                     {!! Str::limit($product->description, 20, '...') !!}
                                 </td>
@@ -138,14 +151,10 @@
                                     </div>
                                 </td> --}}
                                 <td>
-                                    {{ $product->price }}
+                                    ₹{{ number_format($product->price, 2) }}
                                 </td>
-                                <td>{{ $product->discount_price }}</td>
-                                <td>{{ $product->total_price }}</td>
-                               
-
-
-
+                                <td>₹{{ number_format($product->discount_price, 2) }}</td>
+                                <td>₹{{ number_format($product->total_price, 2) }}</td>
                                 <td>
                                     <a href="{{ route('admin.product.edit', $product->id) }}"
                                         class="btn btn-sm btn-primary">
@@ -168,10 +177,9 @@
             </div>
         </div>
 
-
-        {{-- <div class="card-footer clearfix">
-            {{ $sector->links() }}
-        </div> --}}
+        <div class="d-flex justify-content-center">
+            {{ $products->links() }}
+        </div>
         <script>
             function confirmDelete(id) {
                 if (confirm('Are you sure you want to delete this Product?')) {

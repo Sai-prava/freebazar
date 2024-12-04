@@ -90,6 +90,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth']], 
     Route::resource('product', ProductController::class);
     Route::post('product/{id}/update', [ProductController::class, 'update'])->name('product.update');
     Route::post('/get-subsector', [ProductController::class, 'getSubsector'])->name('getSubsector');
+    Route::get('/export-product',[ProductController::class, 'export'])->name('product.export');
+    Route::post('/import-product',[ProductController::class, 'import'])->name('product.import');
 
     //pos
     Route::resource('pos_system', PosController::class);

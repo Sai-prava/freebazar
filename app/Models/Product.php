@@ -9,6 +9,21 @@ class Product extends Model
 {
     use HasFactory;
 
+    public $timestamps = true;
+
+    protected $fillable = [
+        'sector_id',
+        'title',
+        'description',
+        'bestseller',
+        'image',
+        'price',
+        'discount_price',
+        'total_price'
+    ];
+
+
+
     public function sector()
     {
         return $this->belongsTo(Sector::class, 'sector_id');

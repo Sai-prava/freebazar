@@ -37,7 +37,7 @@
                     <tbody>
                         @foreach ($sectors as $key => $sector)
                             <tr>
-                                <td>{{__($key + 1) }}</td>
+                                <td>{{ $sectors->firstItem() + $key }}</td>
 
                                 <td>
                                     {{ $sector->title }}
@@ -66,9 +66,9 @@
             </div>
         </div>
         
-        {{-- <div class="card-footer clearfix">
-            {{ $sector->links() }}
-        </div> --}}
+        <div class="card-footer clearfix">
+            {{ $sectors->links() }}
+        </div>
         <script>
             function confirmDelete(id) {
                 if (confirm('Are you sure you want to delete this Category?')) {

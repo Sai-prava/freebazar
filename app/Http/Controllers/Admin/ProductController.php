@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\ProductExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
+use App\Imports\ProductImport;
 use App\Models\Product;
 use App\Models\Sector;
 use App\Models\SubSector;
@@ -19,7 +21,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::orderBy('id', 'asc')->paginate();
+        $products = Product::orderBy('id', 'asc')->simplePaginate(15);
         return view('admin.product.index', compact('products'));
     }
 
@@ -33,7 +35,19 @@ class ProductController extends Controller
         $subsector = SubSector::all();
         return view('admin.product.create', compact('sector', 'subsector', 'products'));
     }
-
+    public function export(){
+        return Excel::download(new ProductExport,'products.xlsx');
+    }
+    public function import(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|mimes:xlsx,xls,csv',
+        ]);
+    
+        Excel::import(new ProductImport, $request->file('file'));
+    
+        return redirect()->route('admin.product.index')->with('success', 'Products imported successfully!');
+    }
     /**
      * Store a newly created resource in storage.
      */

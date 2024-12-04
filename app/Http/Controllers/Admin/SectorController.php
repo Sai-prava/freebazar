@@ -18,7 +18,7 @@ class SectorController extends Controller
      */
     public function index()
     {
-        $sectors = Sector::orderBy('id', 'asc')->paginate();
+        $sectors = Sector::orderBy('id', 'asc')->simplePaginate(15);
         return view('admin.sector.index', compact('sectors'));
     }
 
