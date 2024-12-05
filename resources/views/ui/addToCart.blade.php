@@ -26,7 +26,7 @@
                 <div class="row">
                     <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
                         <h3 class="box-title">Your cart items</h3>
-                        <form class="shopping-cart-form" action="#" method="post">
+                        <form class="shopping-cart-form" action="" method="post">
                             <table class="shop_table cart-form">
                                 <thead>
                                     <tr>
@@ -43,12 +43,12 @@
                                     @foreach ($cartItems as $cart)
                                         <tr class="cart_item">
                                             <td class="product-thumbnail" data-title="Product Name">
-                                                <a class="prd-thumb" href="#">
+                                                <a class="prd-thumb" href="">
                                                     <figure><img width="113" height="113"
                                                             src="{{ asset('images/' . $cart->product->image) }}"
                                                             alt="shipping cart"></figure>
                                                 </a>
-                                                <a class="prd-name" href="#">{{ $cart->product->title }}</a>
+                                                <a class="prd-name" href="">{{ $cart->product->title }}</a>
                                                 <div class="action">
                                                     <a href="javascript:void(0);" class="remove"
                                                         onclick="confirmDelete({{ $cart->id }})">

@@ -30,14 +30,14 @@
                             <li class="product-item">
                                 <div class="contain-product layout-02">
                                     <div class="product-thumb">
-                                        <a href="#" class="link-to-product">
+                                        <a href="" class="link-to-product">
                                             <img src="{{ asset('images/' . $data->image) }}" alt="dd"
                                                 width="270" height="270" class="product-thumnail">
                                         </a>
                                     </div>
                                     <div class="info">
 
-                                        <h4 class="product-title"><a href="#"
+                                        <h4 class="product-title"><a href=""
                                                 class="pr-name">{{ $data->title }}</a>
                                         </h4>
                                         <div class="price">
@@ -48,10 +48,8 @@
                                         </div>
                                     </div>
                                 </div>
-
                             </li>
                         @endforeach
-
                     </ul>
                 </div>
 
@@ -61,13 +59,13 @@
                     {{-- <div id="top-functions-area" class="top-functions-area">
                         <div class="flt-item to-left group-on-mobile">
                             <span class="flt-title">Refine</span>
-                            <a href="#" class="icon-for-mobile">
+                            <a href="" class="icon-for-mobile">
                                 <span></span>
                                 <span></span>
                                 <span></span>
                             </a>
                             <div class="wrap-selectors">
-                                <form action="#" name="frm-refine" method="get">
+                                <form action="" name="frm-refine" method="get">
                                     <span class="title-for-mobile">Refine Products By</span>
                                     <div data-title="Price:" class="selector-item">
                                         <select name="price" class="selector">
@@ -135,14 +133,14 @@
                                 <li class="product-item col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                     <div class="contain-product pr-detail-layout">
                                         <div class="product-thumb">
-                                            <a href="#" class="link-to-product">
+                                            <a href="" class="link-to-product">
                                                 <img src="{{ asset('images/' . $data->image) }}" alt="dd"
                                                     width="270" height="270" class="product-thumnail">
                                             </a>
                                         </div>
                                         <div class="info">
 
-                                            <h4 class="product-title"><a href="#"
+                                            <h4 class="product-title"><a href=""
                                                     class="pr-name">{{ $data->title }}</a></h4>
                                             <p class="excerpt">{!! $data->description !!}</p>
                                             <div class="price">
@@ -152,11 +150,11 @@
                                                             class="currencySymbol">₹</span>{{ $data->discount_price }}</span></del>
                                             </div>
                                             <div class="buttons">
-                                                <a href="#" class="btn wishlist-btn"><i class="fa fa-heart"
+                                                <a href="" class="btn wishlist-btn"><i class="fa fa-heart"
                                                         aria-hidden="true"></i></a>
                                                 <a href="{{ route('cart.add', $data->id) }}"
                                                     class="btn add-to-cart-btn">add to cart</a>
-                                                <a href="#" class="btn compare-btn"><i class="fa fa-random"
+                                                <a href="" class="btn compare-btn"><i class="fa fa-random"
                                                         aria-hidden="true"></i></a>
                                             </div>
                                         </div>
@@ -171,11 +169,11 @@
                     {{-- <div class="biolife-panigations-block">
                         <ul class="panigation-contain">
                             <li><span class="current-page">1</span></li>
-                            <li><a href="#" class="link-page">2</a></li>
-                            <li><a href="#" class="link-page">3</a></li>
+                            <li><a href="" class="link-page">2</a></li>
+                            <li><a href="" class="link-page">3</a></li>
                             <li><span class="sep">....</span></li>
-                            <li><a href="#" class="link-page">20</a></li>
-                            <li><a href="#" class="link-page next"><i class="fa fa-angle-right"
+                            <li><a href="" class="link-page">20</a></li>
+                            <li><a href="" class="link-page next"><i class="fa fa-angle-right"
                                         aria-hidden="true"></i></a></li>
                         </ul>
                     </div> --}}

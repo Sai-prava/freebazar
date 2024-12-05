@@ -40,7 +40,7 @@
                                     <li class="cart-elem">
                                         <div class="cart-item">
                                             <div class="product-thumb">
-                                                <a class="prd-thumb" href="#">
+                                                <a class="prd-thumb" href="">
                                                     <figure><img src="{{ asset('images/' . $items->product->image) }}"
                                                             width="113" height="113" alt="shop-cart"></figure>
                                                 </a>
