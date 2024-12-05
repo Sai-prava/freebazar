@@ -23,13 +23,11 @@
         <div class="row">
             <!-- Main content -->
             <div id="main-content" class="main-content col-lg-12 col-md-12 col-sm-12 col-xs-12">
-
                 <div class="block-item recently-products-cat md-margin-bottom-39">
                     <ul class="products-list biolife-carousel nav-center-02 nav-none-on-mobile"
                         data-slick='{"rows":1,"arrows":true,"dots":false,"infinite":false,"speed":400,"slidesMargin":0,"slidesToShow":5, "responsive":[{"breakpoint":1200, "settings":{ "slidesToShow": 3}},{"breakpoint":992, "settings":{ "slidesToShow": 3, "slidesMargin": 10}},{"breakpoint":768, "settings":{ "slidesToShow": 2, "slidesMargin":10 }}]}'>
                         @foreach ($products as $data)
                             <li class="product-item">
-
                                 <div class="contain-product layout-02">
                                     <div class="product-thumb">
                                         <a href="#" class="link-to-product">
@@ -156,7 +154,8 @@
                                             <div class="buttons">
                                                 <a href="#" class="btn wishlist-btn"><i class="fa fa-heart"
                                                         aria-hidden="true"></i></a>
-                                                <a href="{{ route('cart.add',$data->id) }}" class="btn add-to-cart-btn">add to cart</a>
+                                                <a href="{{ route('cart.add', $data->id) }}"
+                                                    class="btn add-to-cart-btn">add to cart</a>
                                                 <a href="#" class="btn compare-btn"><i class="fa fa-random"
                                                         aria-hidden="true"></i></a>
                                             </div>

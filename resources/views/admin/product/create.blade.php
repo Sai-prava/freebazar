@@ -66,15 +66,17 @@
                 <div class="mb-2">
                     <label for="status">Is BestSeller Product ?*</label>
                     <div class="form-check">
-                        <input class="form-check-input @error('bestseller') is-invalid @enderror" type="radio" name="bestseller" id="bestsellerYes" value="1">
+                        <input class="form-check-input @error('bestseller') is-invalid @enderror" type="radio"
+                            name="bestseller" id="bestsellerYes" value="1">
                         <label class="form-check-label" for="bestsellerYes">
-                           Yes
+                            Yes
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input @error('bestseller') is-invalid @enderror" type="radio" name="bestseller" id="bestsellerNo" value="0">
+                        <input class="form-check-input @error('bestseller') is-invalid @enderror" type="radio"
+                            name="bestseller" id="bestsellerNo" value="0">
                         <label class="form-check-label" for="bestsellerNo">
-                           No
+                            No
                         </label>
                     </div>
                     @error('bestseller')
@@ -135,9 +137,6 @@
                         </span>
                     @enderror
                 </div>
-
-
-
             </div>
             <div class="card-footer">
                 <button class="btn btn-primary me-2" type="submit">Submit</button>
@@ -155,15 +154,10 @@
     </script>
     <script>
         function calculateTotalPrice() {
-            // Get the values of price and discount price
             const price = parseFloat(document.getElementById('price').value) || 0;
             const discountPrice = parseFloat(document.getElementById('discount_price').value) || 0;
-
-            // Calculate total price (price - discount price)
             const totalPrice = price - discountPrice;
-
-            // Set the total price value in the total_price input field
-            document.getElementById('total_price').value = totalPrice.toFixed(2); // Two decimal places
+            document.getElementById('total_price').value = totalPrice.toFixed(2); 
         }
     </script>
 @endsection

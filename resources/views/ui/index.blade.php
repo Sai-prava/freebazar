@@ -60,10 +60,10 @@
                                             <i class="first-line">{{ $data->title }}</i>
                                             <h3 class="second-line">{{ $data->sub_title }}</h3>
                                             <p class="third-line">{{ $data->description }}</p>
-                                            <p class="buttons">
-                                                <a href="#" class="btn btn-bold">Shop now</a>
+                                            {{-- <p class="buttons">
+                                                <a href="" class="btn btn-bold">Shop now</a>
                                                 <a href="#" class="btn btn-thin">View lookbook</a>
-                                            </p>
+                                            </p> --}}
                                         </div>
                                     </div>
                                 </li>
@@ -152,7 +152,6 @@
                             </div>
                         </li>
                     @endforeach
-
                 </ul>
                 {{-- <div class="biolife-service type01 biolife-service__type01 xs-margin-top-60px sm-margin-top-45px">
                     <ul class="services-list">
@@ -234,8 +233,9 @@
                                                     <div class="buttons">
                                                         <a href="#" class="btn wishlist-btn"><i
                                                                 class="fa fa-heart" aria-hidden="true"></i></a>
-                                                        <a href="{{ route('cart.add',$data->id) }}" class="btn add-to-cart-btn"><i
-                                                                class="fa fa-cart-arrow-down" aria-hidden="true"></i>add
+                                                        <a href="{{ route('cart.add', $data->id) }}"
+                                                            class="btn add-to-cart-btn"><i class="fa fa-cart-arrow-down"
+                                                                aria-hidden="true"></i>add
                                                             to cart</a>
                                                         <a href="#" class="btn compare-btn"><i
                                                                 class="fa fa-random" aria-hidden="true"></i></a>

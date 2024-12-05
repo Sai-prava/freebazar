@@ -138,6 +138,9 @@
                                     <button type="submit" class="btn btn-warning w-100">
                                         {{ __('Register') }}
                                     </button>
+                                    <a class="btn btn-link" href="{{ route('login') }}" style="text-decoration: none;color:red;">
+                                        {{ __('Already registered? Sign In') }}
+                                    </a>
                                 </div>
                             </div>
                         </form>

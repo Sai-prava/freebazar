@@ -181,18 +181,11 @@
      </script>
       <script>
         function calculateTotalPrice() {
-            // Get the values of price and discount price
             const price = parseFloat(document.getElementById('price').value) || 0;
             const discountPrice = parseFloat(document.getElementById('discount_price').value) || 0;
-   
-            // Calculate total price (price - discount price)
             const totalPrice = price - discountPrice;
-   
-            // Set the total price value in the total_price input field
-            document.getElementById('total_price').value = totalPrice.toFixed(2); // Two decimal places
+            document.getElementById('total_price').value = totalPrice.toFixed(2); 
         }
-   
-        // Automatically calculate total price on page load (for editing case)
         document.addEventListener('DOMContentLoaded', () => {
             calculateTotalPrice();
         });
@@ -220,7 +213,6 @@
                              '">' + value.title + '</option>');
                      });
                  },
-
              });
          });
      });

@@ -8,7 +8,6 @@
             background-color: orange;
         }
 
-        /* Adjust padding and font sizes for smaller screens */
         @media (max-width: 576px) {
             .card-header {
                 font-size: 20px;
@@ -21,7 +20,7 @@
     </style>
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-8 col-lg-6 col-xl-5"> <!-- Adjusted columns for better responsiveness -->
+            <div class="col-md-8 col-lg-6 col-xl-5"> 
                 <div class="card">
                     <div class="card-header">{{ __('Login') }}</div>
 
@@ -65,7 +64,7 @@
                                 </div>
                             </div>
 
-                            <div class="mb-3 row">
+                            {{-- <div class="mb-3 row">
                                 <div class="col-md-6 offset-md-4">
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" name="remember" id="remember"
@@ -75,7 +74,7 @@
                                         </label>
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
 
                             <div class="mb-0 row">
                                 <div class="col-md-8 offset-md-4">
@@ -83,11 +82,11 @@
                                         {{ __('Login') }}
                                     </button>
 
-                                    @if (Route::has('password.request'))
-                                        <a class="btn btn-link" href="{{ route('password.request') }}">
-                                            {{ __('Forgot Your Password?') }}
+                                    {{-- @if (Route::has('password.request')) --}}
+                                        <a class="btn btn-link" href="{{ route('register') }}" style="text-decoration: none;color:red;">
+                                            {{ __('Not registered? Create an account') }}
                                         </a>
-                                    @endif
+                                    {{-- @endif --}}
                                 </div>
                             </div>
                         </form>

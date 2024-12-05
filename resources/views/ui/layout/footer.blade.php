@@ -7,15 +7,24 @@
                 <div class="col-lg-4 col-md-4 col-sm-6 md-margin-top-5px sm-margin-top-50px xs-margin-top-40px">
                   
                     <section class="footer-item">
-                        <h3 class="section-title">Useful Links</h3>
+                        <h3 class="section-title">Address</h3>
                         <div class="row">
                             <div class="col-lg-6 col-sm-6 col-xs-6">
                                 <div class="wrap-custom-menu vertical-menu-2">
                                     <ul class="menu">
-                                        <li><a href="{{ route('frontend.index') }}">Home</a></li>
-                                        <li><a href="#">About Our Shop</a></li>
-                                        <li><a href="#">Secure Shopping</a></li>
-                                        <li><a href="#">Delivery infomation</a></li>                                      
+                                        <li>
+                                        <p class="info-item">
+                                            <i class="biolife-icon icon-location"></i>
+                                            <b class="desc">7563 St. Vicent Place, Glasgow, Greater Newyork NH7689, UK </b>
+                                        </p>
+                                    </li>
+                                    <li>
+                                        <p class="info-item">
+                                            <i class="biolife-icon icon-phone"></i>
+                                            <b class="desc">Phone: (+067) 234 789  (+068) 222 888</b>
+                                        </p>
+                                    </li>
+                                                       
                                     </ul>
                                 </div>
                             </div>
@@ -39,18 +48,7 @@
                         <h3 class="section-title">Transport Offices</h3>
                         <div class="contact-info-block footer-layout xs-padding-top-10px">
                             <ul class="contact-lines">
-                                <li>
-                                    <p class="info-item">
-                                        <i class="biolife-icon icon-location"></i>
-                                        <b class="desc">7563 St. Vicent Place, Glasgow, Greater Newyork NH7689, UK </b>
-                                    </p>
-                                </li>
-                                <li>
-                                    <p class="info-item">
-                                        <i class="biolife-icon icon-phone"></i>
-                                        <b class="desc">Phone: (+067) 234 789  (+068) 222 888</b>
-                                    </p>
-                                </li>
+                               
                                 <li>
                                     <p class="info-item">
                                         <i class="biolife-icon icon-letter"></i>
