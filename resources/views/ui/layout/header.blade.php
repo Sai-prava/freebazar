@@ -13,28 +13,39 @@
                                data-menuname="main menu">
                                <li class="menu-item"><a href="{{ route('frontend.index') }}">Home</a></li>
                                @php
-                                   $products = DB::table('products')->select('id', 'title')->latest('id')->take(10)->get();
+                                   $products = DB::table('products')
+                                       ->select('id', 'title')
+                                       ->latest('id')
+                                       ->take(10)
+                                       ->get();
                                @endphp
                                <li class="menu-item menu-item-has-children has-child">
                                    <a href="" class="menu-name" data-title="Product">Product</a>
                                    <ul class="sub-menu">
                                        @foreach ($products as $product)
-                                           <li class="menu-item"><a href="{{ route('frontend.product',$product->id) }}">{{$product->title  }}</a></li>
+                                           <li class="menu-item"><a
+                                                   href="{{ route('frontend.product', $product->id) }}">{{ $product->title }}</a>
+                                           </li>
                                        @endforeach
                                    </ul>
                                </li>
                                <li>
                                    @auth
-                                       <a href="{{ route('user.index') }}" style="margin-right: 25px;">Dashboard</a>
-                                       <a href="{{ route('logout') }}" style="display: inline;"
-                                           onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
-                                       <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                           @csrf
-                                       </form>
+                                       @if (Auth::user()->role == 3)
+                                           <a href="{{ route('user.index') }}" style="margin-right: 25px;">Dashboard</a>
+                                           <a href="{{ route('logout') }}" style="display: inline;"
+                                               onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
+                                           <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                               class="d-none">
+                                               @csrf
+                                           </form>
+                                       @else
+                                           <a class="nav-link" href="{{ route('login') }}">Login /</a>
+                                           <a class="nav-link" href="{{ route('register') }}"> Register </a>
+                                       @endif
                                    @else
                                        <a class="nav-link" href="{{ route('login') }}">Login /</a>
                                        <a class="nav-link" href="{{ route('register') }}"> Register </a>
-
                                    @endauth
                                </li>
                                {{-- <li class="menu-item"><a href="contact.html">Contact</a></li> --}}

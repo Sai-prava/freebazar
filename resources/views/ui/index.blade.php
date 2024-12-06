@@ -68,7 +68,6 @@
                                     </div>
                                 </li>
                             @endforeach
-
                         </ul>
                     </div>
                 </div>
@@ -1051,9 +1050,8 @@
                                                             aria-hidden="true"></i></a>
                                                     <a href="{{ route('cart.add', $seller->id) }}"
                                                         class="btn add-to-cart-btn"><i class="fa fa-cart-arrow-down"
-                                                            aria-hidden="true"></i>add
-                                                        to
-                                                        cart</a>
+                                                            aria-hidden="true"></i>add to cart
+                                                    </a>
                                                 </div>
                                             </div>
                                         </div>

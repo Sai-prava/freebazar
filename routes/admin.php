@@ -24,7 +24,7 @@ use App\Http\Controllers\Admin\WalletController;
 
 Auth::routes();
 
-Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth']], function () {
+Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']], function () {
     Route::get('/', [AdminController::class, 'index'])->name('index');
 
     // profile

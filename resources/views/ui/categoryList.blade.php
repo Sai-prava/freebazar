@@ -36,7 +36,6 @@
                                         </a>
                                     </div>
                                     <div class="info">
-
                                         <h4 class="product-title"><a href=""
                                                 class="pr-name">{{ $data->title }}</a>
                                         </h4>

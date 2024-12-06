@@ -13,7 +13,7 @@ class CartController extends Controller
 {
     public function cart()
     {
-        //  dd(session()->get('product_id'));
+        //dd(session()->get('product_id'));
         $userId = Auth::id();
         $cartItems = Cart::with('product')->where('user_id', $userId)->get();
         // dd($cartItems);
@@ -24,37 +24,42 @@ class CartController extends Controller
     public function addToCart($id)
     {
         if (!Auth::check()) {
-            return redirect()->route('login')->with('error', 'You need to be logged in to add items to the cart.');
+            return redirect()->route('login')->with('error', 'You need to log in to add items to the cart.');
         }
-    
+
+        if (Auth::user()->role != 3) {
+            return redirect()->back()->with('error', 'Only customers are allowed to add items to the cart.');
+        }
+
         $product = Product::find($id);
-        if ($product) {
-            $cartItem = Cart::where('user_id', Auth::id())
-                ->where('product_id', $id)
-                ->first();
-    
-            if ($cartItem) {
-                $cartItem->quantity += 1;
-                $cartItem->total_price = $cartItem->quantity * $product->price; 
-                $cartItem->save();
-                return redirect()->back()->with('success', 'Product Already Added');
-            } else {
-                $cartItem = new Cart;
-                $cartItem->user_id = Auth::id();
-                $cartItem->product_id = $id;
-                $cartItem->status = 0;
-                $cartItem->quantity = 1;
-                $cartItem->total_price = $product->price; 
-                $cartItem->save();
-            }
-    
-            return redirect()->route('frontend.cart')->with('success', 'Product Added Successfully');
+        if (!$product) {
+            return redirect()->back()->with('error', 'Product not found.');
         }
+        $cartItem = Cart::where('user_id', Auth::id())
+            ->where('product_id', $id)
+            ->first();
     
-        return redirect()->back()->with('error', 'Product not found.');
+        if ($cartItem) {
+            $cartItem->quantity += 1;
+            $cartItem->total_price = $cartItem->quantity * $product->price;
+            $cartItem->save();
+    
+            return redirect()->back()->with('success', 'Product quantity updated in your cart.');
+        }
+        $cartItem = new Cart;
+        $cartItem->user_id = Auth::id();
+        $cartItem->product_id = $id;
+        $cartItem->status = 0;
+        $cartItem->quantity = 1;
+        $cartItem->total_price = $product->price;
+        $cartItem->save();
+    
+        return redirect()->route('frontend.cart')->with('success', 'Product added to your cart successfully.');
     }
     
-    public function increaseQuantity(Request $request,$id)
+
+
+    public function increaseQuantity(Request $request, $id)
     {
         $cartItem = Cart::find($id);
 
@@ -73,13 +78,10 @@ class CartController extends Controller
                 'newsub_total' => $sub_total,
             ]);
         }
-
         return response()->json(['error' => 'Cart item not found.'], 404);
     }
 
-
-
-    public function decreaseQuantity(Request $request,$id)
+    public function decreaseQuantity(Request $request, $id)
     {
         $cartItem = Cart::find($id);
         if ($cartItem && $cartItem->quantity > 1) {

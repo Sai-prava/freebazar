@@ -64,16 +64,16 @@ Route::get('/infographics', [FrontendController::class, 'infographics'])->name('
 // Route::post('/login/store', [LoginController::class, 'store'])->name('login.store');
 // Route::get('/register/user', [LoginController::class, 'register'])->name('auth.register');
 // Route::post('register/store', [LoginController::class, 'storeRegister'])->name('register.store');
+Route::get('/cart', [CartController::class, 'cart'])->name('frontend.cart');
+Route::get('/cart/add/{id}', [CartController::class, 'addToCart'])->name('cart.add');
+Route::get('/cart/delete/{id}', [CartController::class, 'delete'])->name('cart.delete');
+Route::post('/cart/increase/{id}', [CartController::class, 'increaseQuantity'])->name('increase.quantity');
+Route::post('/cart/decrease/{id}', [CartController::class, 'decreaseQuantity'])->name('decrease.quantity');
+Route::get('/cart/checkout', [CartController::class, 'checkOut'])->name('cart.checkout');
 
-
-Route::group(['middleware' => 'auth'], function () {
+Route::group(['middleware' => 'user'], function () {
     //carts
-    Route::get('/cart', [CartController::class, 'cart'])->name('frontend.cart');
-    Route::get('/cart/add/{id}', [CartController::class, 'addToCart'])->name('cart.add');
-    Route::get('/cart/delete/{id}', [CartController::class, 'delete'])->name('cart.delete');
-    Route::post('/cart/increase/{id}', [CartController::class, 'increaseQuantity'])->name('increase.quantity');
-    Route::post('/cart/decrease/{id}', [CartController::class, 'decreaseQuantity'])->name('decrease.quantity');
-    Route::get('/cart/checkout', [CartController::class, 'checkOut'])->name('cart.checkout');
+
     //logout
     // Route::get('/logout/user', [LoginController::class, 'logout'])->name('auth.logout');
 });
@@ -88,7 +88,7 @@ Route::group(['middleware' => 'auth'], function () {
 // Route::get('/dashboard/cart', [UserDashboardController::class, 'cart'])->name('dashboard.cart'); 
 // Route::delete('/dashboard/cart/delete/{id}', [UserDashboardController::class, 'delete'])->name('dashboard.deletecart');
 
-Route::group(['prefix' => 'user', 'as' => 'user.', 'middleware' => ['auth']], function () {
+Route::group(['prefix' => 'user', 'as' => 'user.', 'middleware' => ['user']], function () {
     Route::get('/', [UserDashboardController::class, 'index'])->name('index');
     Route::get('edit/profile', [UserDashboardController::class, 'editprofile'])->name('edit.profile');
     Route::post('update/profile/', [UserDashboardController::class, 'updateprofile'])->name('update.profile');
@@ -102,7 +102,7 @@ Route::group(['prefix' => 'user', 'as' => 'user.', 'middleware' => ['auth']], fu
     Route::post('payment', [UserDashboardController::class, 'payment'])->name('payment');
     Route::get('my/wallet', [UserDashboardController::class, 'wallet'])->name('wallet');
 });
-Route::group(['prefix' => 'pos', 'as' => 'pos.', 'middleware' => ['auth']], function () {
+Route::group(['prefix' => 'pos', 'as' => 'pos.', 'middleware' => ['pos']], function () {
     Route::get('/', [PosController::class, 'index'])->name('index');
     Route::get('userlist', [PosController::class, 'userList'])->name('user.list');
     Route::get('walletmanage/{id}', [WalletController::class, 'walletManage'])->name('wallet.manage');
