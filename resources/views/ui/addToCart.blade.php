@@ -84,7 +84,6 @@
                                                     </div>
                                                 </div>
                                             </td>
-
                                             <td class="product-subtotal" data-title="Total">
                                                 <div class="price price-contain">
                                                     <ins><span class="price-amount">₹<span

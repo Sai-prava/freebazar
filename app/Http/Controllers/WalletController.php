@@ -63,15 +63,14 @@ class WalletController extends Controller
 
     public function dsr(Request $request)
     {
-        $posId = auth()->user()->id;
+        $posId = auth()->user()->user_id;
         $pos = PosModel::where('user_id', $posId)->first();
-
-        if ($pos) {
-            $posId = $pos->id;
-        }
-        $query = Wallet::query();
-        $query->where('pos_id', $posId);
-
+        // dd($posId,$pos);
+        // if ($pos) {
+        //     $posId = $pos->id;
+        // }
+        // dd($pos->id);
+        $query = Wallet::where('pos_id', $pos->id);
         if ($request->has('search') && !empty($request->search)) {
             $searchTerm = $request->search;
             $query->where('mobilenumber', 'LIKE', "%{$searchTerm}%");
@@ -215,11 +214,12 @@ class WalletController extends Controller
 
     public function msr(Request $request)
     {
-        $posId = auth()->user()->id;
+        $posId = auth()->user()->user_id;
         $pos = PosModel::where('user_id', $posId)->first();
-        if ($pos) {
-            $posId = $pos->id;
-        }
+        // dd($pos);
+        // if ($pos) {
+        //     $posId = $pos->id;
+        // }
         $query = Wallet::select(
             'user_id',
             'mobilenumber',
@@ -227,7 +227,7 @@ class WalletController extends Controller
             DB::raw('SUM(billing_amount) as total_billing_amount')
         )
             ->whereNotNull('transaction_date')
-            ->where('pos_id', $posId)
+            ->where('pos_id', $pos->id)
             ->groupBy('user_id', 'mobilenumber', 'transaction_month');
         if ($request->has('month') && !empty($request->month)) {
             $selectedMonth = $request->month;
@@ -236,6 +236,7 @@ class WalletController extends Controller
 
         $monthlySales = $query->orderBy('id', 'desc')->simplePaginate(15);
         $monthlySales->appends($request->only(['month']));
+        // dd($monthlySales);
 
         return view('pos.msr', compact('pos', 'monthlySales'));
     }
