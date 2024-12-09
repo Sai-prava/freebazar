@@ -6,6 +6,7 @@ use App\Exports\MsrExport;
 use App\Exports\WalletExport;
 use App\Imports\WalletImport;
 use App\Models\PosModel;
+use App\Models\Sponsor;
 use App\Models\User;
 use App\Models\UserWallet;
 use App\Models\Wallet;
@@ -92,12 +93,10 @@ class WalletController extends Controller
 
     public function export(Request $request)
     {
-        if (
-            $request->has('start_date') && !empty($request->start_date) &&
-            $request->has('end_date') && !empty($request->end_date)
-        ) {
-            return Excel::download(new WalletExport($request->start_date, $request->end_date), 'daily_sales_report.csv', \Maatwebsite\Excel\Excel::CSV);
-        }
+        $startDate = $request->has('start_date') && !empty($request->start_date) ? $request->start_date : null;
+        $endDate = $request->has('end_date') && !empty($request->end_date) ? $request->end_date : null;
+
+        return Excel::download(new WalletExport($startDate, $endDate), 'daily_sales_report.csv', \Maatwebsite\Excel\Excel::CSV);
     }
 
     public function import(Request $request)
@@ -234,7 +233,21 @@ class WalletController extends Controller
             $query->whereRaw('DATE_FORMAT(transaction_date, "%Y-%m") = ?', [$selectedMonth]);
         }
 
-        $monthlySales = $query->orderBy('id', 'desc')->simplePaginate(15);
+        $monthlySales = $query->orderBy('id', 'desc')->simplePaginate(15)->through(function ($item) {
+            // Log::info($item->user_id);
+            $billing_amount = 0;
+            $check_sponser = Sponsor::with('user')->where('sponsor_id', $item->user_id)->get();
+            if (!$check_sponser->isEmpty()) {
+                $check_sponser->map(function ($items) use (&$billing_amount) {
+                    $billing_amount += (Wallet::where('user_id', $items->user_id)->sum('billing_amount'));
+                    // dd($billing_amount);
+                });
+            }
+            $item->sponsor_expenditure = $billing_amount;
+            return $item;
+        });
+
+        // $monthlySales = $query->orderBy('id', 'desc')->simplePaginate(15);
         $monthlySales->appends($request->only(['month']));
         // dd($monthlySales);
 
@@ -242,11 +255,11 @@ class WalletController extends Controller
     }
     public function exportMsr(Request $request)
     {
-        $posId = auth()->user()->id;
+        $posId = auth()->user()->user_id;
         $pos = PosModel::where('user_id', $posId)->first();
-        if ($pos) {
-            $posId = $pos->id;
-        }
+        // if ($pos) {
+        //     $posId = $pos->id;
+        // }
 
         $query = Wallet::select(
             'user_id',
@@ -255,7 +268,7 @@ class WalletController extends Controller
             DB::raw('SUM(billing_amount) as total_billing_amount')
         )
             ->whereNotNull('transaction_date')
-            ->where('pos_id', $posId)
+            ->where('pos_id', $pos->id)
             ->groupBy('user_id', 'mobilenumber', 'transaction_month');
 
         if ($request->has('month') && !empty($request->month)) {

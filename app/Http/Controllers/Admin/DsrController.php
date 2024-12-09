@@ -60,12 +60,10 @@ class DsrController extends Controller
 
     public function export(Request $request)
     {
-        if (
-            $request->has('start_date') && !empty($request->start_date) &&
-            $request->has('end_date') && !empty($request->end_date)
-        ) {
-            return Excel::download(new WalletExport($request->start_date, $request->end_date), 'daily_sales_report.csv', \Maatwebsite\Excel\Excel::CSV);
-        }
+        $startDate = $request->has('start_date') && !empty($request->start_date) ? $request->start_date : null;
+        $endDate = $request->has('end_date') && !empty($request->end_date) ? $request->end_date : null;
+
+        return Excel::download(new WalletExport($startDate, $endDate), 'daily_sales_report.csv', \Maatwebsite\Excel\Excel::CSV);
     }
     public function import(Request $request)
     {
