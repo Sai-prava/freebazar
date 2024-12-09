@@ -47,13 +47,13 @@
                        MSR
                     </a>
                 </li>
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a class="nav-link {{ request()->is('journal') ? 'active' : '' }}" aria-current="page"
                         href="{{ route('pos.journal') }}">
                         <span data-feather="book" class="align-text-bottom"></span>
                       Journal
                     </a>
-                </li>
+                </li> --}}
                 <li class="nav-item">
                     <a class="nav-link {{ request()->is('unverified/user') ? 'active' : '' }}" aria-current="page"
                         href="{{ route('pos.unverified.user') }}">

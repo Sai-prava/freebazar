@@ -61,13 +61,13 @@
                 <thead class="thead-dark">
                     <tr>
                         <th>Sl.No</th>
-                        <th>INVOICE</th>
+                        {{-- <th>INVOICE</th> --}}
                         <th>POS ID</th>
                         <th>MOBILE</th>
                         <th>NAME</th>
                         <th>BILLING AMOUNT</th>
                         <th>TRANSACTION DATE</th>
-                        <th>INSERT DATE</th>
+                        {{-- <th>INSERT DATE</th> --}}
                     </tr>
                 </thead>
                 <tbody>
@@ -79,13 +79,13 @@
                         @foreach ($wallets as $key => $data)
                             <tr>
                                 <td>{{ $wallets->firstItem() + $key }}</td>
-                                <td>{{ $data->invoice }}</td>
-                                <td>{{ $data->pos_id }}</td>
+                                {{-- <td>{{ $data->invoice }}</td> --}}
+                                <td>{{ $data->getPos ? $data->getPos->user_id : '' }}</td>
                                 <td>{{ $data->mobilenumber }}</td>
                                 <td>{{ optional($data->user)->name }}</td>
                                 <td>₹{{ $data->billing_amount ?? 0 }}/-</td>
                                 <td>{{ date('d-m-Y', strtotime($data->transaction_date)) }}</td>
-                                <td>{{ date('d-m-Y h:i A', strtotime($data->insert_date)) }}</td>
+                                {{-- <td>{{ date('d-m-Y h:i A', strtotime($data->insert_date)) }}</td> --}}
                             </tr>
                         @endforeach
                     @endif
