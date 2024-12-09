@@ -233,19 +233,7 @@ class WalletController extends Controller
             $query->whereRaw('DATE_FORMAT(transaction_date, "%Y-%m") = ?', [$selectedMonth]);
         }
 
-        $monthlySales = $query->orderBy('id', 'desc')->simplePaginate(15)->through(function ($item) {
-            // Log::info($item->user_id);
-            $billing_amount = 0;
-            $check_sponser = Sponsor::with('user')->where('sponsor_id', $item->user_id)->get();
-            if (!$check_sponser->isEmpty()) {
-                $check_sponser->map(function ($items) use (&$billing_amount) {
-                    $billing_amount += (Wallet::where('user_id', $items->user_id)->sum('billing_amount'));
-                    // dd($billing_amount);
-                });
-            }
-            $item->sponsor_expenditure = $billing_amount;
-            return $item;
-        });
+        $monthlySales = $query->orderBy('id', 'desc')->simplePaginate(15);
 
         // $monthlySales = $query->orderBy('id', 'desc')->simplePaginate(15);
         $monthlySales->appends($request->only(['month']));

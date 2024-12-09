@@ -39,7 +39,7 @@
                         <th>MOBILE NUMBER</th>
                         <th>NAME</th>
                         <th>TOTAL BILLING AMOUNT</th>
-                        <th>SPONSOR EXPENDITURE</th>
+                        {{-- <th>SPONSOR EXPENDITURE</th> --}}
                     </tr>
                 </thead>
                 <tbody>
@@ -56,7 +56,7 @@
                                 <td>{{ $data->mobilenumber }}</td>
                                 <td>{{ optional($data->user)->name }}</td>
                                 <td>₹{{ $data->total_billing_amount ?? 0 }}/-</td>
-                                <td>₹{{ $data->sponsor_expenditure }}/-</td>
+                                {{-- <td>₹{{ $data->sponsor_expenditure }}/-</td> --}}
                             </tr>
                         @endforeach
                     @endif
