@@ -14,7 +14,7 @@ use Endroid\QrCode\Label\LabelAlignment;
 use Endroid\QrCode\RoundBlockSizeMode;
 use Endroid\QrCode\Writer\PngWriter;
 use Endroid\QrCode\ErrorCorrectionLevel;
-
+use Illuminate\Support\Facades\Auth;
 
 class PosController extends Controller
 {
@@ -158,13 +158,20 @@ class PosController extends Controller
     /**
      * Update the specified resource in storage.
      */
+
+
+    // $request->validate([
+    //     'mobilenumber' => 'required|regex:/^[0-9]{10}$/|unique:users,mobilenumber,' . $pos->id,
+    // ]);
     public function update(Request $request, $id)
     {
-        $pos = PosModel::find($id);
-        // $request->validate([
-        //     'mobilenumber' => 'required|regex:/^[0-9]{10}$/|unique:users,mobilenumber,' . $pos->id,
-        // ]);
-
+        $pos = PosModel::where('user_id',$id)->first();
+        // dd($id,$pos);
+    
+        if (!$pos) {
+            flash()->addError('POS not found!');
+            return redirect()->back();
+        }
         $pos->name = $request->name;
         $pos->email = $request->email;
         $pos->mobilenumber = $request->mobilenumber;
@@ -183,27 +190,35 @@ class PosController extends Controller
         $pos->zip = $request->zip;
         $pos->latitude = $request->latitude;
         $pos->longitude = $request->longitude;
-
-        $user = User::find($pos->user_id);
-        if ($user) {
-            $user->name = $request->name;
-            $user->email = $request->email;
-            $user->mobilenumber = $request->mobilenumber;
-            if ($request->hasFile('image')) {
-                $imageName = time() . '.' . $request->image->getClientOriginalExtension();
-                $request->image->move(public_path('images'), $imageName);
-                $pos->image = $imageName;
-                $user->image = $imageName;
-            }
-            $user->save();
-        }
+    
+        if ($pos->user_id) {
+            $user = User::where('user_id',$pos->user_id)->first();
+            // dump($user);
+            if ($user) {
+                $user->name = $request->name;
+                $user->email = $request->email;
+                $user->mobilenumber = $request->mobilenumber;
+    
+                if ($request->hasFile('image')) {
+                    $imageName = time() . '.' . $request->image->getClientOriginalExtension();
+                    $request->image->move(public_path('images'), $imageName);
+                    $pos->image = $imageName;
+                    $user->image = $imageName;
+                }
+    
+                $user->save();
+            } 
+        } 
+    
         if ($pos->save()) {
             flash()->addSuccess('POS successfully Updated.');
             return redirect()->route('admin.pos_system.index');
         }
+    
         flash()->addError('Whoops! POS Update failed!');
         return redirect()->back();
     }
+    
 
 
     /**

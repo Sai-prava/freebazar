@@ -4,7 +4,7 @@
         <div class="card-header">
             Edit New POS
         </div>
-        <form action="{{ route('admin.pos_system.update', $pos->id) }}" method="post" enctype="multipart/form-data">
+        <form action="{{ route('admin.pos_system.update', $pos->user_id) }}" method="post" enctype="multipart/form-data">
             @csrf
             <div class="container">
                 <div class="row">

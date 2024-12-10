@@ -113,37 +113,29 @@ class DsrController extends Controller
             $selectedMonth = $request->month;
             $query->whereRaw('DATE_FORMAT(transaction_date, "%Y-%m") = ?', [$selectedMonth]);
         }
-        $monthlySales = $query->orderBy('id', 'desc')->simplePaginate(15)->through(function ($item) use (&$billing_amount) {
-            Log::info($item->user_id);
+        $monthlySales = $query->orderBy('id', 'desc')->simplePaginate(15)->through(function ($item) {
             $billing_amount = 0;
             $month_amount = 0;
             $check_sponser = Sponsor::with('user')->where('sponsor_id', $item->user_id)->get();
             if (!$check_sponser->isEmpty()) {
-                $check_sponser->map(function ($items) use (&$billing_amount ,&$month_amount) {
+                $check_sponser->each(function ($sponsor) use (&$billing_amount) {
                     $monthlyBilling = Wallet::select(
                         DB::raw('DATE_FORMAT(transaction_date, "%Y-%m") as transaction_month'),
                         DB::raw('SUM(billing_amount) as total_billing_amount')
-                    )
-                        ->where('user_id', $items->user_id)
+                    )->where('user_id', $sponsor->user_id)
                         ->groupBy(DB::raw('DATE_FORMAT(transaction_date, "%Y-%m")'))
                         ->get();
-
-                    // Sum the total_billing_amount for all months
                     foreach ($monthlyBilling as $monthData) {
-                        $month_amount = $monthData->total_billing_amount;
                         $billing_amount += $monthData->total_billing_amount;
                     }
                 });
             }
             $item->sponsor_expenditure = $billing_amount;
-            // $item->sponsor_id = $check_sponser->id??"N/A";
-            $billing_amount = 0;
             Log::info($item->toArray());
             return $item;
         });
-
         // $monthlySales = $query->orderBy('id', 'desc')->simplePaginate(15);
-        $monthlySales->appends($request->only(['search', 'month']));
+        $monthlySales->appends($request->only(['search', 'month', 'filter']));
 
         return view('admin.msr.index', compact('pos', 'monthlySales'));
     }
