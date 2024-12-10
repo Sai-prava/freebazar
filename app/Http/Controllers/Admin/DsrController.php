@@ -143,7 +143,7 @@ class DsrController extends Controller
         });
 
         // $monthlySales = $query->orderBy('id', 'desc')->simplePaginate(15);
-        $monthlySales->appends($request->only(['search', 'month',]));
+        $monthlySales->appends($request->only(['search', 'month']));
 
         return view('admin.msr.index', compact('pos', 'monthlySales'));
     }

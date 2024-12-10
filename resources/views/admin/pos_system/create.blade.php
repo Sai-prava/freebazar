@@ -104,11 +104,6 @@
                                     </span>
                                 @enderror
                             </div>
-
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="card-body">
                             <div class="mb-2">
                                 <label for="entity_name">Entity name*</label>
                                 <input type="text" id="entity_name" name="entity_name"
@@ -119,6 +114,10 @@
                                     </span>
                                 @enderror
                             </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card-body">                         
                             <div class="mb-2">
                                 <label for="entity_address">Entity Address*</label>
                                 <input type="text" id="entity_address" name="entity_address"

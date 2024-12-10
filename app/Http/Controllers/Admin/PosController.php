@@ -161,9 +161,9 @@ class PosController extends Controller
     public function update(Request $request, $id)
     {
         $pos = PosModel::find($id);
-        $request->validate([
-            'mobilenumber' => 'required|regex:/^[0-9]{10}$/|unique:users,mobilenumber,' . $pos->id,
-        ]);
+        // $request->validate([
+        //     'mobilenumber' => 'required|regex:/^[0-9]{10}$/|unique:users,mobilenumber,' . $pos->id,
+        // ]);
 
         $pos->name = $request->name;
         $pos->email = $request->email;
