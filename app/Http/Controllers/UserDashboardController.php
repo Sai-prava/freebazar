@@ -216,7 +216,7 @@ class UserDashboardController extends Controller
     {
         $user_profile = auth()->user();
         $userId = $user_profile->id;
-        $userWallet = UserWallet::where('user_id', $userId)->get();
+        $userWallet = UserWallet::where('user_id', $userId)->orderBy('id','desc')->simplePaginate(12);
         $totalUsedAmount = UserWallet::where('user_id', $userId)->sum('used_amount');
 
         if ($userWallet) {

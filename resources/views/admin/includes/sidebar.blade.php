@@ -49,7 +49,7 @@
                             <li>
                                 <a class="nav-link {{ request()->is('admin/users/custom') ? 'active' : '' }}"
                                     href="{{ route('admin.user.customer') }}">
-                                    Custom User
+                                  Add Customer
                                 </a>
                             </li>
                         </ul>

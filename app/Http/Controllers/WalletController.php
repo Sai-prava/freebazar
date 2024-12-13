@@ -45,21 +45,28 @@ class WalletController extends Controller
         $userId = $user->id;
         $posId = $pos->id;
 
+        $walletBalance = self::get_total_wallet_amount($userId);
+
+
+        return view('pos.wallet_manage', compact('user', 'walletList', 'walletBalance', 'balanceNotFound', 'transactionsNotFound'));
+    }
+
+    public function get_total_wallet_amount($userId)
+    {
+        // dd($userId);
         $userwallet = UserWallet::where('user_id', $userId)->get();
         $totalusedAmount = UserWallet::where('user_id', $userId)->sum('used_amount');
-
         if ($userwallet) {
             $walletamount = $userwallet->sum('wallet_amount');
             $walletBalance = $walletamount - $totalusedAmount;
+            return $walletBalance <= 0 ? 0 : $walletBalance;
         } else {
             $walletBalance = 0;
         }
 
-        if ($walletBalance < 0) {
+        if ($walletBalance <= 0) {
             $walletBalance = 0;
         }
-
-        return view('pos.wallet_manage', compact('user', 'walletList', 'walletBalance', 'balanceNotFound', 'transactionsNotFound'));
     }
 
     public function dsr(Request $request)
@@ -121,6 +128,7 @@ class WalletController extends Controller
         ]);
 
         $userId = Auth::user()->user_id;
+        //  dd($userId);
         $pos = PosModel::where('user_id', $userId)->first();
         $randomNumber = mt_rand(1, 99999);
         $invoiceNumber = $randomNumber + 1;
@@ -138,6 +146,15 @@ class WalletController extends Controller
 
         $walletUsedAmount = 0;
 
+        $userWalletEntry = new UserWallet();
+        $userWalletEntry->invoice = $invoice;
+        $userWalletEntry->user_id = $user_id;
+        $userWalletEntry->mobilenumber = $mobilenumber;
+        $userWalletEntry->transaction_date = $transaction_date;
+        $userWalletEntry->pay_by = 'wallet';
+        $userWalletEntry->trans_type = 'debit';
+        $userWalletEntry->pos_id = $pos->id ?? null;
+
         if ($pay_by == 'wallet') {
             $userWallet = UserWallet::where('user_id', $user_id)->get();
             $walletBalance = $userWallet ? $userWallet->sum('wallet_amount') - UserWallet::where('user_id', $user_id)->sum('used_amount') : 0;
@@ -150,15 +167,7 @@ class WalletController extends Controller
                 $walletUsedAmount = min($amount, $walletBalance);
                 $remainingAmount = $amount - $walletUsedAmount;
 
-                $userWalletEntry = new UserWallet();
-                $userWalletEntry->invoice = $invoice;
                 $userWalletEntry->used_amount = $walletUsedAmount;
-                $userWalletEntry->user_id = $user_id;
-                $userWalletEntry->mobilenumber = $mobilenumber;
-                $userWalletEntry->transaction_date = $transaction_date;
-                $userWalletEntry->pay_by = 'wallet';
-                $userWalletEntry->trans_type = 'debit';
-                $userWalletEntry->pos_id = $pos->id ?? null;
                 $userWalletEntry->save();
 
                 $walletEntry = new Wallet();
@@ -188,25 +197,33 @@ class WalletController extends Controller
             }
         } else {
             $remainingAmount = $amount;
-        }
-
-        if ($pay_by == 'cash' || $pay_by == 'upi') {
+            $amount_wallet = $amount * (5 / 100);
+            $currentwalletBalance = self::get_total_wallet_amount($user_id);
+            if ($currentwalletBalance <= $amount_wallet) {
+                $amount_wallet = $currentwalletBalance;
+            }
             $dsrlist = new Wallet();
             $dsrlist->invoice = $invoice;
             $dsrlist->user_id = $user_id;
-            $dsrlist->amount = $remainingAmount;
+            $dsrlist->amount = $request->paying_amount;
             $dsrlist->pay_by = $pay_by;
             $dsrlist->mobilenumber = $mobilenumber;
             $dsrlist->transaction_date = $transaction_date;
             $dsrlist->tran_type = 'credit';
             $dsrlist->billing_amount = $amount;
-            $dsrlist->amount_wallet = 0;
+            $dsrlist->amount_wallet = $amount_wallet;
             $dsrlist->transaction_amount = $transaction_amount;
             $dsrlist->pos_id = $pos->id ?? null;
             $dsrlist->insert_date = now();
             $dsrlist->status = 1;
             $dsrlist->save();
+
+            $userWalletEntry->used_amount = $amount_wallet;
+            $userWalletEntry->save();
         }
+
+        // if ($pay_by == 'cash' || $pay_by == 'upi') {
+        // }
 
         return redirect()->back()->with('success', 'Payment successfully.');
     }
@@ -288,7 +305,7 @@ class WalletController extends Controller
 
     public function unverified(Request $request)
     {
-        $posId = auth()->user()->id;
+        $posId = auth()->user()->user_id;
         // dd($posId); 
         $pos = PosModel::where('user_id', $posId)->first();
         // dd($pos);
@@ -299,8 +316,8 @@ class WalletController extends Controller
         $DsrList = Wallet::with(['user', 'getPos'])
             ->whereHas('getPos', function ($query) use ($posId) {
                 $query->where('pos_id', $posId);
-            })
-            ->simplePaginate(15);
+            })->orderBy('id','desc')->simplePaginate(15);
+            
         // dd($DsrList);
         return view('pos.unverified_user', compact('DsrList'));
     }

@@ -21,7 +21,7 @@
             <div class="col-md-4 mb-3">
                 <form method="GET" action="{{ route('pos.dsr') }}">
                     <div class="input-group">
-                        <input type="number" class="form-control" name="search" placeholder="Search MobileNumber...">
+                        <input type="number" class="form-control" name="search" placeholder="Search By...">
                         <button class="btn btn-info" type="submit">SEARCH</button>
                     </div>
                 </form>
@@ -43,10 +43,10 @@
                 <form method="GET" action="{{ route('pos.dsr') }}">
                     <label for="start_date"><b>From:</b></label>
                     <input type="date" class="form-control mb-2" name="start_date" id="start_date">
-                    
+
                     <label for="end_date"><b>To:</b></label>
                     <input type="date" class="form-control mb-2" name="end_date" id="end_date">
-                    
+
                     <button class="btn btn-info w-100" type="submit">FILTER</button>
                 </form>
             </div>
@@ -84,7 +84,7 @@
                                 <td>{{ $data->mobilenumber }}</td>
                                 <td>{{ optional($data->user)->name }}</td>
                                 <td>₹{{ $data->billing_amount ?? 0 }}/-</td>
-                                <td>{{ date('d-m-Y', strtotime($data->transaction_date)) }}</td>
+                                <td>{{ date('d/m/Y', strtotime($data->transaction_date)) }}</td>
                                 {{-- <td>{{ date('d-m-Y h:i A', strtotime($data->insert_date)) }}</td> --}}
                             </tr>
                         @endforeach

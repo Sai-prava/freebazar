@@ -210,7 +210,15 @@
                                     <div class="mt-4">
                                         <p class="mb-1">Full Name: {{ auth()->user()->name }}</p>
                                         <p class="mb-1">Email: {{ auth()->user()->email }}</p>
-                                        <p class="mb-1">Your Sponsor: {{ auth()->user()->user_id ?? 'N/A' }}</p>
+                                        <p class="mb-1">
+                                            Your Sponsor:
+                                            @php
+                                                $sponsor = auth()->user()->sponsor_id
+                                                    ? \App\Models\User::find(auth()->user()->sponsor_id)
+                                                    : null;
+                                            @endphp
+                                            {{ $sponsor->user_id ?? 'N/A' }}
+                                        </p>
                                         <p class="mb-1">Mobile Number: {{ auth()->user()->mobilenumber ?? 'N/A' }}</p>
                                     </div>
                                     <div>
@@ -334,7 +342,7 @@
                                                     {{ $data->user->name }}
                                                     ({{ $data->user->user_id }})
                                                 @endif
-                                               
+
                                             </p>
                                         </div>
                                     </div>
@@ -389,7 +397,7 @@
                                             <tr>
                                                 <td>{{ $key + 1 }}</td>
                                                 <td>{{ $data->getPos->name ?? 'N/A' }}</td>
-                                                <td>{{ $data->transaction_date }}</td>
+                                                <td>{{ date('d/m/Y', strtotime($data->transaction_date)) }}</td>
                                                 <td>₹{{ $data->billing_amount ?? 0 }}/-</td>
                                                 <td>{{ $data->pay_by }}</td>
                                                 <td>

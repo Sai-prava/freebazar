@@ -48,7 +48,7 @@
                                     <td>{{ $data->user_id ?? '' }}</td>
                                     <td>{{ $data->mobilenumber ?? '' }}</td>
                                     <td>{{ $data->name ?? '' }}</td>
-                                    <td>{{ $data->created_at->format('Y-m-d') ?? '' }}</td>
+                                    <td>{{ $data->created_at->format('d/m/Y') ?? '' }}</td>
                                     <td>
                                         <a href="{{ route('admin.users.edit', $data->id) }}" class="btn btn-sm btn-primary">
                                             <i class="fas fa-edit"></i>

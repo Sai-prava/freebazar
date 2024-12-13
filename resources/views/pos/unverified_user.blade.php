@@ -33,7 +33,7 @@
                             <td>₹{{ $customer->amount ?? 0}}/-</td>
                             <td>{{ $customer->pay_by }}</td>
                             <td>₹{{ $customer->amount_wallet ?? 0}}/-</td>
-                            <td>{{ date('d-m-Y', strtotime($customer->transaction_date)) }}</td>
+                            <td>{{ date('d/m/Y', strtotime($customer->transaction_date)) }}</td>
                             <td>
                                 <i class="fas fa-ellipsis-h btn btn-primary" data-bs-toggle="modal"
                                     data-bs-target="#editModal"

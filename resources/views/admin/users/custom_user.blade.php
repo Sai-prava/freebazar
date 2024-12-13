@@ -2,7 +2,7 @@
 @section('content')
     <div class="card border-0 shadow-sm">
         <div class="card-header">
-            Customer User
+          Add Customer
         </div>
         <form action="{{ route('admin.user.customer-store') }}" method="POST">
             @csrf

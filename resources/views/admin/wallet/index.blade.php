@@ -44,8 +44,11 @@
                     <tr>
                         <th>Sl.No</th>
                         <th>USER ID</th>
+                        <th>USER NAME</th>
+                        <th>MOBILE NUMBER</th> 
+                        <th>PAYMENT MODE</th> 
                         <th>WALLET AMOUNT</th>
-                        <th>MOBILE NUMBER</th>                      
+                                             
                     </tr>
                 </thead>
                 <tbody>
@@ -53,10 +56,11 @@
                         @foreach ($walletBalance as $key => $data)
                             <tr>
                                 <td>{{ $walletBalance->firstItem() + $key }}</td>
-                                <td>{{ $data->user_id }}</td>
-                                <td>₹{{ $data->wallet_amount }}</td>
+                                <td>{{ $data->user->user_id }}</td>
+                                <td>{{ $data->user->name }}</td>
                                 <td>{{ $data->mobilenumber }}</td>
-                               
+                                <td>{{ $data->trans_type }}</td>
+                                <td>₹{{ $data->wallet_amount }}/-</td>  
                             </tr>
                         @endforeach
                   
