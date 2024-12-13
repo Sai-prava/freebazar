@@ -55,23 +55,40 @@ class UserDashboardController extends Controller
         }
         $walletList = $transactionQuery->orderBy('id', 'desc')->get();
 
-        $userWallet = UserWallet::where('user_id', $userId)->get();
-        $totalUsedAmount = UserWallet::where('user_id', $userId)->sum('used_amount');
+        // $userWallet = UserWallet::where('user_id', $userId)->get();
+        // $totalUsedAmount = UserWallet::where('user_id', $userId)->sum('used_amount');
 
-        if ($userWallet) {
-            $walletBalance = $userWallet->sum('wallet_amount') - $totalUsedAmount;
+        $walletBalance = self::get_total_wallet_amount($userId);
+        // if ($userWallet) {
+        // } else {
+        //     $walletBalance = 0;
+        // }
+        // $walletBalance = max($walletBalance, 0);
+
+        return view('frontend.dashboard.index', compact('sponsors', 'user_profile', 'monthlyPurchase', 'walletBalance', 'walletList'));
+    }
+    
+    public function get_total_wallet_amount($userId)
+    {
+        // dd($userId);
+        $userwallet = UserWallet::where('user_id', $userId)->get();
+        $totalusedAmount = UserWallet::where('user_id', $userId)->sum('used_amount');
+        if ($userwallet) {
+            $walletamount = $userwallet->sum('wallet_amount');
+            $walletBalance = $walletamount - $totalusedAmount;
+            return $walletBalance <= 0 ? 0 : $walletBalance;
         } else {
             $walletBalance = 0;
         }
 
-        $walletBalance = max($walletBalance, 0);
-
-        return view('frontend.dashboard.index', compact('sponsors', 'user_profile', 'monthlyPurchase', 'walletBalance', 'walletList'));
+        if ($walletBalance <= 0) {
+            $walletBalance = 0;
+        }
     }
 
     public function payment(Request $request)
     {
-        $userId = Auth::user()->id;
+        $userId = Auth::user()->user_id;
         // dd($userId);
         $posId = intval($request->input('pos_id'));
         $pos = PosModel::find($posId);
@@ -80,79 +97,93 @@ class UserDashboardController extends Controller
         $invoiceNumber = $randomNumber + 1;
         $invoice = 'S' . str_pad($invoiceNumber, 6, '0', STR_PAD_LEFT);
         $amount = $request->billing_amount;
-        $pay_by = $request->pay_by;
         $mobilenumber = $request->mobilenumber;
-        $transaction_date = $request->transaction_date ?? now();
+        $transaction_date = $request->transaction_date;
+        $user_id = $request->user_id;
+        $pay_by = $request->pay_by;
+        $alt_pay_by = $request->alternative_pay_by;
 
+        // dd($pos->transaction_charge);
         $transaction_charge = $pos ? $pos->transaction_charge : 0;
         $transaction_amount = $amount * ($transaction_charge / 100);
 
         $walletUsedAmount = 0;
 
+        $userWalletEntry = new UserWallet();
+        $userWalletEntry->invoice = $invoice;
+        $userWalletEntry->user_id = $user_id;
+        $userWalletEntry->mobilenumber = $mobilenumber;
+        $userWalletEntry->transaction_date = $transaction_date;
+        $userWalletEntry->pay_by = 'wallet';
+        $userWalletEntry->trans_type = 'debit';
+        $userWalletEntry->pos_id = $pos->id ?? null;
+
         if ($pay_by == 'wallet') {
-            $userWallet = UserWallet::where('user_id', $userId)->get();
-            // dd($userWallet);
-            $walletBalance = $userWallet ? $userWallet->sum('wallet_amount') - UserWallet::where('user_id', $userId)->sum('used_amount') : 0;
-            // dd($walletBalance);
+            $userWallet = UserWallet::where('user_id', $user_id)->get();
+            // dd($userWallet );
+            $walletBalance = $userWallet ? $userWallet->sum('wallet_amount') - UserWallet::where('user_id', $user_id)->sum('used_amount') : 0;
+
             if ($walletBalance <= 0) {
                 return redirect()->back()->with('error', 'Wallet is empty. Payment cannot be processed.');
             }
 
-            $walletUsedAmount = min($amount, $walletBalance);
-            $remainingAmount = $amount - $walletUsedAmount;
+            if ($walletBalance > 0) {
+                $walletUsedAmount = min($amount, $walletBalance);
+                $remainingAmount = $amount - $walletUsedAmount;
 
-            $userWalletEntry = new UserWallet();
-            $userWalletEntry->invoice = $invoice;
-            $userWalletEntry->used_amount = $walletUsedAmount;
-            $userWalletEntry->user_id = $userId;
-            $userWalletEntry->mobilenumber = $mobilenumber;
-            $userWalletEntry->transaction_date = $transaction_date;
-            $userWalletEntry->pay_by = 'wallet';
-            $userWalletEntry->trans_type = 'debit';
-            $userWalletEntry->pos_id = $pos->id ?? null;
-            $userWalletEntry->save();
+                $userWalletEntry->used_amount = $walletUsedAmount;
+                $userWalletEntry->save();
 
-            $walletEntry = new Wallet();
-            $walletEntry->user_id = $userId;
-            $walletEntry->invoice = $invoice;
-            $walletEntry->mobilenumber = $mobilenumber;
-            $walletEntry->transaction_date = $transaction_date;
-            $walletEntry->billing_amount = $amount;
-            $walletEntry->transaction_amount = $transaction_amount;
+                $walletEntry = new Wallet();
+                $walletEntry->user_id = $user_id;
+                $walletEntry->invoice = $invoice;
+                $walletEntry->mobilenumber = $mobilenumber;
+                $walletEntry->transaction_date = $transaction_date;
+                $walletEntry->billing_amount = $amount;
+                $walletEntry->transaction_amount = $transaction_amount;
 
-            if ($walletBalance >= $amount) {
-                $walletEntry->amount_wallet = $amount;
-                $walletEntry->pay_by = 'wallet';
-                $walletEntry->tran_type = 'debit';
-                $walletEntry->amount = 0;
-            } else {
-                $walletEntry->amount_wallet = $walletUsedAmount;
-                $walletEntry->pay_by = $request->alt_pay_by ?? 'cash';
-                $walletEntry->tran_type = 'credit';
-                $walletEntry->amount = $remainingAmount;
+                if ($walletBalance >= $amount) {
+                    $walletEntry->amount_wallet = $amount;
+                    $walletEntry->pay_by = 'wallet';
+                    $walletEntry->tran_type = 'debit';
+                    $walletEntry->amount = 0;
+                } else {
+                    $walletEntry->amount_wallet = $walletUsedAmount;
+                    $walletEntry->pay_by = $alt_pay_by;
+                    $walletEntry->tran_type = 'credit';
+                    $walletEntry->status = 1;
+                    $walletEntry->amount = $remainingAmount;
+                }
+
+                $walletEntry->pos_id = $pos->id ?? null;
+                $walletEntry->insert_date = now();
+                $walletEntry->save();
             }
-
-            $walletEntry->pos_id = $pos->id ?? null;
-            $walletEntry->insert_date = now();
-            $walletEntry->save();
         } else {
             $remainingAmount = $amount;
-        }
+            $amount_wallet = $amount * (5 / 100);
+            $currentwalletBalance = self::get_total_wallet_amount($user_id);
+            // dd($currentwalletBalance, $amount_wallet,$amount);
+            if ($currentwalletBalance <= $amount_wallet) {
+                $amount_wallet = $currentwalletBalance;
+            }
+            $dsrlist = new Wallet();
+            $dsrlist->invoice = $invoice;
+            $dsrlist->user_id = $user_id;
+            $dsrlist->amount = $request->paying_amount;
+            $dsrlist->pay_by = $pay_by;
+            $dsrlist->mobilenumber = $mobilenumber;
+            $dsrlist->transaction_date = $transaction_date;
+            $dsrlist->tran_type = 'credit';
+            $dsrlist->billing_amount = $amount;
+            $dsrlist->amount_wallet = $amount_wallet;
+            $dsrlist->transaction_amount = $transaction_amount;
+            $dsrlist->pos_id = $pos->id ?? null;
+            $dsrlist->insert_date = now();
+            $dsrlist->save();
 
-        if ($pay_by == 'cash' || $pay_by == 'upi') {
-            $payment = new Wallet();
-            $payment->user_id = $userId;
-            $payment->pos_id = $pos->id ?? null;
-            $payment->invoice = $invoice;
-            $payment->pay_by = $pay_by;
-            $payment->billing_amount = $amount;
-            $payment->amount = $remainingAmount;
-            $payment->mobilenumber = $mobilenumber;
-            $payment->tran_type = 'credit';
-            $payment->transaction_date = $transaction_date;
-            $payment->transaction_amount = $transaction_amount;
-            $payment->insert_date = now();
-            $payment->save();
+            $userWalletEntry->used_amount = $amount_wallet;
+            $userWalletEntry->save();
         }
 
         return redirect()->back()->with('success', 'Payment successfully.');

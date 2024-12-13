@@ -159,6 +159,13 @@
                                                     </select>
                                                 </div>
 
+                                                <div class="form-group mt-2">
+                                                    <label for="paying_amount"
+                                                        style="color: black;margin-right: 367px;">Paying Amount</label>
+                                                    <input name="paying_amount" id="paying_amount" type="number"
+                                                        class="form-control" required min="0">
+                                                </div>
+
                                                 <div class="wallet-balance mt-2">
                                                     <strong style="color: black;">Your Wallet Balance: </strong>
                                                     <span id="wallet_balance">{{ $walletBalance }}</span>
@@ -398,7 +405,7 @@
                                                 <td>{{ $key + 1 }}</td>
                                                 <td>{{ $data->getPos->name ?? 'N/A' }}</td>
                                                 <td>{{ date('d/m/Y', strtotime($data->transaction_date)) }}</td>
-                                                <td>₹{{ $data->billing_amount ?? 0 }}/-</td>
+                                                <td>₹{{ $data->amount ?? 0 }}/-</td>
                                                 <td>{{ $data->pay_by }}</td>
                                                 <td>
                                                     @if ($data->status == 0)
@@ -530,40 +537,83 @@
         });
     </script>
     <script>
+        let isDeducted = false; // Flag to ensure deduction happens only once
+        let originalWalletBalance = 0; // Store the original wallet balance
+
         function checkWalletBalance() {
             const billingAmount = parseFloat(document.getElementById('billing_amount').value) || 0;
-            const walletBalance = parseFloat(document.getElementById('wallet_balance').textContent) || 0;
+            const walletBalanceElement = document.getElementById('wallet_balance');
+            let walletBalance = parseFloat(walletBalanceElement.textContent) || 0;
+
+            // Save the original wallet balance when the function runs for the first time
+            if (originalWalletBalance === 0) {
+                originalWalletBalance = walletBalance;
+            }
 
             const payBySelect = document.getElementById('pay_by');
+            const payingAmountField = document.getElementById('paying_amount');
             const insufficientBalanceDiv = document.querySelector('.insufficient-balance');
-            const remainingBalanceDiv = document.querySelector('.remaining-balance');
             const alternativePayBySelect = document.getElementById('alternative_pay_by');
-            const remainingAmountInput = document.getElementById('remaining_amount');
+            const remainingAmountField = document.getElementById('remaining_amount');
 
-            // Check if Wallet is selected and if wallet balance is insufficient
-            if (payBySelect.value === "wallet" && billingAmount > walletBalance) {
-                const remainingAmount = billingAmount - walletBalance;
+            if (payBySelect.value === "wallet") {
+                // Reset wallet balance to the original amount
+                walletBalanceElement.textContent = originalWalletBalance.toFixed(2);
 
-                // Show the additional options and remaining balance field
-                insufficientBalanceDiv.style.display = 'block';
-                remainingBalanceDiv.style.display = 'block';
-
-                // Show the alternative payment dropdown
-                alternativePayBySelect.style.display = 'block';
-                alternativePayBySelect.required = true;
-
-                // Set remaining amount to be paid
-                remainingAmountInput.value = remainingAmount.toFixed(2);
-            } else {
-                // Hide alternative payment options if user chooses cash/upi or wallet balance is sufficient
+                // Show the full billing amount
+                payingAmountField.value = billingAmount.toFixed(2);
                 insufficientBalanceDiv.style.display = 'none';
-                remainingBalanceDiv.style.display = 'none';
-                alternativePayBySelect.style.display = 'none';
                 alternativePayBySelect.required = false;
+                remainingAmountField.style.display = 'none';
+
+                // Reset the deduction flag
+                isDeducted = false;
+
+            } else if (payBySelect.value === "cash" || payBySelect.value === "upi") {
+                const walletDeduction = billingAmount * 0.05; // Calculate 5% charge
+
+                if (!isDeducted) {
+                    let deductedFromWallet = 0;
+
+                    if (walletBalance >= walletDeduction) {
+                        // Wallet balance is sufficient for 5% deduction
+                        deductedFromWallet = walletDeduction;
+                        walletBalance -= walletDeduction;
+                    } else {
+                        // Wallet balance is insufficient, deduct whatever is available
+                        deductedFromWallet = walletBalance;
+                        walletBalance = 0; // Wallet is now empty
+                    }
+
+                    // Update wallet balance
+                    walletBalanceElement.textContent = walletBalance.toFixed(2);
+
+                    // Calculate payable amount by subtracting the actual deduction
+                    const updatedPayableAmount = (billingAmount - deductedFromWallet).toFixed(2);
+                    payingAmountField.value = updatedPayableAmount;
+
+                    // Show remaining balance if necessary
+                    remainingAmountField.value = updatedPayableAmount;
+                    remainingAmountField.style.display = 'block';
+
+                    isDeducted = true;
+                }
+
+                insufficientBalanceDiv.style.display = 'none';
+                alternativePayBySelect.required = false;
+
+            } else {
+                // For other payment methods, show full billing amount
+                payingAmountField.value = billingAmount.toFixed(2);
+                insufficientBalanceDiv.style.display = 'none';
+                alternativePayBySelect.required = false;
+
+                // Reset the deduction flag
+                isDeducted = false;
             }
         }
 
-        // Add an event listener to check the balance whenever the payment method is changed
+        // Event listeners for real-time updates
         document.getElementById('pay_by').addEventListener('change', checkWalletBalance);
         document.getElementById('billing_amount').addEventListener('input', checkWalletBalance);
     </script>
