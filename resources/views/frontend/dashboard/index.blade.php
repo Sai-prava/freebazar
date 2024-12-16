@@ -53,6 +53,52 @@
         display: block;
         /* Make sure it aligns left as a block element */
     }
+
+    .table-responsive::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    .table-responsive::-webkit-scrollbar-thumb {
+        background: #ccc;
+        border-radius: 4px;
+    }
+
+    .table-responsive::-webkit-scrollbar-track {
+        background: #f1f1f1;
+    }
+
+    .scrollable-table {
+        max-height: 300px;
+        overflow-y: auto;
+        overflow-x: auto;
+    }
+
+    /* Mobile styling adjustments */
+    @media (max-width: 768px) {
+        .card-box {
+            padding: 20px;
+        }
+
+        h3,
+        h4 {
+            font-size: 1.2rem;
+        }
+
+        .btn {
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .scrollable-table table {
+            width: 100%;
+            font-size: 0.9rem;
+        }
+
+        .scrollable-table th,
+        .scrollable-table td {
+            padding: 8px;
+        }
+    }
 </style>
 @section('content')
     <div style="margin-top: 20px;">
@@ -192,13 +238,57 @@
                                                     <input type="text" id="remaining_amount" class="form-control"
                                                         readonly>
                                                 </div>
-                                                <button type="submit" class="btn btn-success mt-2">Submit
-                                                    Payment</button>
+                                                <button type="button" class="btn btn-success mt-2"
+                                                    data-bs-toggle="modal" data-bs-target="#passwordModal">
+                                                    Submit Payment
+                                                </button>
                                             </form>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                            <!-- Password Confirmation Modal -->
+                            <div class="modal fade" id="passwordModal" tabindex="-1"
+                                aria-labelledby="passwordModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="passwordModalLabel">Enter Password
+                                            </h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form id="passwordForm" method="post"
+                                                action="{{ route('user.payment') }}">
+                                                @csrf
+                                                {{-- <input type="hidden" name="id" value="{{ $user_profile->id }}"> --}}
+                                                <input type="hidden" name="user_id" value="{{ $user_profile->id }}">
+                                                <input type="hidden" name="billing_amount">
+                                                <!-- Example -->
+                                                <input type="hidden" name="paying_amount">
+                                                <input type="hidden" name="amount_wallet">
+                                                <input type="hidden" name="mobilenumber">
+                                                <input type="hidden" name="pos_id">
+                                                <!-- Example -->
+                                                <input type="hidden" name="pay_by" value="wallet"> <!-- Example -->
+                                                <input type="hidden" name="transaction_date"
+                                                    value="{{ now()->format('Y-m-d') }}">
+                                                <div class="form-group">
+                                                    <label for="password" class="modal-label">Login
+                                                        Password</label>
+                                                    <input type="password" class="form-control" id="password"
+                                                        name="password" required>
+                                                    <input type="hidden" name="form_data" id="form_data">
+                                                </div>
+                                                <button type="submit" class="btn btn-primary mt-2">Verify &
+                                                    Proceed</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                         <div id="result"></div>
                     </div>
@@ -384,11 +474,9 @@
                                     <button class="btn btn-info btn-sm" type="submit">Search Transactions</button>
                                 </div>
                             </form>
-
-
                             <!-- Responsive Table -->
-                            <div class="table-responsive">
-                                <table class="table table-striped">
+                            <div class="scrollable-table">
+                                <table cid="tech-companies-1" class="table table-striped table-bordered">
                                     <thead>
                                         <tr>
                                             <th>Sl.No</th>
@@ -400,7 +488,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @forelse ($walletList->take(5) as $key => $data)
+                                        @forelse ($walletList as $key => $data)
                                             <tr>
                                                 <td>{{ $key + 1 }}</td>
                                                 <td>{{ $data->getPos->name ?? 'N/A' }}</td>
@@ -428,7 +516,6 @@
                                     </tbody>
                                 </table>
                             </div>
-
                         </div>
                     </div>
                 </div>
@@ -616,5 +703,30 @@
         // Event listeners for real-time updates
         document.getElementById('pay_by').addEventListener('change', checkWalletBalance);
         document.getElementById('billing_amount').addEventListener('input', checkWalletBalance);
+    </script>
+    <script>
+        document.querySelector('#qrForm button[data-bs-target="#passwordModal"]').addEventListener('click', function() {
+            const qrForm = document.getElementById('qrForm');
+            const passwordForm = document.getElementById('passwordForm');
+
+            const billingAmount = parseFloat(qrForm.querySelector('input[name="billing_amount"]').value) || 0;
+            const payingAmount = parseFloat(qrForm.querySelector('input[name="paying_amount"]').value) || 0;
+            const walletAmount = billingAmount - payingAmount;
+
+            // Copy data to the passwordForm
+            passwordForm.querySelector('input[name="user_id"]').value = qrForm.querySelector(
+                    'input[name="user_id"]')
+                .value;
+            passwordForm.querySelector('input[name="billing_amount"]').value = billingAmount;
+            passwordForm.querySelector('input[name="paying_amount"]').value = payingAmount;
+            passwordForm.querySelector('input[name="amount_wallet"]').value =
+                walletAmount; // Set wallet amount here
+            passwordForm.querySelector('input[name="mobilenumber"]').value = qrForm.querySelector(
+                'input[name="mobilenumber"]').value;
+            passwordForm.querySelector('input[name="pos_id"]').value = qrForm.querySelector('input[name="pos_id"]')
+                .value;
+            passwordForm.querySelector('input[name="pay_by"]').value = qrForm.querySelector('select[name="pay_by"]')
+                .value;
+        });
     </script>
 @endsection

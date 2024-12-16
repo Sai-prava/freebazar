@@ -126,16 +126,15 @@
                         <button class="btn btn-success" type="submit">Search Transactions</button>
                     </div>
                 </form>
-
                 <!-- Transactions Table with Scrolling -->
                 <div class="scrollable-table">
                     <table id="tech-companies-1" class="table table-striped table-bordered">
                         <thead>
                             <tr>
-                                <th>SL</th>
+                                <th>Sl.no</th>
                                 <th>Invoice</th>
-                                <th>Pos</th>
-                                <th> Amount</th>
+                                <th>PosId</th>
+                                <th>Amount</th>
                                 <th>Wallet Amount</th>
                                 <th>Time</th>
                             </tr>
@@ -154,7 +153,7 @@
                                     <tr>
                                         <td>{{ $key + 1 }}</td>
                                         <td>{{ $wallet->invoice }}</td>
-                                        <td>{{ $wallet->getPos ? $wallet->getPos->pos_code : 'N/A' }}</td>
+                                        <td>{{ $wallet->getPos ? $wallet->getPos->user_id : 'N/A' }}</td>
                                         <td>{{ $wallet->amount ?? 0 }}/-</td>
                                         <td>{{ $wallet->amount_wallet ?? 0 }}/-</td>
                                         <td>{{ $wallet->insert_date }}</td>
