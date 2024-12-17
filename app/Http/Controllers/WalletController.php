@@ -10,6 +10,7 @@ use App\Models\Sponsor;
 use App\Models\User;
 use App\Models\UserWallet;
 use App\Models\Wallet;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -73,29 +74,43 @@ class WalletController extends Controller
     {
         $posId = auth()->user()->user_id;
         $pos = PosModel::where('user_id', $posId)->first();
-        // dd($posId,$pos);
-        // if ($pos) {
-        //     $posId = $pos->id;
-        // }
-        // dd($pos->id);
+
+        // Check if POS exists
+        if (!$pos) {
+            return redirect()->back()->with('error', 'POS not found.');
+        }
+
         $query = Wallet::where('pos_id', $pos->id);
+
+        // Optional: Filter by start_date and end_date
+        if (
+            $request->has('start_date') && !empty($request->start_date) &&
+            $request->has('end_date') && !empty($request->end_date)
+        ) {
+            $startDate = Carbon::parse($request->start_date)->startOfDay();
+            $endDate = Carbon::parse($request->end_date)->endOfDay();
+            $query->whereBetween('insert_date', [$startDate, $endDate]);
+        } else {
+            // Show only current date transactions when no start and end date are provided
+            $query->whereDate('insert_date', now()->toDateString());
+        }
+
+        // Search by mobile number if search term is provided
         if ($request->has('search') && !empty($request->search)) {
             $searchTerm = $request->search;
             $query->where('mobilenumber', 'LIKE', "%{$searchTerm}%");
         }
 
-        if (
-            $request->has('start_date') && !empty($request->start_date) &&
-            $request->has('end_date') && !empty($request->end_date)
-        ) {
-            $query->whereBetween('transaction_date', [$request->start_date, $request->end_date]);
-        }
-
+        // Fetch the results
         $wallets = $query->orderBy('id', 'desc')->simplePaginate(15);
+
+        // Retain filters in pagination
         $wallets->appends($request->only(['search', 'start_date', 'end_date']));
 
         return view('pos.dsr', compact('wallets'));
     }
+
+
 
 
     public function export(Request $request)
@@ -232,10 +247,23 @@ class WalletController extends Controller
     {
         $posId = auth()->user()->user_id;
         $pos = PosModel::where('user_id', $posId)->first();
-        // dd($pos);
-        // if ($pos) {
-        //     $posId = $pos->id;
-        // }
+
+        // Check if POS exists
+        if (!$pos) {
+            return redirect()->back()->with('error', 'POS not found.');
+        }
+
+        // Find the most recent month dynamically if no filter is provided
+        $defaultMonth = Wallet::where('pos_id', $pos->id)
+            ->whereNotNull('transaction_date')
+            ->orderBy('transaction_date', 'desc')
+            ->value(DB::raw('DATE_FORMAT(transaction_date, "%Y-%m")'));
+
+        // Fallback to previous month if no transaction exists
+        $selectedMonth = $request->input('month') ?: Carbon::now()->subMonth()->format('Y-m');
+        // dd($selectedMonth);
+
+        // Build Query
         $query = Wallet::select(
             'user_id',
             'mobilenumber',
@@ -244,20 +272,15 @@ class WalletController extends Controller
         )
             ->whereNotNull('transaction_date')
             ->where('pos_id', $pos->id)
+            ->whereRaw('DATE_FORMAT(transaction_date, "%Y-%m") = ?', [$selectedMonth])
             ->groupBy('user_id', 'mobilenumber', 'transaction_month');
-        if ($request->has('month') && !empty($request->month)) {
-            $selectedMonth = $request->month;
-            $query->whereRaw('DATE_FORMAT(transaction_date, "%Y-%m") = ?', [$selectedMonth]);
-        }
 
-        $monthlySales = $query->orderBy('id', 'desc')->simplePaginate(15);
-
-        // $monthlySales = $query->orderBy('id', 'desc')->simplePaginate(15);
-        $monthlySales->appends($request->only(['month']));
-        // dd($monthlySales);
+        $monthlySales = $query->orderBy('transaction_month', 'desc')->simplePaginate(15);
 
         return view('pos.msr', compact('pos', 'monthlySales'));
     }
+
+
     public function exportMsr(Request $request)
     {
         $posId = auth()->user()->user_id;
@@ -316,8 +339,8 @@ class WalletController extends Controller
         $DsrList = Wallet::with(['user', 'getPos'])
             ->whereHas('getPos', function ($query) use ($posId) {
                 $query->where('pos_id', $posId);
-            })->orderBy('id','desc')->simplePaginate(15);
-            
+            })->orderBy('id', 'desc')->simplePaginate(15);
+
         // dd($DsrList);
         return view('pos.unverified_user', compact('DsrList'));
     }

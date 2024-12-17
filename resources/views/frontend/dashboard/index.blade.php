@@ -199,6 +199,7 @@
                                                     <label for="pay_by" style="color: black;" class="modal-label">Pay
                                                         By</label>
                                                     <select class="form-control" id="pay_by" name="pay_by" required>
+                                                        <option value="">Select Payment</option>
                                                         <option value="wallet">Wallet</option>
                                                         <option value="cash">Cash</option>
                                                         <option value="upi">UPI</option>
@@ -218,14 +219,14 @@
                                                     <input type="hidden" name="wallet_balance"
                                                         value="{{ $walletBalance }}">
                                                 </div>
-
+                                                {{-- 
                                                 <div class="insufficient-balance mt-2" style="display: none;">
-                                                    <strong class="modal-label" style="color: black;">Wallet balance is
-                                                        insufficient. Please
+                                                    <strong class="modal-label" style="color: black;"> Please
                                                         choose an alternative payment method for the remaining
                                                         amount:</strong>
                                                     <select name="alternative_pay_by" id="alternative_pay_by"
                                                         class="form-control">
+                                                        <option value="">Select Payment</option>
                                                         <option value="cash">Cash</option>
                                                         <option value="upi">UPI</option>
                                                     </select>
@@ -237,9 +238,9 @@
                                                         to be Paid:</label>
                                                     <input type="text" id="remaining_amount" class="form-control"
                                                         readonly>
-                                                </div>
-                                                <button type="button" class="btn btn-success mt-2"
-                                                    data-bs-toggle="modal" data-bs-target="#passwordModal">
+                                                </div> --}}
+                                                <button type="button" class="btn btn-info mt-2" data-bs-toggle="modal"
+                                                    data-bs-target="#passwordModal">
                                                     Submit Payment
                                                 </button>
                                             </form>
@@ -259,8 +260,7 @@
                                                 aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
-                                            <form id="passwordForm" method="post"
-                                                action="{{ route('user.payment') }}">
+                                            <form id="passwordForm" method="post" action="{{ route('user.payment') }}">
                                                 @csrf
                                                 {{-- <input type="hidden" name="id" value="{{ $user_profile->id }}"> --}}
                                                 <input type="hidden" name="user_id" value="{{ $user_profile->id }}">
@@ -270,18 +270,19 @@
                                                 <input type="hidden" name="amount_wallet">
                                                 <input type="hidden" name="mobilenumber">
                                                 <input type="hidden" name="pos_id">
+                                                <input type="hidden" name="alternative_pay_by">
                                                 <!-- Example -->
-                                                <input type="hidden" name="pay_by" value="wallet"> <!-- Example -->
+                                                <input type="hidden" name="pay_by"> <!-- Example -->
                                                 <input type="hidden" name="transaction_date"
                                                     value="{{ now()->format('Y-m-d') }}">
-                                                <div class="form-group">
+                                                <div class="form-group mt-2">
                                                     <label for="password" class="modal-label">Login
                                                         Password</label>
                                                     <input type="password" class="form-control" id="password"
                                                         name="password" required>
                                                     <input type="hidden" name="form_data" id="form_data">
                                                 </div>
-                                                <button type="submit" class="btn btn-primary mt-2">Verify &
+                                                <button type="submit" class="btn btn-info mt-2">Verify &
                                                     Proceed</button>
                                             </form>
                                         </div>
@@ -480,10 +481,10 @@
                                     <thead>
                                         <tr>
                                             <th>Sl.No</th>
-                                            <th>POS Name</th>
+                                            <th>POS ID</th>
                                             <th>Transaction Date</th>
-                                            <th>Amount</th>
-                                            <th>Transaction Mode</th>
+                                            <th>Billing Amount</th>
+                                            <th>Wallet Amount</th>
                                             <th>Status</th>
                                         </tr>
                                     </thead>
@@ -491,10 +492,10 @@
                                         @forelse ($walletList as $key => $data)
                                             <tr>
                                                 <td>{{ $key + 1 }}</td>
-                                                <td>{{ $data->getPos->name ?? 'N/A' }}</td>
+                                                <td>{{ $data->getPos->user_id ?? 'N/A' }}</td>
                                                 <td>{{ date('d/m/Y', strtotime($data->transaction_date)) }}</td>
                                                 <td>₹{{ $data->amount ?? 0 }}/-</td>
-                                                <td>{{ $data->pay_by }}</td>
+                                                <td>₹{{ $data->amount_wallet ?? 0 }}/-</td>
                                                 <td>
                                                     @if ($data->status == 0)
                                                         <span class="btn btn-danger btn-sm">Unverified</span>
@@ -643,60 +644,77 @@
             const alternativePayBySelect = document.getElementById('alternative_pay_by');
             const remainingAmountField = document.getElementById('remaining_amount');
 
-            if (payBySelect.value === "wallet") {
-                // Reset wallet balance to the original amount
-                walletBalanceElement.textContent = originalWalletBalance.toFixed(2);
-
-                // Show the full billing amount
-                payingAmountField.value = billingAmount.toFixed(2);
-                insufficientBalanceDiv.style.display = 'none';
-                alternativePayBySelect.required = false;
+            // Reset fields
+            function resetFields() {
                 remainingAmountField.style.display = 'none';
+                insufficientBalanceDiv.style.display = 'none';
+                alternativePayBySelect.style.display = 'none'; // Hide alternative pay option
+                alternativePayBySelect.required = false;
+                alternativePayBySelect.value = ''; // Reset value when hidden
+                payingAmountField.value = billingAmount.toFixed(2);
+                walletBalanceElement.textContent = originalWalletBalance.toFixed(2);
+                isDeducted = false; // Reset deduction flag when the fields are reset
+            }
 
-                // Reset the deduction flag
-                isDeducted = false;
+            // Prevent deduction if already done
+            if (isDeducted) {
+                return; // Exit the function if deduction has already occurred
+            }
 
-            } else if (payBySelect.value === "cash" || payBySelect.value === "upi") {
-                const walletDeduction = billingAmount * 0.05; // Calculate 5% charge
+            // Calculate 5% deduction from billing amount
+            const walletDeduction = billingAmount * 0.05; // Calculate 5% deduction from the billing amount
+            let deductedFromWallet = 0;
 
-                if (!isDeducted) {
-                    let deductedFromWallet = 0;
-
-                    if (walletBalance >= walletDeduction) {
-                        // Wallet balance is sufficient for 5% deduction
-                        deductedFromWallet = walletDeduction;
-                        walletBalance -= walletDeduction;
-                    } else {
-                        // Wallet balance is insufficient, deduct whatever is available
-                        deductedFromWallet = walletBalance;
-                        walletBalance = 0; // Wallet is now empty
-                    }
-
-                    // Update wallet balance
-                    walletBalanceElement.textContent = walletBalance.toFixed(2);
-
-                    // Calculate payable amount by subtracting the actual deduction
-                    const updatedPayableAmount = (billingAmount - deductedFromWallet).toFixed(2);
-                    payingAmountField.value = updatedPayableAmount;
-
-                    // Show remaining balance if necessary
-                    remainingAmountField.value = updatedPayableAmount;
-                    remainingAmountField.style.display = 'block';
-
-                    isDeducted = true;
+            if (payBySelect.value === "wallet") {
+                // If the payment method is wallet, deduct from wallet balance
+                if (walletBalance >= walletDeduction) {
+                    deductedFromWallet = walletDeduction;
+                    walletBalance -= walletDeduction; // Deduct 5% from wallet balance
+                } else {
+                    deductedFromWallet = walletBalance;
+                    walletBalance = 0; // Wallet balance becomes 0
                 }
 
-                insufficientBalanceDiv.style.display = 'none';
-                alternativePayBySelect.required = false;
+                // Update the wallet balance
+                walletBalanceElement.textContent = walletBalance.toFixed(2);
 
+                // Calculate the payable amount after the deduction from the wallet
+                const updatedPayableAmount = (billingAmount - deductedFromWallet).toFixed(2);
+                payingAmountField.value = updatedPayableAmount;
+
+                // Subtract the remaining payable amount from wallet balance
+                let remainingAmount = updatedPayableAmount - walletBalance;
+
+                if (walletBalance > 0) {
+                    // If wallet covers some of the remaining payable amount
+                    remainingAmount = 0; // Wallet covers the full payable amount
+                }
+
+                if (remainingAmount > 0) {
+                    // If the wallet doesn't cover the full amount, show the remaining balance and alternative payment options
+                    remainingAmountField.value = remainingAmount.toFixed(2);
+                    remainingAmountField.style.display = 'block';
+                    insufficientBalanceDiv.style.display = 'block';
+                    alternativePayBySelect.style.display = 'block'; // Show alternative payment options
+                    alternativePayBySelect.required = true; // Make alternative payment method required
+                } else {
+                    // If the wallet covers the full amount, hide the remaining balance and alternative pay options
+                    remainingAmountField.style.display = 'none';
+                    insufficientBalanceDiv.style.display = 'none';
+                    alternativePayBySelect.style.display = 'none'; // Hide alternative pay option
+                    alternativePayBySelect.required = false;
+                }
+
+                // Set the deduction flag to true to prevent future deductions
+                isDeducted = true;
+            } else if (payBySelect.value === "cash" || payBySelect.value === "upi") {
+                // If the payment method is cash or UPI, calculate the 5% deduction but do not affect wallet balance
+                payingAmountField.value = (billingAmount - walletDeduction).toFixed(2);
+
+                // Reset wallet balance and other fields for cash or UPI payments
+                resetFields();
             } else {
-                // For other payment methods, show full billing amount
-                payingAmountField.value = billingAmount.toFixed(2);
-                insufficientBalanceDiv.style.display = 'none';
-                alternativePayBySelect.required = false;
-
-                // Reset the deduction flag
-                isDeducted = false;
+                resetFields(); // Reset all fields if the payment method is not selected
             }
         }
 

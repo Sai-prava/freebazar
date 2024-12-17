@@ -100,7 +100,7 @@ Route::group(['prefix' => 'user', 'as' => 'user.', 'middleware' => ['user']], fu
     Route::get('sponsor/list', [UserDashboardController::class, 'sponsorList'])->name('sponsor.list');
     Route::get('pos/list', [UserDashboardController::class, 'posList'])->name('pos.list');
     Route::post('payment', [UserDashboardController::class, 'payment'])->name('payment');
-    Route::post('payment/verify/$id', [UserDashboardController::class, 'verifyPayment'])->name('verify.payment');
+    // Route::post('payment/verify/$id', [UserDashboardController::class, 'verifyPayment'])->name('verify.payment');
     Route::get('my/wallet', [UserDashboardController::class, 'wallet'])->name('wallet');
 });
 Route::group(['prefix' => 'pos', 'as' => 'pos.', 'middleware' => ['pos']], function () {

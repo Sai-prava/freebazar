@@ -88,16 +88,17 @@ class UserDashboardController extends Controller
 
     public function payment(Request $request)
     {
-        dd($request->all());
+        // dd($request->all());
         $user = User::find($request->user_id);
+        // dd($user);
     
         // Verify password
         if (!$user || !Hash::check($request->password, $user->password)) {
             return redirect()->back()->with('error', 'Incorrect password. Please try again.');
         }
     
-        // Initialize variables
-        $userId = Auth::user()->user_id;
+        $userId = Auth::user()->id;
+        // dd($userId);
         $posId = intval($request->input('pos_id'));
         $pos = PosModel::find($posId);
         $randomNumber = mt_rand(1, 99999);
@@ -123,6 +124,7 @@ class UserDashboardController extends Controller
     
         if ($pay_by == 'wallet') {
             $userWallet = UserWallet::where('user_id', $userId)->get();
+            // dd($userWallet);
             $walletBalance = $userWallet ? $userWallet->sum('wallet_amount') - UserWallet::where('user_id', $userId)->sum('used_amount') : 0;
     
             if ($walletBalance <= 0) {

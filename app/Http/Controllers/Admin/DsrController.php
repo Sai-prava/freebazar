@@ -80,6 +80,7 @@ class DsrController extends Controller
     }
     public function msr(Request $request)
     {
+        // Fetch POS data
         $pos = PosModel::with('user')->get()->map(function ($item) {
             $data = $item->toArray();
             $data['pos_id'] = $item->user ? $item->user->user_id : null;
@@ -87,20 +88,27 @@ class DsrController extends Controller
             return $data;
         });
 
+        $selectedMonth = $request->input('month', $defaultMonth ?? Carbon::now()->subMonth()->format('Y-m'));
+        // dd($selectedMonth );
+
+        // Query Builder
         $query = Wallet::select(
             'user_id',
             'mobilenumber',
             DB::raw('DATE_FORMAT(transaction_date, "%Y-%m") as transaction_month'),
             DB::raw('SUM(billing_amount) as total_billing_amount')
-        )->whereNotNull(['transaction_date', 'user_id'])
+        )
+            ->whereNotNull(['transaction_date', 'user_id'])
             ->with(['user', 'getPos'])
-            ->orderBy('id', 'desc')
-            ->groupBy(['user_id', 'mobilenumber',  DB::raw('DATE_FORMAT(transaction_date, "%Y-%m")')]);
+            ->whereRaw('DATE_FORMAT(transaction_date, "%Y-%m") = ?', [$selectedMonth])
+            ->groupBy(['user_id', 'mobilenumber', DB::raw('DATE_FORMAT(transaction_date, "%Y-%m")')]);
 
+        // Additional Filters
         if ($request->has('search') && !empty($request->search)) {
             $userId = $request->search;
             $query->where('pos_id', $userId);
         }
+
         if ($request->filled('filter')) {
             $filterTerm = $request->filter;
             $query->where('mobilenumber', $filterTerm)
@@ -109,36 +117,38 @@ class DsrController extends Controller
                 });
         }
 
-        if ($request->has('month') && !empty($request->month)) {
-            $selectedMonth = $request->month;
-            $query->whereRaw('DATE_FORMAT(transaction_date, "%Y-%m") = ?', [$selectedMonth]);
-        }
+        // Fetch Paginated Results
         $monthlySales = $query->orderBy('id', 'desc')->simplePaginate(15)->through(function ($item) {
             $billing_amount = 0;
-            $month_amount = 0;
-            $check_sponser = Sponsor::with('user')->where('sponsor_id', $item->user_id)->get();
-            if (!$check_sponser->isEmpty()) {
-                $check_sponser->each(function ($sponsor) use (&$billing_amount) {
+
+            // Check sponsor expenditure
+            $check_sponsor = Sponsor::with('user')->where('sponsor_id', $item->user_id)->get();
+            if (!$check_sponsor->isEmpty()) {
+                $check_sponsor->each(function ($sponsor) use (&$billing_amount) {
                     $monthlyBilling = Wallet::select(
                         DB::raw('DATE_FORMAT(transaction_date, "%Y-%m") as transaction_month'),
                         DB::raw('SUM(billing_amount) as total_billing_amount')
                     )->where('user_id', $sponsor->user_id)
                         ->groupBy(DB::raw('DATE_FORMAT(transaction_date, "%Y-%m")'))
                         ->get();
+
                     foreach ($monthlyBilling as $monthData) {
                         $billing_amount += $monthData->total_billing_amount;
                     }
                 });
             }
+
             $item->sponsor_expenditure = $billing_amount;
             Log::info($item->toArray());
             return $item;
         });
-        // $monthlySales = $query->orderBy('id', 'desc')->simplePaginate(15);
+
+        // Preserve query parameters in pagination
         $monthlySales->appends($request->only(['search', 'month', 'filter']));
 
-        return view('admin.msr.index', compact('pos', 'monthlySales'));
+        return view('admin.msr.index', compact('pos', 'monthlySales', 'selectedMonth'));
     }
+
 
 
     public function exportMsr(Request $request)
