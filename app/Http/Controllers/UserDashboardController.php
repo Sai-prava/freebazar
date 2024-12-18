@@ -109,6 +109,7 @@ class UserDashboardController extends Controller
         $transaction_date = $request->transaction_date;
         $pay_by = $request->pay_by;
         $alt_pay_by = $request->alternative_pay_by;
+        // dd($alt_pay_by);
         $transaction_charge = $pos ? $pos->transaction_charge : 0;
         $transaction_amount = $amount * ($transaction_charge / 100);
         $walletUsedAmount = 0;
@@ -154,7 +155,7 @@ class UserDashboardController extends Controller
                 $walletEntry->amount_wallet = $walletUsedAmount;
                 $walletEntry->pay_by = $alt_pay_by;
                 $walletEntry->tran_type = 'credit';
-                $walletEntry->status = 1;
+                // $walletEntry->status = ;
                 $walletEntry->amount = $remainingAmount;
             }
     
