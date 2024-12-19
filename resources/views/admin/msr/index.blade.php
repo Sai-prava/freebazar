@@ -4,6 +4,7 @@
     <div class="container mt-4">
         <h3 class="text-center text-dark font-weight-bold"><b>MONTHLY SALES REPORT</b></h3>
 
+        <!-- Filter by POS ID and Month -->
         <form method="GET" action="{{ route('admin.msr') }}" class="row align-items-center mb-3">
             <div class="col-12 col-md-4 mb-2">
                 <select class="form-control" name="search" id="search">
@@ -11,7 +12,7 @@
                     @foreach ($pos as $data)
                         <option value="{{ $data['id'] ?? '' }}"
                             {{ request('search') == ($data['id'] ?? '') ? 'selected' : '' }}>
-                            {{ $data['name'] }} ({{ $data['pos_id'] ?? 'N/A' }})
+                            {{ $data['name'] }} ({{ $data['user_id'] ?? 'N/A' }})
                         </option>
                     @endforeach
                 </select>
@@ -25,15 +26,20 @@
                 <button class="btn btn-info btn-block" type="submit">FILTER</button>
             </div>
         </form>
-        <form method="GET" action="{{ route('admin.msr') }}" class="row align-items-center mb-3">          
+
+        <!-- Filter by Mobile Number -->
+        <form method="GET" action="{{ route('admin.msr') }}" class="row align-items-center mb-3">
             <div class="col-12 col-md-4 mb-2">
                 <input type="text" name="filter" class="form-control" placeholder="Search Mobile Number"
                     value="{{ request('filter') }}">
             </div>
             <div class="col-12 col-md-auto mb-2">
-                <button class="btn btn-primary btn-block" type="submit"><i class="fas fa-search"></i></button>
+                <button class="btn btn-primary btn-block" type="submit">
+                    <i class="fas fa-search"></i>
+                </button>
             </div>
         </form>
+
 
         <div class="col-md-12 mb-3 text-end">
             <form method="GET" action="{{ route('admin.msr.export') }}" class="d-inline">

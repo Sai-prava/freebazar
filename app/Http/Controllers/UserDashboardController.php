@@ -89,14 +89,11 @@ class UserDashboardController extends Controller
     public function payment(Request $request)
     {
         // dd($request->all());
-        $user = User::find($request->user_id);
-        // dd($user);
-    
+        $user = User::find($request->user_id);  
         // Verify password
         if (!$user || !Hash::check($request->password, $user->password)) {
             return redirect()->back()->with('error', 'Incorrect password. Please try again.');
-        }
-    
+        }   
         $userId = Auth::user()->id;
         // dd($userId);
         $posId = intval($request->input('pos_id'));

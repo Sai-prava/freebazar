@@ -87,10 +87,9 @@ class DsrController extends Controller
             unset($data['user']);
             return $data;
         });
-
-        $selectedMonth = $request->input('month', $defaultMonth ?? Carbon::now()->subMonth()->format('Y-m'));
-        // dd($selectedMonth );
-
+       
+        $defaultMonth = Carbon::now()->subMonth()->format('Y-m'); // Previous month
+        $selectedMonth = $request->input('month', $defaultMonth);
         // Query Builder
         $query = Wallet::select(
             'user_id',
@@ -99,24 +98,26 @@ class DsrController extends Controller
             DB::raw('SUM(billing_amount) as total_billing_amount')
         )
             ->whereNotNull(['transaction_date', 'user_id'])
-            ->with(['user', 'getPos'])
-            ->whereRaw('DATE_FORMAT(transaction_date, "%Y-%m") = ?', [$selectedMonth])
             ->groupBy(['user_id', 'mobilenumber', DB::raw('DATE_FORMAT(transaction_date, "%Y-%m")')]);
 
-        // Additional Filters
-        if ($request->has('search') && !empty($request->search)) {
-            $userId = $request->search;
-            $query->where('pos_id', $userId);
+        // Filter by POS ID
+        if ($request->filled('search')) {
+            $posId = $request->input('search');
+            $query->whereHas('getPos', function ($q) use ($posId) {
+                $q->where('id', $posId);
+            });
         }
-
+        $query->whereRaw('DATE_FORMAT(transaction_date, "%Y-%m") = ?', [$selectedMonth]);
+        // Filter by Month
+        if ($request->filled('month')) {
+            $month = $request->input('month');
+            $query->whereRaw('DATE_FORMAT(transaction_date, "%Y-%m") = ?', [$month]);
+        }
+        // Filter by Mobile Number
         if ($request->filled('filter')) {
-            $filterTerm = $request->filter;
-            $query->where('mobilenumber', $filterTerm)
-                ->orWhereHas('user', function ($q) use ($filterTerm) {
-                    $q->where('id', $filterTerm);
-                });
+            $mobile = $request->input('filter');
+            $query->where('mobilenumber', 'like', "%{$mobile}%");
         }
-
         // Fetch Paginated Results
         $monthlySales = $query->orderBy('id', 'desc')->simplePaginate(15)->through(function ($item) {
             $billing_amount = 0;
@@ -139,14 +140,13 @@ class DsrController extends Controller
             }
 
             $item->sponsor_expenditure = $billing_amount;
-            Log::info($item->toArray());
             return $item;
         });
 
         // Preserve query parameters in pagination
         $monthlySales->appends($request->only(['search', 'month', 'filter']));
 
-        return view('admin.msr.index', compact('pos', 'monthlySales', 'selectedMonth'));
+        return view('admin.msr.index', compact('pos', 'monthlySales','selectedMonth'));
     }
 
 
