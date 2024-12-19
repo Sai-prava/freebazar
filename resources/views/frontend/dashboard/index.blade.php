@@ -492,6 +492,7 @@
                                         <tr>
                                             <th>Sl.No</th>
                                             <th>POS ID</th>
+                                            <th>Invoice</th>
                                             <th>Transaction Date</th>
                                             <th>Billing Amount</th>
                                             <th>Wallet Amount</th>
@@ -503,8 +504,9 @@
                                             <tr>
                                                 <td>{{ $key + 1 }}</td>
                                                 <td>{{ $data->getPos->user_id ?? 'N/A' }}</td>
+                                                <td>{{ $data->invoice }}</td>
                                                 <td>{{ date('d/m/Y', strtotime($data->transaction_date)) }}</td>
-                                                <td>₹{{ $data->amount ?? 0 }}/-</td>
+                                                <td>₹{{ $data->billing_amount ?? 0 }}/-</td>
                                                 <td>₹{{ $data->amount_wallet ?? 0 }}/-</td>
                                                 <td>
                                                     @if ($data->status == 0)

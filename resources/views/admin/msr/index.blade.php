@@ -25,10 +25,6 @@
             <div class="col-12 col-md-auto mb-2">
                 <button class="btn btn-info btn-block" type="submit">FILTER</button>
             </div>
-        </form>
-
-        <!-- Filter by Mobile Number -->
-        <form method="GET" action="{{ route('admin.msr') }}" class="row align-items-center mb-3">
             <div class="col-12 col-md-4 mb-2">
                 <input type="text" name="filter" class="form-control" placeholder="Search Mobile Number"
                     value="{{ request('filter') }}">
@@ -39,6 +35,11 @@
                 </button>
             </div>
         </form>
+
+        {{-- <!-- Filter by Mobile Number -->
+        <form method="GET" action="{{ route('admin.msr') }}" class="row align-items-center mb-3">
+           
+        </form> --}}
 
 
         <div class="col-md-12 mb-3 text-end">
