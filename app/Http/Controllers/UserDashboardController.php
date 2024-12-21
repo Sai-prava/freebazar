@@ -226,9 +226,12 @@ class UserDashboardController extends Controller
 
     public function storeUser(Request $request)
     {
+        // dd($request->all());
         $request->validate([
             'mobilenumber' => 'required|unique:users,mobilenumber|regex:/^[0-9]{10}$/',
         ]);
+        $sponsor = User::where('user_id', $request->sponsor_id)->first();
+        // dd($sponsor);
         $user_add = new User;
         $user_add->name = $request->name;
         $user_add->user_id = mt_rand(1000000, 9999999);
@@ -236,7 +239,7 @@ class UserDashboardController extends Controller
         $user_add->password = Hash::make('123456');
         $user_add->mobilenumber = $request->mobilenumber;
         $user_add->gender = $request->gender;
-        $user_add->sponsor_id = $request->sponsor_id;
+        $user_add->sponsor_id = $sponsor->id;
         $user_add->address = $request->address;
         $user_add->city = $request->city;
         $user_add->state = $request->state;
