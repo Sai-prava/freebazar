@@ -12,6 +12,7 @@ class UserWallet extends Model
         'user_id',
         'pos_id',
         'invoice',
+        'month',
         'used_amount',
         'wallet_amount',
         'pay_by',
