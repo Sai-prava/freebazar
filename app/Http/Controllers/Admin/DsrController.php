@@ -115,10 +115,10 @@ class DsrController extends Controller
         $monthlySales = $query->orderBy('id', 'desc')->simplePaginate(15)->through(function ($item) use ($request) {
             $billing_amount = 0;
 
+            Log::info($item->total_billing_amount);
             $check_sponsor = Sponsor::with('user')->where('sponsor_id', $item->user_id)->get();
-            Log::info($check_sponsor);
             if (!$check_sponsor->isEmpty()) {
-                $check_sponsor->each(function ($sponsor) use (&$billing_amount, $request) {
+                $check_sponsor->each(function ($sponsor) use (&$billing_amount,&$item, $request) {
                     $month = $request->input('month', Carbon::now()->subMonth()->format('Y-m'));
                     $monthlyBilling = Wallet::select(
                         DB::raw('DATE_FORMAT(transaction_date, "%Y-%m") as transaction_month'),
@@ -133,7 +133,9 @@ class DsrController extends Controller
                         $billing_amount += $monthData->total_billing_amount;
                     }
                 });
+                $billing_amount += $item->total_billing_amount;
             }
+            // Log::info($monthlySales);
             $item->sponsor_expenditure = $billing_amount;
             return $item;
         });

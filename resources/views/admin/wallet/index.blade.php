@@ -35,6 +35,7 @@
                 <thead>
                     <tr>
                         <th>Sl.No</th>
+                        <th>Month</th>
                         <th>USER ID</th>
                         <th>USER NAME</th>
                         <th>MOBILE NUMBER</th>
@@ -48,6 +49,7 @@
                     @foreach ($walletBalance as $key => $data)
                         <tr>
                             <td>{{ $walletBalance->firstItem() + $key }}</td>
+                            <td>{{ $data->month }}</td>
                             <td>{{ $data->user->user_id }}</td>
                             <td>{{ $data->user->name }}</td>
                             <td>{{ $data->mobilenumber }}</td>

@@ -14,14 +14,16 @@ class AdminWalletExport implements FromCollection, WithHeadings
     public function collection()
     {
         return UserWallet::whereNotNull('wallet_amount')
-            ->with('user') // Load related user data
+            ->with('user')
             ->get()
             ->map(function ($wallet) {
                 return [
                     'User ID' => $wallet->user->user_id,
+                    'Month' => $wallet->month, 
                     'Wallet Amount' => $wallet->wallet_amount,
                     'Payment Mode' => $wallet->trans_type,
-                    'Mobile Number' => $wallet->mobilenumber,
+                    'Mobile Number' => $wallet->mobilenumber
+                   
                 ];
             });
     }
@@ -35,9 +37,11 @@ class AdminWalletExport implements FromCollection, WithHeadings
     {
         return [
             'User ID',
+            'Month',
             'Wallet Amount',
             'Payment Mode',
-            'Mobile Number',
+            'Mobile Number'
+            
         ];
     }
 }

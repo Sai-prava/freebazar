@@ -28,9 +28,11 @@ class AdminWalletImport implements ToModel, WithHeadingRow
 
         return new UserWallet([
             'user_id' => $user->id, // Use the id from the Users table
+            'month' => $row['month'],
             'wallet_amount' => $row['wallet_amount'],
             'trans_type' => $row['payment_mode'],
             'mobilenumber' => $row['mobile_number'],
+            
         ]);
     }
 }

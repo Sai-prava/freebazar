@@ -61,6 +61,7 @@
                         <th>Sl.No</th>
                         <th>INVOICE</th>
                         <th>POS ID</th>
+                        {{-- <th>USER ID</th> --}}
                         <th>MOBILE</th>
                         <th>NAME</th>
                         <th>BILLING AMOUNT</th>
@@ -80,6 +81,7 @@
                                 <td>{{ $wallets->firstItem() + $key }}</td>
                                 <td>{{ $data->invoice }}</td>
                                 <td>{{ $data->getPos ? $data->getPos->user_id : '' }}</td>
+                                {{-- <td>{{ $data->user_id }}</td> --}}
                                 <td>{{ $data->mobilenumber }}</td>
                                 <td>{{ $data->user ? $data->user->name : '' }}</td>
                                 <td>₹{{ $data->billing_amount ?? 0 }}/-</td>
