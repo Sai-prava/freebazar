@@ -19,7 +19,6 @@ class AdminWalletExport implements FromCollection, WithHeadings
             ->map(function ($wallet) {
                 return [
                     'User ID' => $wallet->user->user_id,
-                    'Name' => $wallet->user->name,
                     'Wallet Amount' => $wallet->wallet_amount,
                     'Payment Mode' => $wallet->trans_type,
                     'Mobile Number' => $wallet->mobilenumber,
@@ -36,7 +35,6 @@ class AdminWalletExport implements FromCollection, WithHeadings
     {
         return [
             'User ID',
-            'Name',
             'Wallet Amount',
             'Payment Mode',
             'Mobile Number',

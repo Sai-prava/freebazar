@@ -10,31 +10,23 @@
                 <form action="{{ route('admin.wallet.upload') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="input-group">
-                        <input type="file" class="form-control" name="file" accept=".xlsx">
+                        <input type="file" class="form-control" name="file" accept=".xlsx" required>
                         <button class="btn btn-info" type="submit">UPLOAD WALLET</button>
                     </div>
+                    @if ($errors->has('file'))
+                        <div class="text-danger mt-2">{{ $errors->first('file') }}</div>
+                    @endif
                 </form>
             </div>
 
-            <!-- Search Form -->
-            {{-- <div class="col-md-4 mb-3">
-                <form method="GET" action="{{ route('admin.dsr') }}">
-                    <div class="input-group">
-                        <input type="number" class="form-control" name="search" placeholder="Search By...">
-                        <button class="btn btn-info" type="submit">SEARCH</button>
-                    </div>
-                </form>
-            </div> --}}
-
-            <!-- Export Form -->
+            <!-- Export Button -->
             <div class="col-md-6 mb-3 text-end">
                 <form method="GET" action="{{ route('admin.wallet.export') }}">
+                    @csrf
                     <button class="btn btn-danger" type="submit">EXPORT</button>
                 </form>
             </div>
         </div>
-
-       
         <hr class="my-4">
 
         <!-- Data Table -->
@@ -45,25 +37,25 @@
                         <th>Sl.No</th>
                         <th>USER ID</th>
                         <th>USER NAME</th>
-                        <th>MOBILE NUMBER</th> 
-                        <th>PAYMENT MODE</th> 
+                        <th>MOBILE NUMBER</th>
+                        <th>PAYMENT MODE</th>
                         <th>WALLET AMOUNT</th>
-                                             
+
                     </tr>
                 </thead>
                 <tbody>
-                  
-                        @foreach ($walletBalance as $key => $data)
-                            <tr>
-                                <td>{{ $walletBalance->firstItem() + $key }}</td>
-                                <td>{{ $data->user->user_id }}</td>
-                                <td>{{ $data->user->name }}</td>
-                                <td>{{ $data->mobilenumber }}</td>
-                                <td>{{ $data->trans_type }}</td>
-                                <td>₹{{ $data->wallet_amount }}/-</td>  
-                            </tr>
-                        @endforeach
-                  
+
+                    @foreach ($walletBalance as $key => $data)
+                        <tr>
+                            <td>{{ $walletBalance->firstItem() + $key }}</td>
+                            <td>{{ $data->user->user_id }}</td>
+                            <td>{{ $data->user->name }}</td>
+                            <td>{{ $data->mobilenumber }}</td>
+                            <td>{{ $data->trans_type }}</td>
+                            <td>₹{{ $data->wallet_amount }}/-</td>
+                        </tr>
+                    @endforeach
+
                 </tbody>
             </table>
         </div>

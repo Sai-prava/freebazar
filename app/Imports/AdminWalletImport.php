@@ -2,24 +2,34 @@
 
 namespace App\Imports;
 
+use App\Models\User;
 use App\Models\UserWallet;
 use Maatwebsite\Excel\Concerns\ToModel;
+use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
-
-class AdminWalletImport implements ToModel
+class AdminWalletImport implements ToModel, WithHeadingRow
 {
     /**
-     * @param array $row
+     * Map each row to a model.
      *
+     * @param array $row
      * @return \Illuminate\Database\Eloquent\Model|null
      */
     public function model(array $row)
     {
+        // Find the user by user_id in the Users table
+        $user = User::where('user_id', $row['user_id'])->first();
+
+        // If the user does not exist, skip the record
+        if (!$user) {
+            return null; // Optionally handle missing users
+        }
+
         return new UserWallet([
-            'user_id' => $row[0],
-            'wallet_amount' => $row[1],
-            'trans_type' => $row[2],
-            'mobilenumber' => $row[3],
+            'user_id' => $user->id, // Use the id from the Users table
+            'wallet_amount' => $row['wallet_amount'],
+            'trans_type' => $row['payment_mode'],
+            'mobilenumber' => $row['mobile_number'],
         ]);
     }
 }

@@ -20,16 +20,19 @@ class WalletController extends Controller
     }
     public function exportWallet()
     {
-        return Excel::download(new AdminWalletExport, 'admin_wallets.xlsx');
+        return Excel::download(new AdminWalletExport, 'admin_wallet_data.xlsx');
     }
     public function uploadWallet(Request $request)
     {
         $request->validate([
-            'file' => 'required|mimes:xlsx',
+            'file' => 'required|mimes:xlsx', // Limit file size for better control
         ]);
 
-        Excel::import(new AdminWalletImport, $request->file('file'));
-
-        return redirect()->back()->with('success', 'Wallet data imported successfully.');
+        try {
+            Excel::import(new AdminWalletImport, $request->file('file'));
+            return redirect()->back()->with('success', 'Wallet data imported successfully.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Error importing wallet data: ' . $e->getMessage());
+        }
     }
 }
