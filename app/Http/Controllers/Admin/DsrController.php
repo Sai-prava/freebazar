@@ -134,7 +134,6 @@ class DsrController extends Controller
                     }
                 });
             }
-
             $item->sponsor_expenditure = $billing_amount;
             return $item;
         });

@@ -56,6 +56,7 @@
                     <tr>
                         <th>Sl.No</th>
                         <th>MONTH</th>
+                        <th>USER ID</th>
                         <th>MOBILE NUMBER</th>
                         <th>SPONSOR ID</th>
                         <th>TOTAL BILLING AMOUNT</th>
@@ -73,6 +74,7 @@
                                 <td>{{ $monthlySales->firstItem() + $key }}</td>
                                 <td>{{ \Carbon\Carbon::createFromFormat('Y-m', $data->transaction_month)->format('F Y') }}
                                 </td>
+                                <td>{{ $data->user->user_id }}</td>
                                 <td>{{ $data->mobilenumber }}</td>
                                 <td>
                                     @if ($data->user)
