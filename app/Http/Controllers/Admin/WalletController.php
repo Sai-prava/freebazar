@@ -25,14 +25,11 @@ class WalletController extends Controller
     public function uploadWallet(Request $request)
     {
         $request->validate([
-            'file' => 'required|mimes:xlsx', // Limit file size for better control
+            'file' => 'required|mimes:xlsx',
         ]);
 
-        try {
-            Excel::import(new AdminWalletImport, $request->file('file'));
-            return redirect()->back()->with('success', 'Wallet data imported successfully.');
-        } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Error importing wallet data: ' . $e->getMessage());
-        }
+        Excel::import(new AdminWalletImport, $request->file('file'));
+
+        return redirect()->back()->with('success', 'Wallet data imported successfully.');
     }
 }
