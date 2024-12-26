@@ -43,7 +43,9 @@
                                         <td>₹{{ $data->wallet_amount ?? 0 }}/-</td>
                                         <td>₹{{ $data->used_amount ?? 0 }}/-</td>
                                         <td>{{ $data->mobilenumber }}</td>
-                                        <td>{{ date('d/m/Y', strtotime($data->transaction_date)) }}</td>
+                                        <td>
+                                            {{ $data->transaction_date ? date('d/m/Y', strtotime($data->transaction_date)) : '' }}
+                                        </td>                                        
                                         </td>
                                     </tr>
                                 @endforeach
