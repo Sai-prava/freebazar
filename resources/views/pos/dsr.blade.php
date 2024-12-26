@@ -84,7 +84,7 @@
                                 <td>{{ $data->mobilenumber }}</td>
                                 <td>{{ optional($data->user)->name }}</td>
                                 <td>₹{{ $data->billing_amount ?? 0 }}/-</td>
-                                <td>{{ date('d/m/Y', strtotime($data->transaction_date)) }}</td>
+                                <td> {{ $data->transaction_date ? date('d/m/Y', strtotime($data->transaction_date)) : '' }}</td>
                                 {{-- <td>{{ date('d-m-Y h:i A', strtotime($data->insert_date)) }}</td> --}}
                             </tr>
                         @endforeach
