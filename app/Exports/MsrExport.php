@@ -28,9 +28,9 @@ class MsrExport implements FromCollection, WithHeadings
                     $sponsor_id = 'N/A';
                 }
             }
-
             return [
                 'month' => Carbon::parse($item->transaction_month)->format('F Y'),
+                'user_id' => $item->user ? $item->user->user_id : 'N/A',
                 'mobilenumber' => $item->mobilenumber,
                 'sponsor_id' => $sponsor_id,
                 'total_billing_amount' => $item->total_billing_amount ?? 0,
@@ -43,6 +43,7 @@ class MsrExport implements FromCollection, WithHeadings
     {
         return [
             'MONTH',
+            'User ID',
             'MOBILE NUMBER',
             'SPONSOR ID',
             'TOTAL BILLING AMOUNT',
